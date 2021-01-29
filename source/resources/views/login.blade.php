@@ -1,22 +1,10 @@
 
 <!DOCTYPE html>
-<!--
-Template Name: Metronic - Bootstrap 4 HTML, React, Angular 11 & VueJS Admin Dashboard Theme
-Author: KeenThemes
-Website: http://www.keenthemes.com/
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Dribbble: www.dribbble.com/keenthemes
-Like: www.facebook.com/keenthemes
-Purchase: https://1.envato.market/EA4JP
-Renew Support: https://1.envato.market/EA4JP
-License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
--->
 <html lang="en">
 	<!--begin::Head-->
 	<head><base href="../../../../">
 		<meta charset="utf-8" />
-		<title>Login Page 5 | Keenthemes</title>
+		<title>Guide Login</title>
 		<meta name="description" content="Login page example" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<link rel="canonical" href="https://keenthemes.com/metronic" />
@@ -47,7 +35,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<!--begin::Login Header-->
 						<div class="d-flex flex-center mb-15">
 							<a href="#">
-								<img src="{{ asset("/") }}assets/media/logos/logo-letter-13.png" class="max-h-75px" alt="" />
+								<img src="{{ asset("/") }}assets/media/logos/logo.png" class="max-h-75px" alt="" />
 							</a>
 						</div>
 						<!--end::Login Header-->
@@ -57,9 +45,10 @@ License: You must have a valid license purchased only from themeforest(the above
 								<h3 class="opacity-40 font-weight-normal">Sign In To Admin</h3>
 								<p class="opacity-40">Enter your details to login to your account:</p>
 							</div>
-							<form class="form" id="kt_login_signin_form">
+							<form class="form" id="kt_login_signin_form" action="{{ route('verify_login') }}" method="post">
+								{{ csrf_field() }}
 								<div class="form-group">
-									<input class="form-control h-auto text-white bg-white-o-5 rounded-pill border-0 py-4 px-8" type="text" placeholder="Email" name="username" autocomplete="off" />
+									<input value="{{ old('email') }}" class="form-control h-auto text-white bg-white-o-5 rounded-pill border-0 py-4 px-8" type="text" placeholder="Email" name="email" autocomplete="off" />
 								</div>
 								<div class="form-group">
 									<input class="form-control h-auto text-white bg-white-o-5 rounded-pill border-0 py-4 px-8" type="password" placeholder="Password" name="password" />
@@ -73,13 +62,9 @@ License: You must have a valid license purchased only from themeforest(the above
 									<a href="javascript:;" id="kt_login_forgot" class="text-white font-weight-bold">Forget Password ?</a>
 								</div>
 								<div class="form-group text-center mt-10">
-									<button id="kt_login_signin_submit" class="btn btn-pill btn-primary opacity-90 px-15 py-3">Sign In</button>
+									<button type="submit" id="kt_login_signin_submit" class="btn btn-pill btn-primary opacity-90 px-15 py-3">Sign In</button>
 								</div>
 							</form>
-							<div class="mt-10">
-								<span class="opacity-40 mr-4">Don't have an account yet?</span>
-								<a href="javascript:;" id="kt_login_signup" class="text-white opacity-30 font-weight-normal">Sign Up</a>
-							</div>
 						</div>
 						<!--end::Login Sign in form-->
 						<!--begin::Login Sign up form-->
@@ -152,6 +137,19 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--begin::Page Scripts(used by this page)-->
 		<script src="{{ asset("/") }}assets/js/pages/custom/login/login-general.js"></script>
 		<!--end::Page Scripts-->
+	@if(Session::has('error'))
+		<script>
+			swal.fire({
+				text: '{{ Session::get('error') }}',
+				icon: "error",
+				buttonsStyling: false,
+				confirmButtonText: "Ok, got it!",
+				customClass: {
+					confirmButton: "btn font-weight-bold btn-light-primary"
+				}
+			});
+		</script>
+	@endif
 	</body>
 	<!--end::Body-->
 </html>

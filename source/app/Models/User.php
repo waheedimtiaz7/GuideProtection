@@ -17,7 +17,8 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-
+    const USER_TYPE_ADMIN=1;
+    const USER_TYPE_STAFF=2;
     /**
      * The attributes that are mass assignable.
      *
@@ -25,10 +26,17 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'firstname',
+        'lastname',
         'email',
+        'user_role',
+        'is_sale_rep',
+        'username',
         'password',
     ];
+    protected function getString(){
 
+    }
     /**
      * The attributes that should be hidden for arrays.
      *
