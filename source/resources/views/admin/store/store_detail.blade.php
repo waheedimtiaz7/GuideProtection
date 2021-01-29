@@ -38,11 +38,10 @@
                             <input type="text" class="form-control required" tabindex="9" id="alex_rank" name="alex_rank" value="{{ $store->alex_rank }}">
                         </div>
                         <div class="form-group">
-                            <label for="setup_status">Status</label>
+                            <label for="setup_status">Setup Status</label>
                             <select class="form-control" name="setup_status" id="setup_status">
-                                <option></option>
                                 @foreach($setup_statuses as $setup_status)
-                                    <option value="{{ $setup_status->value }}">{{ $setup_status->title }}</option>
+                                    <option {{ $store->setup_status==$setup_status->value?"selected":"" }} value="{{ $setup_status->value }}">{{ $setup_status->title }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -77,6 +76,13 @@
                         <div class="form-group">
                             <label for="variant_id_link_base">Variant ID Link Base</label>
                             <input type="text" class="form-control required" tabindex="10" id="variant_id_link_base" name="variant_id_link_base" value="{{ $store->variant_id_link_base }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="store_processing">Store Processing</label>
+                            <select class="form-control" name="store_processing" id="store_processing">
+                                <option {{ "Transaction"==$store->store_processing?"selected":"" }} value="Transaction">Transaction</option>
+                                <option {{ "Bulk"==$store->store_processing?"selected":"" }} value="Bulk">Bulk</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-6">

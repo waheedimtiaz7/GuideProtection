@@ -8,6 +8,7 @@ use App\Models\ClaimFile;
 use App\Models\ClaimUpdate;
 use App\Models\Shop;
 use App\Models\Status;
+use App\Models\Template;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -34,9 +35,9 @@ class ClaimController extends Controller
                 return '<a href="'. route('admin.claim_detail',[$claim->store_ordernumber]) .'">'. $claim->store_ordernumber .'</a>';
             })->filter(function ($query) use ($request) {
                 if ($request->get('date_from')!='') {
-                    $query->where('orderdate', '>=', date("Y-m-d",strtotime($request->get('date_from'))));
+                    $query->where('claims.created_at', '>=', date("Y-m-d",strtotime($request->get('date_from'))));
                 }if ($request->get('date_end')!='') {
-                    $query->where('orderdate', '<=', date("Y-m-d",strtotime($request->get('date_end'))));
+                    $query->where('claims.created_at', '<=', date("Y-m-d",strtotime($request->get('date_end'))));
                 }if ($request->get('reorder_status')!='') {
                     $query->where('reorder_status', $request->get('reorder_status'));
                 }if ($request->get('claim_status')!='') {
@@ -49,7 +50,14 @@ class ClaimController extends Controller
                     $query->where('is_escalated', $request->get('escalated'));
                 }
             })
-            ->addColumn('customer_name',function ($claim){
+            ->addColumn('representative_name',function ($claim){
+                if(!empty($claim->representative)){
+                    return $claim->representative->name;
+                }else{
+                    return '';
+                }
+
+            })->addColumn('customer_name',function ($claim){
                 return $claim->customer_firstname.' '.$claim->customer_lastname;
             })->addColumn('reorder_notify',function ($claim){
                 $check=ClaimEmail::whereClaimId($claim->id)->where('email_type','reorder_notify')->first();
@@ -288,6 +296,15 @@ class ClaimController extends Controller
         ClaimFile::whereId($id)->delete();
         \Session::flash('error','File deleted successfully');
         return redirect()->back();
+    }
+    public function getMailDetail($id){
+        $template=Template::whereId($id)->first();
+        $template->detail=html_entity_decode($template->detail);
+        return response()->json([
+            'success'=>true,
+            'message'=>'File stored successfully.',
+            'template'=>$template
+        ]);
     }
 
 }

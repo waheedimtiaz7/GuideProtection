@@ -2,7 +2,7 @@
 <table align="center" border="0" cellpadding="0" cellspacing="0" class="wrapper_table" style="width: 800px">
     <tbody>
     <tr>
-        <td align="center" bgcolor="#1F1E23" class="grey_bg" style="background-color: #1F1E23;">
+        <td align="center" bgcolor="#1F1E23" class="grey_bg" style="background-color: #F6F6F6;">
             <table border="0" cellpadding="0" cellspacing="0">
                 <tbody>
                 <tr>

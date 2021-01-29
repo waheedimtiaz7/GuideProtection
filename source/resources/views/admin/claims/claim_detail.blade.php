@@ -192,23 +192,25 @@
                                 <label for="to">To</label>
                                 <input class="form-control" name="to" id="to" type="email" value="{{ $claim->customer_email }}">
                             </div>
+                            <input class="form-control" type="hidden" name="mail_claim_id" id="mail_claim_id" value="{{ $claim->id }}">
+                            <input class="form-control" type="hidden" name="mail_template_id" id="mail_template_id">
                             <div class="form-group">
-                                <label for="subject">Subject</label>
-                                <input class="form-control" name="subject" id="subject">
+                                <label for="mail_subject">Subject</label>
+                                <input class="form-control" name="mail_subject" id="mail_subject">
                             </div>
                             <div class="form-group">
-                                <label for="detail">Message</label>
-                                <textarea style="min-height:210px" class="form-control" name="detail" id="detail" placeholder="Message"></textarea>
+                                <label for="mail_detail">Message</label>
+                                <textarea style="min-height:210px" class="form-control" name="mail_detail" id="mail_detail" placeholder="Message"></textarea>
                             </div>
                             <button type="button" onclick="sendMail()" class="btn btn-success float-right">Send</button>
                         </form>
                     </div>
                     <div class="col-6">
                         <p>Emails</p>
-                        <button class="btn btn-primary w-250px">Send Denial Notifications</button><br><br>
-                        <button class="btn btn-primary w-250px">Send Reorder Notifications</button><br><br>
-                        <button class="btn btn-primary w-250px">Send Tracking Number</button><br><br>
-                        <button class="btn btn-primary w-250px">Everything's good?</button><br><br>
+                        <button class="btn btn-primary w-250px" onclick="getMailDetail(7)">Send Denial Notifications</button><br><br>
+                        <button class="btn btn-primary w-250px" onclick="getMailDetail(8)">Send Reorder Notifications</button><br><br>
+                        <button class="btn btn-primary w-250px" onclick="getMailDetail(9)">Send Tracking Number</button><br><br>
+                        <button class="btn btn-primary w-250px" onclick="getMailDetail(10)">Everything's good?</button><br><br>
                         <br>
                         <p>Other Processes</p>
                         <button class="btn btn-dark w-250px">Post refund to store</button><br><br>
@@ -311,6 +313,7 @@
             });
         });
         function saveForm(type){
+
             var formData = new FormData( $("#update_claim")[0]);
             $.ajax({
                 url: "{{ route('admin.update_claim') }}",
@@ -373,7 +376,19 @@
             });
 
         }
-
+        function getMailDetail(id) {
+            $.ajax({
+                url:"{{ url('admin/get-mail-detail') }}"+"/"+id,
+                type:"get",
+                success:function (data) {
+                    if(data.success){
+                        $("#mail_subject").val(data.template.subject);
+                        $("#mail_template_id").val(data.template.id);
+                        $("#mail_detail").val(data.template.detail);
+                    }
+                }
+            })
+        }
        function sendMail() {
             $.ajax({
                 url:"{{ route('send_mail') }}",
@@ -381,7 +396,28 @@
                 type:"post",
                 success:function (data) {
                     if(data.success){
-                        alert('Mail sent successfully');
+                        $("#mail_subject").val("");
+                        $("#mail_template_id").val("");
+                        $("#mail_detail").val("");
+                        Swal.fire({
+                            text: "Mail sent successfully",
+                            icon: "success",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn font-weight-bold btn-light-primary"
+                            }
+                        });
+                    }else{
+                        Swal.fire({
+                            text: data.message,
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn font-weight-bold btn-light-primary"
+                            }
+                        });
                     }
                 }
             })

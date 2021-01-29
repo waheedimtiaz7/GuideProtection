@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Claim;
+use App\Models\Order;
+use App\Models\Shop;
 use App\Models\Status;
 use App\Models\Template;
 use Illuminate\Http\Request;
@@ -100,9 +103,11 @@ class TemplateController extends Controller
     }
     public function sendMail(Request $request){
         $validate=\Validator::make($request->all(),[
-            'subject'=>'required',
+            'mail_subject'=>'required',
+            'mail_claim_id'=>'',
+            'mail_template_id'=>'',
             'to'=>'required',
-            'detail'=>'required'
+            'mail_detail'=>'required'
         ]);
         if($validate->fails()){
             return response()->json([
@@ -110,9 +115,19 @@ class TemplateController extends Controller
                 'message'=>$validate->errors()->first()
             ]);
         }else{
-            \Mail::send('emails.index',['detail'=>$request['detail']],function ($mail) use ($request){
-                $mail->to($request['to'], 'Guide Protection')->subject('Guide Protection');
-            });
+            $claim=Claim::whereId($request['mail_claim_id'])->first();
+            $order=Order::whereId($claim->order_id)->with(['order_detail'])->first();
+            $shop=Shop::whereId($order->shop_id)->first();
+            if(!empty($request['mail_template_id'])){
+                $template=Template::whereId($request['mail_template_id'])->first();
+                \Mail::send('emails.index',['user'=>$order,'store'=>$shop,'title'=>$template->title,'template'=>$template,'detail'=>$request['mail_detail']],function ($mail) use ($request,$order,$template){
+                    $mail->to($request['to'], $order->customer_firstname)->subject($request['mail_subject']);
+                });
+            }else{
+                \Mail::send('emails.index',['user'=>$order,'store'=>$shop,'title'=>"Guide Protection",'detail'=>$request['mail_detail']],function ($mail) use ($request,$order,$template){
+                    $mail->to($request['to'], $order->customer_firstname)->subject($request['mail_subject']);
+                });
+            }
             return response()->json([
                 'success'=>true
             ]);

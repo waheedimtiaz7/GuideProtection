@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Shop;
 use App\Models\Status;
+use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -81,8 +82,9 @@ class CustomerController extends Controller
                     "product_id"=>$order_detail->cart_productid
                 ]);
             }
-            \Mail::send('emails.index',['request'=>$request,'store'=>$shop],function ($mail) use ($request,$order){
-                $mail->to($order->customer_email, 'Guide Protection')->subject('Guide Protection');
+            $template=Template::whereType($request['incident_type'])->first();
+            \Mail::send('emails.index',['user'=>$order,'store'=>$shop,'title'=>$template->title,'template'=>$template,'detail'=>$template->detail],function ($mail) use ($request,$order,$template){
+                $mail->to($order->customer_email, $order->customer_firstname)->subject($template->subject);
             });
             DB::commit();
             return response()->json([

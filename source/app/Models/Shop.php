@@ -12,6 +12,7 @@ class Shop extends Model
         'display_name',
         'store_name',
         'company_name',
+        'store_processing',
         'url',
         'alex_rank',
         'shopify_name',

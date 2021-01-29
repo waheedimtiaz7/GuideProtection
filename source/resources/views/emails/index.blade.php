@@ -881,22 +881,22 @@
             <table border="0" align="center" cellpadding="0" cellspacing="0" class="profilePicture">
                 <tr>
                     <td align="center" class="spacing_h" height="30" width="100%">
-                        First Name: <b>{{ $user->firstname }}</b>
+                        First Name: <b>{{ $user->customer_firstname }}</b>
                     </td>
                 </tr>
                 <tr>
                     <td align="center" class="spacing_h" height="30" width="100%">
-                        Last Name: <b>{{ $user->lastname }}</b>
+                        Last Name: <b>{{ $user->customer_lastname }}</b>
                     </td>
                 </tr>
                 <tr>
                     <td align="center" class="spacing_h" height="30" width="100%">
-                        Last Name: <b>{{ $store->store_name }}</b>
+                        Store Name: <b>{{ $store->store_name }}</b>
                     </td>
                 </tr>
                 <tr>
                     <td align="center" class="spacing_h" height="30" width="100%">
-                        Last Name: <b>{{ $store->url }}</b>
+                        Store Url: <b>{{ $store->url }}</b>
                     </td>
                 </tr>
             </table>
@@ -908,7 +908,7 @@
     <tbody>
     <tr>
         <td align="center" class="spacing_h" height="30" width="100%">&nbsp;
-            {{ $detail }}
+            {{ html_entity_decode($detail) }}
         </td>
     </tr>
     </tbody>

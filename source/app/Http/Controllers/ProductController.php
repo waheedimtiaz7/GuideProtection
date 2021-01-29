@@ -186,6 +186,7 @@ class ProductController extends Controller
             'primary_poc_phone'=>"",
             'primary_poc_email'=>"",
             'setup_status'=>"",
+            'store_processing'=>"",
             'primary_poc_title'=>""
         ]);
         if($validator->fails()){
@@ -216,11 +217,14 @@ class ProductController extends Controller
                     'primary_poc_email'=>$request['primary_poc_email'],
                     'primary_poc_title'=>$request['primary_poc_title'],
                     'setup_status'=>$request['setup_status'],
+                    'store_processing'=>$request['store_processing'],
                 ]);
                 if(!empty($request['category_id'])){
                     $shop->categories()->attach($request['category_id']);
                 }
-
+                \DB::rollBack();
+                \Session::flash('success','Store data updated successfully');
+                return redirect()->route('admin.stores');
             }catch (Exception $exception){
                 \DB::rollBack();
                 \Session::flash('error',$exception->getMessage().' '.$exception->getLine());
@@ -228,5 +232,4 @@ class ProductController extends Controller
             }
         }
     }
-
 }

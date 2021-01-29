@@ -151,7 +151,7 @@
                 },
             },
             columns: [
-                {data: 'claim_rep', name: 'claim_rep'},
+                {data: 'representative_name', name: 'representative_name'},
                 {data: 'store_ordernumber', name: 'store_ordernumber'},
                 {data: 'shop.display_name', name: 'shop.display_name'},
                 {data: 'created_at', name: 'created_at'},
@@ -179,8 +179,17 @@
             }
         });
         $("#filter_form").submit(function (e) {
+            var from = $("input[name='date_from']").val();
+            var to = $("input[name='date_to']").val();
             e.preventDefault();
-            claims.draw();
+            if(Date.parse(from) > Date.parse(to)){
+                alert("End date should be greater than from date");
+            }else{
+                claims.draw();
+            }
+
+
+
         })
     </script>
 @endsection
