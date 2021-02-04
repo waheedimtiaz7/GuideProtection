@@ -33,7 +33,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::group(['prefix'=>'admin'],function (){
     Route::get("/",[LoginController::class,'login'])->name('login');
     Route::post("verify-login",[LoginController::class,'verifyLogin'])->name('verify_login');
-    Route::group(['middleware'=>'admin'],function (){
+    Route::group(['middleware'=>'auth'],function (){
         Route::group(['middleware'=>'admin'],function (){
             ////////////////////////Users////////////////////////////////////
             Route::get("users",[UserController::class,'index'])->name('admin.users');
@@ -57,7 +57,7 @@ Route::group(['prefix'=>'admin'],function (){
             ////////////////////////Stores////////////////////////////////////
             Route::get("stores",[ProductController::class,'stores'])->name('admin.stores');
             Route::get('store/edit/{id}',[ProductController::class,'storeEdit'])->name('admin.store_edit');
-            Route::get('store/update/{id}',[ProductController::class,'storeUpdate'])->name('admin.update_store');
+            Route::post('store/update/{id}',[ProductController::class,'storeUpdate'])->name('admin.update_store');
             Route::get('store/pricing/{id}',[ProductController::class,'storePricing'])->name('admin.store_pricing');
             Route::post('store/price-create',[ProductController::class,'storePricingCreate'])->name('admin.store_price_create');
             Route::post('store/price-update',[ProductController::class,'storePricingUpdate'])->name('admin.store_price_update');
@@ -69,8 +69,7 @@ Route::group(['prefix'=>'admin'],function (){
             Route::post('static-page/update',[PageController::class,'update'])->name('admin.page_update');
             Route::get('static-page/delete/{id}',[PageController::class,'destroy'])->name('admin.page_delete');
         });
-        //////////////////////////////////Reports////////////////////////////////
-        Route::get('reports',[ReportController::class,'index'])->name('admin.reports');
+
         //////////////////////////////////Claims////////////////////////////////
         Route::get("claims",[ClaimController::class,'index'])->name('admin.claims');
         Route::post("get-claims",[ClaimController::class,'getClaims'])->name('admin.get_claims');
@@ -79,10 +78,23 @@ Route::group(['prefix'=>'admin'],function (){
         Route::post("update-claim",[ClaimController::class,'updateClaim'])->name('admin.update_claim');
         Route::get("delete-claim-file/{id}",[ClaimController::class,'claimDeleteFile'])->name('admin.claim_delete_file');
         Route::get("get-mail-detail/{id}",[ClaimController::class,'getMailDetail'])->name('get_mail_detail');
-
-        Route::get("logout",function (){
+        //////////////////////////////////Reports////////////////////////////////
+        Route::get('reports',[ReportController::class,'index'])->name('admin.reports');
+        Route::post('reports/get_report',[ReportController::class,'get_report']);
+        Route::get('reports/run_report/{id}',[ReportController::class,'run_report']);
+        Route::post('reports/run_report/{id}',[ReportController::class,'run_report']);
+        Route::post('reports/save_report/{id}',[ReportController::class,'save_report']);
+        Route::get('reports/load_report/{id}',[ReportController::class,'load_report']);
+        Route::post('reports/delete_report/{id}',[ReportController::class,'delete_report']);
+        Route::post('reports/run_report_with_parameters',[ReportController::class,'run_report_with_parameters']);
+        Route::get('reports/set_report_session_value',[ReportController::class,'set_report_session_value']);
+        Route::post('reports/set_report_session_value',[ReportController::class,'set_report_session_value']);
+        Route::post('reports/generate_report_csv',[ReportController::class,'generate_report_csv']);
+        Route::get('reports/generate_report_csv',[ReportController::class,'generate_report_csv']);
+        Route::post("logout",function (Illuminate\Http\Request $request){
             Auth::logout();
-            return redirect()->to('admin');
+            $request->session()->invalidate();
+            return redirect('admin');
         })->name('admin.logout');
     });
 

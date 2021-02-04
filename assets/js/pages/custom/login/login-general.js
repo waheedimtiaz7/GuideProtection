@@ -25,10 +25,10 @@ var KTLogin = function() {
 			KTUtil.getById('kt_login_signin_form'),
 			{
 				fields: {
-					email: {
+					username: {
 						validators: {
 							notEmpty: {
-								message: 'Email is required'
+								message: 'Username is required'
 							}
 						}
 					},
@@ -51,10 +51,10 @@ var KTLogin = function() {
 
         $('#kt_login_signin_submit').on('click', function (e) {
             e.preventDefault();
-            validation.validate().then(function(status) {
 
+            validation.validate().then(function(status) {
 		        if (status == 'Valid') {
-					$("#kt_login_signin_form").submit()
+                    $("#kt_login_signin_form").submit();
 				} else {
 					swal.fire({
 		                text: "Sorry, looks like there are some errors detected, please try again.",

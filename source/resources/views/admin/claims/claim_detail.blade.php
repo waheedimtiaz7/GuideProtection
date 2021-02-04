@@ -10,221 +10,397 @@
     }
 </style>
 @section('content')
-    <div class="card card-custom gutter-b">
-        <div class="card-body">
-            <div class="mt-15">
-                <form id="update_claim">
-                    {{ csrf_field() }}
-                    <input name="claim_id" value="{{ $claim->id }}" type="hidden">
-                <div class="row">
-                    <div class="col-3">
-                        <h1>Claim Detail</h1>
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-6 subheader-solid" id="kt_subheader">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                <!--begin::Info-->
+                <div class="d-flex align-items-center flex-wrap mr-1">
+                    <!--begin::Page Heading-->
+                    <div class="d-flex align-items-baseline flex-wrap mr-5">
+                        <!--begin::Page Title-->
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Claim Detail</h5>
+                        <!--end::Page Title-->
+                        <!--begin::Breadcrumb-->
+                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+                            <li class="breadcrumb-item text-muted">
+                                <a href="{{ route("admin.users") }}" class="text-muted">Home</a>
+                            </li>
+                            <li class="breadcrumb-item text-muted">
+                                <a href="{{ route("admin.claims") }}" class="text-muted">Claims</a>
+                            </li>
+
+                            <li class="breadcrumb-item text-muted">
+                                <a href="" class="text-muted">{{ $claim->id }}</a>
+                            </li>
+                        </ul>
+                        <!--end::Breadcrumb-->
                     </div>
-                    <div class="col-9">
-                        <div class="row">
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="hold_until_date">Hold Until</label>
-                                    <input class="form-control" name="hold_until_date" id="hold_until_date" value="{{ !empty(date('m/d/Y',strtotime($claim->hold_until_date)))&& $claim->hold_until_date!=null?date('m/d/Y',strtotime($claim->hold_until_date)):date("m/d/Y") }}">
+                    <!--end::Page Heading-->
+                </div>
+                <!--end::Info-->
+            </div>
+        </div>
+        <!--end::Subheader-->
+        <!--begin::Entry-->
+        <div class="d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div class="container-fluid">
+                <!--begin::Card-->
+                <div class="card card-custom">
+                    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                        <div class="card-title">
+                            <h3 class="card-label">Claim # {{ $claim->id }}
+                                <span class="d-block text-muted pt-2 font-size-sm">Showing All Claim Information</span>
+                            </h3>
+                        </div>
+                        <div class="card-toolbar">
+                            <!--begin::Button-->
+                            <a href="#" class="btn btn-primary font-weight-bolder" id="btn_previous">
+                                <span class="svg-icon svg-icon-md">
+                                    <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24" />
+                                            <circle fill="#000000" cx="9" cy="15" r="6" />
+                                            <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
+                                        </g>
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>Previous Claims
+                            </a>
+                            <!--end::Button-->
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
+                            <form class="" id="update_claim">
+                                    {{ csrf_field() }}
+                                <div class="row mb-8">
+                                    <div class="col-lg-2 mb-lg-0 mb-6">
+                                        <label for="hold_until_date">Hold Until:</label>
+                                        <input type="text" name="hold_until_date" id="hold_until_date" class="form-control" id="kt_datepicker_1" readonly="readonly" placeholder="Select date" value="{{ !empty($claim->hold_until_date)&& $claim->hold_until_date!=null?date('m/d/Y',strtotime($claim->hold_until_date)):date("m/d/Y") }}"/>
+                                    </div>
+                                    <div class="col-lg-2 mb-lg-0 mb-6">
+                                        <label for="claim_status">Claim Status:</label>
+                                        <select class="form-control " data-col-index="6" name="claim_status" id="claim_status">
+                                            <option value="">Select</option>
+                                            @foreach($claim_statuses as $claim_status)
+                                                <option {{ $claim->claim_status==$claim_status->value?"selected":"" }} value="{{ $claim_status->value }}">{{ $claim_status->title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-2 mb-lg-0 mb-6">
+                                        <label for="reorder_status">Reorder Status:</label>
+                                        <select class="form-control " data-col-index="7" id="reorder_status" name="reorder_status">
+                                            <option value="">Select</option>
+                                            @foreach($reorder_statuses as $reorder_status)
+                                                <option {{ $claim->reorder_status==$reorder_status->value?"selected":"" }} value="{{ $reorder_status->value }}">{{ $reorder_status->title }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 mb-lg-0 mb-6">
+                                        <label for="claim_rep">Claim Rep:</label>
+                                        <select class="form-control " data-col-index="0" name="claim_rep" id="claim_rep">
+                                            <option value=""></option>
+                                            @foreach($reps as $rep)
+                                                <option {{ $claim->claim_rep==$rep->id?"selected":"" }} value="{{ $rep->id }}">{{ $rep->firstname.' '.$rep->lastname }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-2 mb-lg-0 mb-6">
+                                        <div class="form-group">
+                                            <label for="escalate">Escalate:</label>
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-lg checkbox-success">
+                                                    <input type="checkbox" checked="checked" name="escalate" id="escalate">
+                                                    <span></span>Enabled
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label><input name="escalate" id="escalate" type="checkbox"> Escalate</label>
+                                <input name="claim_id" value="{{ $claim->id }}" type="hidden">
+                            </form>
+                            <div>
+                                <div class="row mb-8">
+                                    <div class="col-lg-3 mb-lg-0 mb-6">
+                                        <label><strong>Store:</strong> {{ isset($claim->shop->shopify_name)?$claim->shop->shopify_name:'' }}  <a href="#.">Launch</a> </label>
+                                        <br/>
+                                        <label><strong>Order:</strong> {{ $claim->cart_ordernumber }}  </label>
+                                        <br/>
+                                        <label><strong>Order Date:</strong> {{ date('m/d/Y',strtotime($claim->orderdate)) }}  </label>
+                                        <br/>
+                                        <label><strong>Customer Name:</strong> {{ $claim->customer_firstname." ".$claim->customer_lastname }}  </label>
+                                        <br/>
+                                        <label><strong>Customer Email:</strong> {{ $claim->customer_email }}  </label>
+                                        <br/>
+                                        <label><strong>Customer Phone:</strong> {{ $claim->customer_phone }}  </label>
+                                    </div>
+                                    <div class="col-lg-3 mb-lg-0 mb-6">
+                                        <label><strong>Shipping:</strong> </label>
+                                        <br/><br/>
+                                        <label><strong>Address 1:</strong> {{ $claim->shipping_addresss_1 }}  </label>
+                                        <br/>
+                                        <label><strong>Address 2:</strong> {{ $claim->shipping_addresss_2 }}  </label>
+                                        <br/>
+                                        <label><strong>City, State, Zip:</strong> {{$claim->shipping_city.', '.$claim->shipping_state.', '.$claim->shipping_zip }}  </label>
+                                        <br/>
+                                        <label><strong>Country:</strong> {{ $claim->shipping_country }}  </label>
+                                    </div>
+                                    <div class="col-lg-3 mb-lg-0 mb-6">
+                                        <label><strong>Shopify Tracking #:</strong> {{ $claim->cart_trackingnumber }} <a href="#."> View</a></label>
+                                        <div class="form-group row ">
+                                            <label class="col-lg-4 col-form-label " for="gp_reorder_trackno">GP Tracking #:</label>
+                                            <div class="col-lg-5">
+                                                <input type="text" class="form-control" placeholder=""  name="gp_reorder_trackno" id="gp_reorder_trackno"/>
+                                            </div>
+                                            <div class="col-lg-3 ">
+                                                <a href="#." class="align-middle" >View</a>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row ">
+                                            <label class="col-lg-4 col-form-label " for="reorder_trackingnumber">Reorder Tk #:</label>
+                                            <div class="col-lg-5">
+                                                <input type="text" class="form-control" placeholder="" name="reorder_trackingnumber" id="reorder_trackingnumber"/>
+                                            </div>
+                                            <div class="col-lg-3 ">
+                                                <a href="#." class="align-middle" >View</a>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row ">
+                                            <label class="col-lg-4 col-form-label " for="reorder_cartnumber">Reorder #:</label>
+                                            <div class="col-lg-5">
+                                                <input type="text" class="form-control" placeholder="" name="reorder_cartnumber" id="reorder_cartnumber"/>
+                                            </div>
+                                            <div class="col-lg-3 ">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 mb-lg-0 mb-6">
+                                        <div class="previous_claims" style="display: none;">
+                                            <!--begin: Datatable-->
+                                            <div class="table-responsive">
+                                                <table class="table table-striped " >
+                                                    <thead class="thead-little-dark">
+                                                        <tr>
+                                                            <th>Claim ID</th>
+                                                            <th>Date</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($previous_claims as $previous_claim )
+                                                            <tr>
+                                                                <td><a href="{{ route('admin.claim_detail',[$previous_claim->id]) }}" target="_blank">{{ $previous_claim->id }}</a></td>
+                                                                <td>{{ date('m/d/Y',strtotime($previous_claim->created_at)) }}</td>
+                                                                <td>{{ $previous_claim->incidentType->title }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="claim_status">Claim Status</label>
-                                    <select class="form-control" name="claim_status" id="claim_status">
-                                        @foreach($claim_statuses as $claim_status)
-                                            <option {{ $claim->claim_status==$claim_status->value?"selected":"" }} value="{{ $claim_status->value }}">{{ $claim_status->title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="reorder_status">Reorder Status</label>
-                                    <select class="form-control" name="reorder_status" id="reorder_status">
-                                        @foreach($reorder_statuses as $reorder_status)
-                                            <option {{ $claim->reorder_status==$reorder_status->value?"selected":"" }} value="{{ $reorder_status->value }}">{{ $reorder_status->title }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="claim_rep">Claims Rep</label>
-                                    <select class="form-control" name="claim_rep" id="claim_rep">
-                                        <option value=""></option>
-                                        @foreach($reps as $rep)
-                                            <option {{ $claim->claim_rep==$rep->id?"selected":"" }} value="{{ $rep->id }}">{{ $rep->firstname.' '.$rep->lastname }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <h5>Previous Claims</h5>
-                                <table class="table table-bordered font-size-lg">
-                                    <thead>
-                                    <tr>
-                                        <th>Claim ID</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($previous_claims as $previous_claim )
+                                <div class="table-responsive">
+                                    <table class="table table-striped " >
+                                        <thead class="thead-little-dark">
                                         <tr>
-                                            <td><a href="{{ route('admin.claim_detail',[$previous_claim->store_ordernumber]) }}" target="_blank">{{ $previous_claim->id }}</a></td>
-                                            <td>{{ date('m/d/Y',strtotime($previous_claim->created_at)) }}</td>
-                                            <td>{{ $previous_claim->incidentType->title }}</td>
+                                            <th>Qty</th>
+                                            <th>SKU</th>
+                                            <th>Description</th>
+                                            <th>Seelcted for Claim</th>
+                                            <th>Amount</th>
+                                            <th>Variant ID Link</th>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $total=0;
+                                        ?>
+                                            @foreach($claim->claim_detail as $claim_detail )
+                                                <tr>
+                                                    <td>{{ $claim_detail->quantity }}</td>
+                                                    <td><?php
+                                                        $product=\App\Models\OrderDetail::where('cart_variantid',$claim_detail->variantid)->first();
+                                                        echo $product->sku;
+                                                        ?>
+                                                    </td>
+                                                    <?php
+                                                    $total=$total+($product->final_unit_price*$claim_detail->quantity);
+                                                    ?>
+                                                    <td>{{ $product->cart_name }}</td>
+                                                    <td><input type="checkbox" checked="checked" ></td>
+                                                    <td>{{ $product->final_unit_price }}</td>
+                                                    <td><a href="">open</a></td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-lg-11 mb-lg-0 mb-6">
+                                        <label><strong>Issue:</strong> {{ $claim->incidentType->title }} </label>
+                                        <br/>
+                                        <label><strong>Issue Detail:</strong> {{ $claim->incident_description }}</label>
+                                    </div>
+                                    <div class="col-lg-1 mb-lg-0 mb-6 text-right">
+                                        <label for="total">Total:</label>
+                                        <input type="text" class="form-control text-right" name="total" id="total" value="{{ $total }}"  />
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-lg-7 mb-lg-0 mb-6">
+                                        <label for="notes">Notes:</label>
+                                        <textarea class="form-control" rows="15" name="notes" id="notes"> </textarea>
+                                    </div>
+                                    <div class="col-lg-5 mb-lg-0 mb-6">
+                                        <label>Files:</label>
+                                        <!--begin: Datatable-->
+                                        <div class="table-responsive">
+                                            <table class="table table-striped " >
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Description</th>
+                                                    <th>Date</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($claim->files as $file )
+                                                    <tr>
+                                                        <td>{{ $file->filename }}</td>
+                                                        <td>{{ $file->description }}</td>
+                                                        <td>{{ date("m/d/Y",strtotime($file->created_at)) }}</td>
+                                                        <td>
+                                                            <a href="{{ asset($file->path) }}" target="_blank">View</a></td>
+                                                        <a href="" target="_blank">Download</a>
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row mt-8">
+                                            <div class="col-lg-12 text-right">
+                                                <button class="btn btn-primary btn-primary--icon"  data-toggle="modal" data-target="#add_files">
+                                                    <span>
+                                                        <i class="la la-plus"></i>
+                                                        <span>Add File</span>
+                                                    </span>
+                                                </button>&#160;&#160;
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="row mt-8">
+                                        <div class="col-lg-12">
+                                            <button class="btn btn-primary btn-primary--icon" type="button" onclick="saveForm(0)">
+                                                <span>
+                                                    <i class="la la-save"></i>
+                                                    <span>Save</span>
+                                                </span>
+                                            </button>&#160;&#160;
+                                            <button class="btn btn-secondary btn-secondary--icon" type="button" onclick="saveForm(1)">
+                                                <span>
+                                                    <i class="la la-save"></i>
+                                                    <span>Save & Exit</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div>&nbsp;</div>
+                <!-- card start -->
+                <div class="card card-custom">
+                    <div class="row mt-15 card-body">
+                        <div class="col-lg-7 mb-lg-0 mb-6">
+                            <form id="send_mail">
+                                {{ csrf_field() }}
+                                <input class="form-control" type="hidden" name="mail_claim_id" id="mail_claim_id" value="{{ $claim->id }}">
+                                <input class="form-control" type="hidden" name="mail_template_id" id="mail_template_id">
+                                <div>
+                                    <label for="to">To:</label>
+                                    <input class="form-control mb-8" name="to" id="to" type="email" value="{{ $claim->customer_email }}" />
+                                </div>
+                                <div>
+                                    <label for="mail_subject">Subject:</label>
+                                    <input type="text" class="form-control mb-8" name="mail_subject" id="mail_subject"  />
+                                </div>
+
+                                <div>
+                                    <label for="mail_detail"></label>
+                                    <textarea class="form-control" rows="6" name="mail_detail" id="mail_detail"> </textarea>
+                                </div>
+                                <div class="row mt-8">
+                                    <div class="col-lg-12 ">
+                                        <button class="btn btn-primary btn-primary--icon"  type="button" onclick="sendMail()">
+                                            <span>
+                                                <i class="la la-send"></i>
+                                                <span>Send</span>
+                                            </span>
+                                        </button>&#160;&#160;
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-5 mb-lg-0 mb-6">
+                            <div class="col-6">
+                                <p>Emails</p>
+                                <button class="btn btn-primary w-250px" onclick="getMailDetail(7)">Send Denial Notifications</button><br><br>
+                                <button class="btn btn-primary w-250px" onclick="getMailDetail(8)">Send Reorder Notifications</button><br><br>
+                                <button class="btn btn-primary w-250px" onclick="getMailDetail(9)">Send Tracking Number</button><br><br>
+                                <button class="btn btn-primary w-250px" onclick="getMailDetail(10)">Everything's good?</button><br><br>
+                                <br>
+                                <p>Other Processes</p>
+                                <button class="btn btn-dark w-250px">Post refund to store</button><br><br>
+                                <button class="btn btn-dark w-250px">Refund and create DC</button>
                             </div>
 
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 col-md-4">
-                        <p></p>
-                        <div class="row"><span class="col-5">Store</span><span class="col-7">{{ isset($claim->shop->shopify_name)?$claim->shop->shopify_name:'' }}</span></div>
-                        <div class="row"><span class="col-5">Order Number</span><span class="col-7">{{ $claim->store_ordernumber }}</span></div>
-                        <div class="row"><span class="col-5">Order Date</span><span class="col-7">{{ date('m/d/Y',strtotime($claim->orderdate)) }}</span></div>
-                        <div class="row"><span class="col-5">Customer Name</span><span class="col-7">{{ $claim->customer_lastname }}</span></div>
-                        <div class="row"><span class="col-5">Customer Email</span><span class="col-7">{{ $claim->customer_email }}</span></div>
-                        <div class="row"><span class="col-5">Customer Phone</span><span class="col-7">{{ $claim->customer_phone }}</span></div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <p>Shipping</p>
-                        <div class="row"><span class="col-5">Address 1</span><span class="col-7">{{ $claim->shipping_addresss_1 }}</span></div>
-                        <div class="row"><span class="col-5">Address 2</span><span class="col-7">{{ $claim->shipping_addresss_2 }}</span></div>
-                        <div class="row"><span class="col-5">City, State Zip</span><span class="col-7">{{$claim->shipping_city.', '.$claim->shipping_state.', '.$claim->shipping_zip }}</span></div>
-                        <div class="row"><span class="col-5">Country</span><span class="col-7">{{ $claim->shipping_country }}</span></div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <p></p>
-                        <div class="row"><span class="col-5">Shopify Tracking #</span><span class="col-7">{{ $claim->cart_trackingnumber }}</span></div>
-                        <div class="row"><span class="col-5">GP Tracking #</span><span class="col-7"><input name="gp_reorder_trackno"></span></div>
-                        <div class="row"><span class="col-5">Reorder TK #</span><span class="col-7"><input name="reorder_trackingnumber"></span></div>
-                        <div class="row"><span class="col-5">Reorder #</span><span class="col-7"><input name="reorder_cartnumber"></span></div>
-                    </div>
-
-                </div>
-                <div class="row mt-12">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Qty</th>
-                            <th>SKU</th>
-                            <th>Description</th>
-                            <th>Selected for Claim</th>
-                            <th>Variant ID link</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($claim->claim_detail as $claim_detail )
-                            <tr>
-                                <td>{{ $claim_detail->quantity }}</td>
-                                <td><?php
-                                        $product=\App\Models\OrderDetail::where('cart_variantid',$claim_detail->variantid)->first();
-                                        echo $product->sku;
-                                    ?>
-                                </td>
-                                <td>{{ $product->cart_name }}</td>
-                                <td>edit</td>
-                                <td></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                    <div class="col-12"><p>Issue: {{ $claim->incident_type }}</p></div>
-                    <div class="col-12"><p>Issue Detail: {{ $claim->incident_description }}</p></div>
-                </div>
-                <div class="row" style="margin-bottom:12px">
-                    <div class="col-6">
-                       <div class="form-group">
-                           <label for="notes">Notes</label>
-                           <textarea style="min-height:210px" class="form-control" name="notes" id="notes" placeholder="Notes"></textarea>
-                       </div>
-                   </div>
-                    <div class="col-6">
-                       <div class="form-group">
-                           <label for="notes">Files</label>
-                           <table class="table table-bordered">
-                               <thead>
-                                   <tr>
-                                       <th>Filename</th>
-                                       <th>Description</th>
-                                       <th>Date</th>
-                                       <th>Action</th>
-                                   </tr>
-                               </thead>
-                               <tbody id="files_list">
-                                   @foreach($claim->files as $file )
-                                       <tr>
-                                           <td>{{ $file->filename }}</td>
-                                           <td>{{ $file->description }}</td>
-                                           <td>{{ date("m/d/Y",strtotime($file->created_at)) }}</td>
-                                           <td>
-                                               <a href="{{ asset($file->path) }}" target="_blank">View</a></td>
-                                           <a href="{{ url('admin/delete-claim-file/'.$file->id) }}" target="_blank">delete</a>
-                                       </tr>
-                                   @endforeach
-                               </tbody>
-                           </table>
-                           <button class="btn btn-success float-right" type="button"  data-toggle="modal" data-target="#add_files">Add File</button>
-                       </div>
-                   </div>
-                </div>
-                    <div class="clearfix"></div>
-                <button class="btn btn-light-primary float-right" type="button" onclick="saveForm(0)">Save</button>
-                <button class="btn btn-secondary float-right" type="button" onclick="saveForm(1)">Save & Exit</button>
-                </form>
                 <div class="clearfix"></div>
-                <div class="row" style="margin-top:15px">
-                    <div class="col-6">
-                        <form id="send_mail">
-                            {{ csrf_field() }}
-                            <div class="form-group">
-                                <label for="to">To</label>
-                                <input class="form-control" name="to" id="to" type="email" value="{{ $claim->customer_email }}">
+                <div>&nbsp;</div>
+                <!-- card start -->
+                <div class="card card-custom">
+                    <div class="row mt-15 card-body">
+                        <div class="col-lg-7 ">
+                            <h3 class="card-label mb-5">Claim History</h3>
+                            <!--begin: Datatable-->
+                            <div class="table-responsive">
+                                <table class="table table-striped ">
+                                    <thead class="thead-little-dark">
+                                    <tr>
+                                        <th>Claim ID</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($previous_claims as $previous_claim )
+                                            <tr>
+                                                <td>{{ $previous_claim->id }}</td>
+                                                <td></td>
+                                                <td>{{ date('m/d/Y',strtotime($previous_claim->created_at)) }}</td>
+                                                <td>{{ $previous_claim->incidentType->title }}</td>
+                                                <td><a href="{{ route('admin.claim_detail',[$previous_claim->id]) }}" target="_blank">View</a></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            <input class="form-control" type="hidden" name="mail_claim_id" id="mail_claim_id" value="{{ $claim->id }}">
-                            <input class="form-control" type="hidden" name="mail_template_id" id="mail_template_id">
-                            <div class="form-group">
-                                <label for="mail_subject">Subject</label>
-                                <input class="form-control" name="mail_subject" id="mail_subject">
-                            </div>
-                            <div class="form-group">
-                                <label for="mail_detail">Message</label>
-                                <textarea style="min-height:210px" class="form-control" name="mail_detail" id="mail_detail" placeholder="Message"></textarea>
-                            </div>
-                            <button type="button" onclick="sendMail()" class="btn btn-success float-right">Send</button>
-                        </form>
-                    </div>
-                    <div class="col-6">
-                        <p>Emails</p>
-                        <button class="btn btn-primary w-250px" onclick="getMailDetail(7)">Send Denial Notifications</button><br><br>
-                        <button class="btn btn-primary w-250px" onclick="getMailDetail(8)">Send Reorder Notifications</button><br><br>
-                        <button class="btn btn-primary w-250px" onclick="getMailDetail(9)">Send Tracking Number</button><br><br>
-                        <button class="btn btn-primary w-250px" onclick="getMailDetail(10)">Everything's good?</button><br><br>
-                        <br>
-                        <p>Other Processes</p>
-                        <button class="btn btn-dark w-250px">Post refund to store</button><br><br>
-                        <button class="btn btn-dark w-250px">Refund and create DC</button>
-                    </div>
-                </div>
-                <div class="row" style="margin-top:15px">
-                    <h6>Claim History</h6>
-                    <div class="col-12 history_list">
-                        <ol>
-                            @foreach($history as $h)
-                                <li class="pt-3">{{ $h->detail }}</li>
-                            @endforeach
-                        </ol>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -263,10 +439,14 @@
 @section('script')
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        $( function() {
-            $( "#hold_until_date" ).datepicker();
-        } );
+
+        $("#btn_previous").click(function(){
+            $(".previous_claims").toggle(500);
+        });
     </script>
+    <script src="{{ asset("/") }}assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script>
+    <!--end::Page Scripts-->
+
     <script>
         function resetForm(){
             document.getElementById("file_form").reset();

@@ -1,44 +1,85 @@
 @extends('layouts.app')
-    @section('content')
-        <div class="container">
-            <div class="mt-37">
+@section('content')
+<section class="ship-form-1">
+    <div class="row">
+        <div class="col-sm-12 col-lg-6 d-flex justify-content-center align-items-center">
+            <div class="right-content">
+
+                <!-- Logo -->
                 <div class="row">
-                    <div class="col-12">
-                        <h1>Guide Shipping Protection</h1>
-                        <h1 class="mt-10">Claim Form</h1>
+                    <div class="col-12 col-md-3">
+                        <div class="logo_img">
+                            <img src="{{ asset("assets") }}/img/logo.png" alt="logo image">
+                        </div>
                     </div>
-                    <div class="col-12 px-18 mt-10">
-                        <p>Having a Problem with Delivery? If you purchased Guide Shipping protection during checkout we can replace your order free of charge</p>
-                        <p>Please fill out the following</p>
+                    <div class="col-12 col-md-9 d-flex justify-content-center justify-content-md-end">
+                        <!-- WOrk Process-->
+                        <div id="our-process">
+                            <ul class="process-wrapp">
+                                <li class="whitecolor wow fadeIn" data-wow-delay="300ms">
+                                    <span class="active-step">01</span>
+                                </li>
+                                <li class="whitecolor wow fadeIn" data-wow-delay="400ms">
+                                    <span class="pro-step">02</span>
+                                </li>
+                                <li class="whitecolor wow fadeIn">
+                                    <span class="pro-step">03</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--WOrk Process ends-->
                     </div>
-                    <div class="col-12 mt-10">
-                        <h1>Find Your Order</h1>
-                        <form class="px-18 mt-10" id="check_order">
+                </div>
+
+                <!-- Text -->
+                <h2>Claim Form</h2>
+                <p class="sub_heading">Having a problem with delivery? If you purchased Guide Shipping Protection during checkout, we can replace your order free of charge.</p>
+
+                <!-- Login Form -->
+                <form class="contact-form" id="contact-form-data">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-6">
+                            <h4 class="text-left my-4">Find your order</h4>
+                            <div class="alert-danger py-3 hidden mb-5">Please provide the missing fields</div>
                             <div class="form-group">
-                                <label for="email" class="d-inline-flex w-100px">Order Email</label>
-                                <div class="control d-inline-flex">
-                                    <input class="form-control" name="email" id="email" type="email"/>
-                                </div>
+                                <input class="form-control px-1" name="email" id="email" type="email" placeholder="Order Email" required="">
                             </div>
+                        </div>
+                        <div class="col-md-12 col-sm-6">
                             <div class="form-group">
-                                <label for="order_number" class="d-inline-flex w-100px"> Order #
-                                </label>
-                                <div class="control d-inline-flex">
-                                    <input class="form-control" name="order_number" id="order_number" type="text"/>
-                                </div>
+                                <input class="form-control px-1" name="order_number" id="order_number" type="text" placeholder="Order #" required="">
                             </div>
+                        </div>
+                        <div class="col-sm-12 text-left">
                             {{ csrf_field() }}
-                            <button type="submit" class="btn btn-info">Continue</button>
-                        </form>
+                            <button type="submit" class="btn contact_btn btn-large btn-blue btn-rounded my-4">Continue</button>
+                        </div>
                     </div>
-                    <p class="mt-30">Contact Us: <a href="mailto:support@guideprotection.com">support@guideprotection.com</a></p>
+                </form>
+                <div class="support-link">
+                    <h5>Contact us: <a href="#.">support@guideprotection.com</a></h5>
                 </div>
             </div>
         </div>
-    @endsection
+
+        <div class="col-sm-12 col-lg-6 p-0">
+            <div class="img-area">
+                <div id="carouselExampleControls" class="carousel slide carousal-fade" data-ride="carousel">
+                    <div class="carousel-inner ml-lg-10 ">
+                        <div class="carousel-item active">
+                            <img src="{{ asset("assets") }}/img/form-img1.jpg" class="d-block w-100 h-100" alt=" ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+@endsection
 @section('script')
     <script>
-        $("#check_order").on('submit',function (e) {
+        $("#contact-form-data").on('submit',function (e) {
             e.preventDefault();
             $.ajax({
                 url:"{{ route('check_order') }}",
@@ -46,13 +87,13 @@
                 type:"post",
                 success:function (data) {
                     if(data.success){
-                        window.location.href="{{ url("file-claim") }}"+"/"+$("#order_number").val()
+                        window.location.href="{{ url("file-claim") }}"+"/"+data.order.id
                     }else{
-                        alert(data.message)
+                        $(".alert-danger").removeClass("hidden");
+                        $(".alert-danger").html(data.message);
                     }
                 }
             })
-        })
-
+        });
     </script>
 @endsection

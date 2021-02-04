@@ -19,8 +19,8 @@ class ClaimController extends Controller
     public function index(){
         $claim_statuses=Status::whereType('claim')->get();
         $reorder_statuses=Status::whereType('re-order')->get();
-        $stores=Shop::select('shops.*')->get();
-        $reps=User::whereIsSaleRep(1)->whereStatus(1)->get();
+        $stores=Shop::where('store_type','!=',-1)->select('shops.*')->get();
+        $reps=User::whereStatus(1)->get();
         return view('admin.claims.index',[
             'header'=>'Claims',
             'reps'=>$reps,
@@ -31,21 +31,21 @@ class ClaimController extends Controller
     }
     public function getClaims(Request $request){
         return DataTables::of(Claim::select('claims.*')->with(['shop','claimStatus','reorderStatus','representative']))
-            ->editColumn('store_ordernumber',function ($claim){
-                return '<a href="'. route('admin.claim_detail',[$claim->store_ordernumber]) .'">'. $claim->store_ordernumber .'</a>';
+            ->editColumn('cart_ordernumber',function ($claim){
+                return '<a href="'. route('admin.claim_detail',[$claim->id]) .'">'. $claim->cart_ordernumber .'</a>';
             })->filter(function ($query) use ($request) {
                 if ($request->get('date_from')!='') {
                     $query->where('claims.created_at', '>=', date("Y-m-d",strtotime($request->get('date_from'))));
-                }if ($request->get('date_end')!='') {
-                    $query->where('claims.created_at', '<=', date("Y-m-d",strtotime($request->get('date_end'))));
+                }if ($request->get('date_to')!='') {
+                    $query->where('claims.created_at', '<=', date("Y-m-d",strtotime($request->get('date_to'))));
                 }if ($request->get('reorder_status')!='') {
                     $query->where('reorder_status', $request->get('reorder_status'));
                 }if ($request->get('claim_status')!='') {
                     $query->where('claim_status', $request->get('claim_status'));
                 }if ($request->get('rep')!='') {
                     $query->where('claim_rep', $request->get('rep'));
-                }if ($request->get('store')!='') {
-                    $query->where('shop_id', $request->get('store'));
+                }if ($request->get('shop_id')!='') {
+                    $query->where('shop_id', $request->get('shop_id'));
                 }if ($request->get('escalated')!='') {
                     $query->where('is_escalated', $request->get('escalated'));
                 }
@@ -95,15 +95,15 @@ class ClaimController extends Controller
                 return isset($claim->reorderStatus->value)?$claim->reorderStatus->title:"";
             })->editColumn('created_at',function ($claim){
                 return date('m/d/Y',strtotime($claim->created_at));
-            })->rawColumns(['store_ordernumber','reorder_notify','track_notify','final_email'])
+            })->rawColumns(['cart_ordernumber','reorder_notify','track_notify','final_email'])
             ->make(true);
     }
     public function claimDetail($order_id){
-        $detail=Claim::with(['order','shop','order.order_detail','claim_detail','files'])->where('store_ordernumber',$order_id)->first();
+        $detail=Claim::with(['order','shop','order.order_detail','claim_detail','files','incidentType'])->where('id',$order_id)->first();
         $claim_statuses=Status::whereType('claim')->get();
         $reorder_statuses=Status::whereType('re-order')->get();
-        $reps=User::whereIsSaleRep(1)->whereStatus(1)->get();
-        $previous_claims =Claim::with(['incidentType'])->where('customer_email',$detail->customer_email)->where('store_ordernumber','!=',$order_id)->get();
+        $reps=User::whereStatus(1)->get();
+        $previous_claims =Claim::with(['order','shop','order.order_detail','claim_detail','files','incidentType'])->where('customer_email',$detail->customer_email)->where('id','!=',$order_id)->get();
         $history =ClaimUpdate::where('claim_id',$detail->id)->get();
         return view('admin.claims.claim_detail',[
             'header'=>'Claim Detail',

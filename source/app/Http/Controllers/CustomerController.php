@@ -26,10 +26,12 @@ class CustomerController extends Controller
                 'message'=>'Already claim is created for this order'
             ]);
         }
-        $check=Order::whereCustomerEmail($request->get('email'))->where('cart_orderid',$request->get('order_number'))->first();
+        $check=Order::whereCustomerEmail($request->get('email'))->where('cart_orderid',$request->get('order_number'))
+            ->whereHas('shop')->first();
         if($check){
             return response()->json([
-                'success'=>true
+                'success'=>true,
+                'order'=>$check
             ]);
         }else{
             return response()->json([
@@ -39,9 +41,10 @@ class CustomerController extends Controller
         }
     }
     public function fileClaim($id){
-        $order=Order::where('cart_orderid',$id)->with('order_detail')->first();
+        $order=Order::where('id',$id)->with('order_detail')->first();
+        $store=Shop::whereId($order->shop_id)->first();
         $incident_types=Status::whereType('incident-type')->get();
-        return view('file_compliant',["order"=>$order,'incident_types'=>$incident_types]);
+        return view('file_compliant',["order"=>$order,'incident_types'=>$incident_types,"store"=>$store]);
     }
     public function submitClaimForm(Request $request){
         try {

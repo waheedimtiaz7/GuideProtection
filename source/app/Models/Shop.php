@@ -17,7 +17,7 @@ class Shop extends Model
         'alex_rank',
         'shopify_name',
         'category_id',
-        'sale_rep',
+        'sales_rep',
         'paypal_account',
         'variant_id_link_base',
         'ups_acc_no',

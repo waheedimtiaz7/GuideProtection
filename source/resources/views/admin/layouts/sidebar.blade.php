@@ -2,8 +2,8 @@
     <!--begin::Brand-->
     <div class="brand flex-column-auto" id="kt_brand" kt-hidden-height="65" style="">
         <!--begin::Logo-->
-        <a href="index.html" class="brand-logo">
-            <img style="height: 41px;" alt="Logo" src="{{ asset('/') }}assets/media/logos/logo.png">
+        <a href="{{ url('/admin/users') }}" class="brand-logo">
+            <img alt="Logo" src="{{ asset("/") }}assets/custom/img/logo-side.png">
         </a>
         <!--end::Logo-->
         <!--begin::Toggle-->
@@ -30,7 +30,7 @@
             <!--begin::Menu Nav-->
             <ul class="menu-nav">
                 @if(Auth::user()->user_role==\App\Models\User::USER_TYPE_ADMIN)
-                <li class="menu-item menu-item-submenu {{ in_array(Request::segment(2),['users','user','stores','categories','templates'])?'menu-item-open':'' }}" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item menu-item-submenu {{ in_array(Request::segment(2),['users','user','stores','store','categories','templates','static-pages'])?'menu-item-open':'' }}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Bucket.svg-->
@@ -62,7 +62,7 @@
                                     <span class="menu-text">Users</span>
                                 </a>
                             </li>
-                            <li class="menu-item {{ in_array(Request::segment(2),['stores'])?'menu-item-active':'' }}" aria-haspopup="true">
+                            <li class="menu-item {{ in_array(Request::segment(2),['stores','store'])?'menu-item-active':'' }}" aria-haspopup="true">
                                 <a href="{{ route('admin.stores') }}" class="menu-link">
 										<span class="svg-icon menu-icon">
 											 <i class="fa fa-shopping-bag" ></i>
@@ -119,7 +119,7 @@
                     </a>
                 </li>
                 <li class="menu-item" aria-haspopup="true">
-                    <a href="{{ route('admin.logout') }}" class="menu-link">
+                    <a class="menu-link" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -131,6 +131,11 @@
                         </span>
                         <span class="menu-text">Logout</span>
                     </a>
+
+
+                    <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                 </li>
             </ul>
             <!--end::Menu Nav-->

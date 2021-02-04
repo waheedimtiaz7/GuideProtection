@@ -321,6 +321,13 @@ $(document).ready(function() {
     KTApp.init(KTAppSettings);
 });
 
+// CSS3 Transitions only after page load(.page-loading class added to body tag and remove with JS on page load)
+window.onload = function() {
+    var result = KTUtil.getByTagName('body');
+    if (result && result[0]) {
+        KTUtil.removeClass(result[0], 'page-loading');
+    }
+}
 "use strict";
 
 // Component Definition
@@ -518,6 +525,12 @@ var KTCard = function(elementId, options) {
         remove: function() {
             if (Plugin.eventTrigger('beforeRemove') === false) {
                 return;
+            }
+
+            // Remove tooltips
+            var tooltips;
+            if ( tooltips = document.querySelectorAll('.tooltip.show') ) {
+                $(tooltips).tooltip('dispose');
             }
 
             KTUtil.remove(element);
@@ -4827,14 +4840,6 @@ KTUtil.ready(function() {
 	}
 });
 
-// CSS3 Transitions only after page load(.page-loading class added to body tag and remove with JS on page load)
-window.onload = function() {
-    var result = KTUtil.getByTagName('body');
-    if (result && result[0]) {
-        KTUtil.removeClass(result[0], 'page-loading');
-    }
-}
-
 "use strict";
 
 // Component Definition
@@ -5547,7 +5552,7 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
 				$('body').on('show.bs.dropdown', '.' + pfx + 'datatable .' + pfx + 'datatable-body', function(e) {
 					dropdownMenu = $(e.target).find('.dropdown-menu');
 					$('body').append(dropdownMenu.detach());
-					dropdownMenu.css('display', 'block');
+					// dropdownMenu.css('display', 'block');
 					dropdownMenu.position({
 						'my': 'right top',
 						'at': 'right bottom',
@@ -7402,8 +7407,6 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
 						var scrollWidth = $(this)[0].scrollWidth;
 
 						while (offsetWidth < scrollWidth && (scrollWidth - offsetWidth) > Plugin.cellOffset && recursive < options.columns.length) {
-							offsetWidth = $(this)[0].offsetWidth;
-							scrollWidth = $(this)[0].scrollWidth;
 
 							$(datatable.table).find('.' + pfx + 'datatable-row').each(function(i) {
 								var cell = $(this).find('.' + pfx + 'datatable-cell:not(:hidden):not([data-autohide-disabled])').last();
@@ -7413,6 +7416,9 @@ if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
 									}
 							});
 							recursive++;
+
+							offsetWidth = $(this)[0].offsetWidth;
+							scrollWidth = $(this)[0].scrollWidth;
 						}
 					});
 

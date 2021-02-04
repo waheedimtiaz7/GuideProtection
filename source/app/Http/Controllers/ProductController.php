@@ -14,7 +14,7 @@ class ProductController extends Controller
 {
     //
     public function stores(){
-        $stores=Shop::all();
+        $stores=Shop::where('store_type','!=',-1)->get();
         return view('admin.store.index',['stores'=>$stores]);
     }
     public function categories(){
@@ -195,15 +195,14 @@ class ProductController extends Controller
         }else{
             try {
                 \DB::beginTransaction();
-                $shop=Shop::create([
+               Shop::whereId($request['id'])->update([
                     'display_name'=>$request['display_name'],
-                    'status'=>$request['status'],
                     'store_name'=>$request['store_name'],
                     'company_name'=>$request['company_name'],
                     'url'=>$request['url'],
                     'alex_rank'=>$request['alex_rank'],
                     'shopify_name'=>$request['shopify_name'],
-                    'sale_rep'=>$request['sale_rep'],
+                    'sales_rep'=>$request['sale_rep'],
                     'paypal_account'=>$request['paypal_account'],
                     'variant_id_link_base'=>$request['variant_id_link_base'],
                     'ups_acc_no'=>$request['ups_acc_no'],
@@ -220,9 +219,10 @@ class ProductController extends Controller
                     'store_processing'=>$request['store_processing'],
                 ]);
                 if(!empty($request['category_id'])){
+                    $shop=Shop::find($request['id']);
                     $shop->categories()->attach($request['category_id']);
                 }
-                \DB::rollBack();
+                \DB::commit();
                 \Session::flash('success','Store data updated successfully');
                 return redirect()->route('admin.stores');
             }catch (Exception $exception){

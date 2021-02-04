@@ -1,0 +1,14 @@
+.brand .brand-logo img {
+       max-width: 150px;
+}
+.mobile-logo img {
+    max-width: 90px;
+}
+.table .thead-little-dark th {
+    color: #ffffff;
+    background-color: #6caab7;
+    border-color: #6caab7;
+}
+.error{
+    color: #ff0505;
+}

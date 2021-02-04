@@ -12,6 +12,11 @@ class LoginController extends Controller
 {
     //
     public function login(){
+        if(Auth::check() && auth()->user()->user_role==User::USER_TYPE_ADMIN){
+            return redirect()->route('admin.users');
+        }else if(Auth::check() && auth()->user()->user_role==User::USER_TYPE_STAFF){
+            return redirect()->route('admin.claims');
+        }
         return view('login');
     }
     public function verifyLogin(Request $request){
@@ -22,9 +27,9 @@ class LoginController extends Controller
         if($validate->fails()){
             return redirect()->back()->withErrors($validate->errors());
         }else{
-            //User::whereEmail($request['email'])->update(['password'=>Hash::make($request['password'])]);
             if(Auth::attempt(['email'=>$request['email'],'password'=>$request['password']])){
                 if(auth()->user()->user_role==User::USER_TYPE_ADMIN){
+
                     return redirect()->route('admin.users');
                 }else if(auth()->user()->user_role==User::USER_TYPE_STAFF){
                     return redirect()->route('admin.claims');

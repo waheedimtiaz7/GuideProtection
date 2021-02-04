@@ -134,16 +134,13 @@ var KTDatatableDataLocalDemo = function() {
       },
 
       // columns definition
-      columns: [
-        {
+      columns: [{
           field: 'RecordID',
           title: '#',
           sortable: false,
           width: 20,
           type: 'number',
-          selector: {
-            class: '',
-          },
+          selector: true,
           textAlign: 'center',
         }, {
           field: 'OrderID',

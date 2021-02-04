@@ -17,7 +17,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if(\Auth::check() && User::USER_TYPE_ADMIN){
+        if(\Auth::check() && \Auth::user()->user_role==User::USER_TYPE_ADMIN){
             return $next($request);
         }else{
             \Auth::logout();

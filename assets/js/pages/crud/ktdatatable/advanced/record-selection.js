@@ -36,9 +36,7 @@ var KTDatatableRecordSelectionDemo = function() {
             title: '#',
             sortable: false,
             width: 20,
-            selector: {
-                class: ''
-            },
+            selector: true,
             textAlign: 'center',
         }, {
             field: 'OrderID',

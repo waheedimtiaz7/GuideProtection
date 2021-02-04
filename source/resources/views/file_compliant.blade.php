@@ -1,74 +1,139 @@
 @extends('layouts.app')
 @section('content')
+<header class="header step-2">
     <div class="container">
-        <div class="mt-37">
-            <form id="claim_form">
-                {{ csrf_field() }}
-                <div class="row">
-                    <div class="col-12">
-                        <h1>Guide Shipping Protection</h1>
-                        <h1 class="mt-10">Claim Form</h1>
-                    </div>
-                    <div class="col-12 mt-18">
-                        <label class="font-weight-bold">Store Name</label>
-                        <label class="float-right font-weight-bold">Order date: {{ date('m/d/y',strtotime($order->orderdate)) }} </label>
-                        <table class="table table-bordered table-condensed">
-                            <thead>
-                                <tr>
-                                    <th>Claimed Items</th>
-                                    <th>Quantity</th>
-                                    <th>Description</th>
-                                    <th>SKU</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($order->order_detail as $k=>$detail)
-                                    @if($detail->title!='Guide Protection' && $detail->title!='Guide protection')
-                                        <tr>
-                                            <td><input name="item[]" type="checkbox" class="checkbox-dark item" value="{{ $detail->id }}"></td>
-                                            <td><input name="qty[]" id="qty_{{ $detail->id }}" disabled="disabled"  value="{{ $detail->qty }}"></td>
-                                            <td>{{ $detail->title }}</td>
-                                            <td>{{ $detail->sku }}</td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="mt-8 mb-10">
-                            <div class="form-group">
-                                <label for="incident_type">What Happened? (Please note that we do not cover manufacturing defects)</label><br>
-                                <select name="incident_type" id="incident_type" class="form-control-sm" required="required">
-                                    <option value=""></option>
-                                    @foreach($incident_types as $incident_type)
-                                        <option value="{{ $incident_type->value }}">{{ $incident_type->title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="incident_description">Description of incident</label><br>
-                                <textarea name="incident_description" id="incident_description" class="form-control" required="required"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="cart_trackingnumber">Tracking number (if available)</label><br>
-                                <input name="cart_trackingnumber" id="cart_trackingnumber" class="form-control-sm">
-                            </div>
-                            <input type="hidden" name="order_id" id="order_id" value="{{ $order->id }}">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-success float-right">Submit</button>
-                            </div>
-                            <p class="mt-5">Note that items can only be re-shipped to the original address </p>
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Logo -->
+                <div class="logo_img">
+                    <img src="{{ asset('assets') }}/img/logo.png" alt="logo image">
+                </div>
+            </div>
+            <div class="col-md-8 d-flex justify-content-center justify-content-md-end">
+                <div id="our-process">
+                    <div class="container">
+                        <div class="row">
+                            <ul class="process-wrapp">
+                                <li class="whitecolor wow fadeIn" data-wow-delay="300ms">
+                                    <span class="active-step">01</span>
+                                </li>
+                                <li class="whitecolor wow fadeIn" data-wow-delay="400ms">
+                                    <span class="active-step">02</span>
+                                </li>
+                                <li class="whitecolor wow fadeIn" data-wow-delay="500ms">
+                                    <span class="pro-step">03</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
+</header>
+<!-- End Header -->
+<form id="claim_form">
+    {{ csrf_field() }}
+<!-- Start Banner -->
+    <section class="page-title">
+        <div class="container">
+            <h2>Claim Form</h2>
+            <ul class="page-breadcrumb">
+                <li><a href="{{ url("/") }}"><span class="icon fas fa-home"></span>Home</a></li>
+                <li>Claim Form</li>
+            </ul>
+        </div>
+    </section>
+    <!-- End Banner -->
+
+    <!-- Start Order Form -->
+    <section class="ship-form-2">
+        <div class="container">
+            <div class="row py-5">
+                <div class="col-md-12">
+                    <h3 class="mb-5 text-blue">{{ $store->shopify_name }}</h3>
+                    <div class="card rounded border-0">
+                        <div class="card-body rounded">
+                            <div class="table-details">
+                                <span>Order Date: {{ date('m/d/y',strtotime($order->orderdate)) }}</span>
+                            </div>
+                            <div class="table-responsive">
+                                <table style="width:100%" class="table table-striped table-bordered">
+                                    <thead class="table-head">
+                                    <tr>
+                                        <th>Claimed Items</th>
+                                        <th>Qty</th>
+                                        <th>Description</th>
+                                        <th>SKU</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($order->order_detail as $k=>$detail)
+                                        @if($detail->title!='Guide Protection' && $detail->title!='Guide protection')
+                                            <tr>
+                                                <td><input name="item[]" type="checkbox" class="box item" value="{{ $detail->id }}"></td>
+                                                <td><input name="qty[]" id="qty_{{ $detail->id }}" disabled="disabled"  value="{{ $detail->qty }}"></td>
+                                                <td>{{ $detail->title }}</td>
+                                                <td>{{ $detail->sku }}</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Order Form -->
+
+    <!-- Start Drop Down -->
+    <section class="dropdown py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="sub_heading">What Happened? (Please note that we do not cover manufacturing defects)</p>
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="incident_type" id="incident_type">
+                        @foreach($incident_types as $incident_type)
+                            <option value="{{ $incident_type->value }}">{{ $incident_type->title }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Drop Down -->
+
+    <!-- Start Description -->
+    <section class="description">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="sub_heading">Description of incident</p>
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Message" id="incident_description" name="incident_description"></textarea>
+                        <div class="tracking-num py-5">
+                            <input type="hidden" name="order_id" id="order_id" value="{{ $order->id }}">
+                            <p class="sub_heading">Tracking Number</p>
+                            <input type="text" name="cart_trackingnumber" id="cart_trackingnumber">
+                            <span class="mx-2">(if optional)</span>
+                            <p>Note that items can only be re-shipped to the orignal addresses.</p>
+                            <div class="alert-danger py-3 hidden"></div>
+                            <button type="submit" class="btn contact_btn btn-medium btn-blue btn-rounded my-4">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
 @endsection
 @section('script')
     <script>
         $('.item').change(function() {
             if(this.checked) {
-                console.log($(this).val())
               $("#qty_"+$(this).val()).removeAttr('disabled')
             }else{
                 $("#qty_"+$(this).val()).attr('disabled','disabled')
@@ -79,7 +144,8 @@
             var fields = $("input[name='item[]']").serializeArray();
             if (fields.length === 0)
             {
-                alert('nothing selected');
+                $(".alert-danger").removeClass("hidden");
+                $(".alert-danger").html("  Please select at-lest one item");
                 // cancel submit
                 return false;
             }else{

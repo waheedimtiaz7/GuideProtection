@@ -42,21 +42,22 @@ var KTDefaultDatatableDemo = function() {
 			// columns definition
 			columns: [
 				{
-					field: 'RecordID',
+					field: 'ID',
 					title: '#',
 					sortable: false,
-					width: 30,
 					type: 'number',
-					selector: {class: 'kt-checkbox--solid'},
+					width: 30,
+					selector: true,
 					textAlign: 'center',
-				}, {
-					field: 'ID',
-					title: 'ID',
-					width: 30,
-					type: 'number',
 					template: function(row) {
 						return row.RecordID;
 					},
+				},
+				{
+					field: 'RecordID',
+					title: 'ID',
+					width: 30,
+					type: 'number',
 				}, {
 					field: 'OrderID',
 					title: 'Order ID',

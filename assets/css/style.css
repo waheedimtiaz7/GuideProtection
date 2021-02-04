@@ -1,0 +1,953 @@
+/* ===================================
+    Table of Content
+====================================== */
+
+/*  - Fonts
+    - Scrollbar
+    - General
+    - Guide Form 1
+    - Guide Form 2
+    - Guide Form 3
+    - Media Queries   */
+
+/* ===================================
+    Google font
+====================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+.main-font{font-family: 'Lato', sans-serif;}
+
+/* ===================================
+    Scrollbar
+====================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    width: 8px;
+    background:white;
+    border-left: 0 solid white;
+    border-right: 0 solid white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #01467D;
+    width: 0;
+    height: 25%;
+    transition: .5s ease;
+    cursor: pointer;
+}
+
+/* ===================================
+    General
+====================================== */
+
+body {font-family: 'Lato', sans-serif; font-size: 16px; background-color: #ffffff; font-weight:normal; line-height:25px; width: 100%; overflow-x: hidden;}
+h1, h2, h3, h4, h5 {font-weight: 700; line-height: 1.3; position: relative;}
+a, input, button, .navbar, .fixedmenu, .tp-bullet, .owl-dot, .owl-prev, .owl-next {transition: ease-in-out 0.2s;-webkit-transition: ease-in-out 0.2s;-moz-transition: ease-in-out 0.2s;-ms-transition: ease-in-out 0.2s;-o-transition: ease-in-out 0.2s;}
+section,.section-padding {position: relative;overflow: hidden;}
+a {color:inherit;text-decoration: none;}
+dl, ol, ul {margin-bottom: 0;}
+.btn.focus, .btn:focus{-webkit-box-shadow: none;box-shadow: none;}
+p{font-family: 'Lato', sans-serif;}
+.fa, .far, .fas{display: inline;}
+li{list-style: none;text-decoration: none;}
+h2 {font-size: 60px;}
+h3 {font-size: 48px;}
+
+/* overlay */
+.bg-overlay{position: absolute;top: 0;left: 0;width: 100%;height: 100%;}
+
+/* opacity */
+.opacity-full{opacity: 1;}
+.opacity-1{opacity: .1;}
+.opacity-2{opacity: .2;}
+.opacity-3{opacity: .3;}
+.opacity-4{opacity: .4;}
+.opacity-5{opacity: .5;}
+.opacity-6{opacity: .6;}
+.opacity-7{opacity: .7;}
+.opacity-8{opacity: .8;}
+.opacity-9{opacity: .9;}
+
+/* button */
+.btn {-webkit-appearance: initial; overflow: hidden;position: -webkit-sticky;position: sticky; z-index: 1; display:inline-block; font-size: 15px; border:2px solid transparent; letter-spacing: .5px; line-height: inherit; border-radius: 0; width: auto;font-family: 'Montserrat', sans-serif; font-weight: bold; -webkit-transition: all .5s ease;-o-transition: all .5s ease !important;transition: all .5s ease !important;}
+
+/* Yellow button */
+.btn.btn-blue {background: #61AEBE; border-color: #61AEBE; color: #ffffff;}
+.btn.btn-blue:hover {background: #01467D !important; border-color: #01467D; color: #ffffff !important}
+
+/* button size */
+.btn.btn-medium {font-size:16px; padding: 10px 42px; line-height: 2em}
+.btn.btn-large {font-size:16px;  padding: 14px 60px; line-height: 2em;}
+.btn.btn-rounded {border-radius: 50px;}
+
+/* Text color */
+.text-blue {color: #01467D;}
+.text-black {color: #202020;}
+.text-white {color: #ffffff;}
+
+/* Background color */
+.bg-blue {background: #01467D;}
+.bg-black {background: #202020;}
+
+
+/* ===================================
+    Guide Form 1
+====================================== */
+.img-area img{
+    height: 100vh !important;
+}
+
+.ship-form-1{
+    position: relative;
+    overflow: hidden;
+}
+
+.ship-form-1 .logo_img {
+    width: 80px;
+}
+
+.right-content{
+    display: inline-block;
+    width: 80%;
+    padding: 15px;
+}
+
+.sub_heading{
+    font-size: 20px;
+    line-height: 1.4;
+    text-align: left;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.ship-form-1 .right-content h2 {
+    color:#202020;
+    font-size: 48px;
+    margin: 50px 0;
+    text-transform:capitalize;
+}
+
+.contact-form {
+    max-width: 750px;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.ship-form-1 .alert-danger {
+    width: 80%;
+    border-radius: 4px;
+}
+
+.contact-form .form-control {
+    border: none;
+    border-bottom: 1px solid #b5b2b2;
+    padding: 12px 0;
+    width: 80%;
+    color: #202020;
+    font-weight: 400;
+    background: transparent;
+    letter-spacing: .7px;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    height: 44px;
+    font-size: 16px;
+    position: relative;
+    -webkit-transition: border .9s ease;
+    -o-transition: border .9s ease;
+    transition: border .9s ease;
+}
+
+.contact-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-weight: 400;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    font-weight: 400;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    font-weight: 400;
+}
+
+.support-link {
+    margin-top: 60px;
+}
+
+.support-link a {
+    color: #61AEBE;
+}
+
+/* ===================================
+    Guide Form 2
+====================================== */
+
+.header {
+    padding: 20px 0;
+}
+
+.ship-form-2 .alert-danger {
+    width: 80%;
+    border-radius: 4px;
+}
+
+.header .logo_img {
+    width: 60px;
+}
+
+.page-title{
+    position:relative;
+    text-align: left;
+    padding: 140px 0;
+    background:url("../img/banner.jpg");
+    background-size: cover;
+}
+
+.logo img {
+    max-width: 80px;
+    vertical-align: sub;
+    position: relative;
+}
+
+.page-title h2{
+    color:#202020;
+    font-size: 60px;
+    text-transform:capitalize;
+}
+
+.page-breadcrumb{
+    position:relative;
+}
+
+.page-breadcrumb li{
+    position:relative;
+    display:inline-block;
+    margin-right:10px;
+    padding-right:15px;
+    color:#202020;
+    font-size:16px;
+    font-weight:bold    ;
+    text-transform:capitalize;
+}
+
+.page-breadcrumb li:after{
+    position:absolute;
+    content: "\f101";
+    right:-5px;
+    top:1px;
+    color:#202020;
+    font-size:14px;
+    font-weight:900;
+    font-family: "Font Awesome 5 Free";
+}
+
+.page-breadcrumb li:last-child::after{
+    display: none;
+}
+
+.page-breadcrumb li:last-child{
+    padding-right:0;
+    margin-right:0;
+}
+
+.page-breadcrumb li a{
+    color:#202020;
+    font-weight: bold;
+    transition:all 0.3s ease;
+    -moz-transition:all 0.3s ease;
+    -webkit-transition:all 0.3s ease;
+    -ms-transition:all 0.3s ease;
+    -o-transition:all 0.3s ease;
+}
+
+.page-breadcrumb li a .icon{
+    margin-right:4px;
+    color:#5dacbd;
+}
+
+.page-breadcrumb li a:hover{
+    color:#202020;
+}
+
+.ship-form-2 .table-head th{
+    font-weight: 700;
+    font-size: 18px;
+    color: #ffffff;
+    background: #5dacbd;
+}
+
+.ship-form-2 .table-details {
+    display: flex;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    justify-content: space-between;
+}
+
+.ship-form-2 .card-body {
+    padding: 0;
+}
+
+.ship-form-2 .box {
+    margin-right: 15px;
+    margin-bottom: 5px;
+}
+
+.dropdown select {
+    font-size: 18px;
+    font-weight: 400;
+    width: 30%;
+    background-color: #fafafa;
+}
+
+.description textarea {
+    min-height: 200px;
+    resize: none;
+}
+
+.description span {
+    font-size: 18px;
+}
+
+/* ===================================
+    Guide Form 3
+====================================== */
+
+.t-message {
+    padding: 100px 0;
+}
+
+.alert-success {
+    border-radius: 6px;
+}
+
+.t-message .first-line p {
+    font-size: 24px;
+    margin-left: 15px;
+}
+
+.tick-circle {
+    color: green;
+    font-size: 50px;
+}
+
+.first-line {
+    display: flex;
+    align-items: center;
+}
+
+.second-line {
+    font-size: 18px;
+    max-width: 980px;
+    margin-left: auto;
+}
+
+/*common font family*/
+
+.process-wrapp {
+    overflow: hidden;
+    display: table;
+    table-layout:fixed;
+}
+
+.ship-form-1 .process-wrapp li {
+    padding-top: 25px;
+}
+
+.process-wrapp, .process-wrapp li,
+.process-wrapp li > .pro-step {
+    position: relative;
+    z-index: 1;
+}
+
+.process-wrapp li {
+    text-align: center;
+    padding: 0 45px 0 45px;
+    display: table-cell;
+}
+
+.process-wrapp li:hover {
+    cursor: pointer;
+}
+
+.process-wrapp li > .pro-step {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    border: 1px solid #e1e8ed;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666666;
+    text-align: center;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #fafafa;
+}
+
+.process-wrapp li > .active-step {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    border: 1px solid #e1e8ed;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #5dacbd;
+}
+
+.process-wrapp li::before, .process-wrapp li::after {
+    content: "";
+    height: 1px;
+    top: 50px;
+    background: #e1e8ed;
+    position: absolute;
+    width: 40%;
+    z-index: -1;
+    margin: 0 -45px;
+}
+
+.process-wrapp li:first-child::before,
+.process-wrapp li:last-child::after {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.process-wrapp li::before {
+    left: 0;
+}
+
+.process-wrapp li::after {
+    right: 0;
+}
+
+/*process with box */
+.process-number {
+    background: #b5b2b2;
+    padding: 0 1rem 2.5rem 1rem;
+    position: relative;
+    text-align: center;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.process-number,
+.process-number .pro-step {
+    -webkit-transition: all .5s linear;
+    -o-transition: all .5s linear;
+    transition: all .5s linear;
+}
+
+.process-number .pro-step {
+    font-weight: bold;
+    font-size: 1.75rem;
+    font-family: 'Open Sans', sans-serif;
+    margin-right: 5px;
+    color: #b5b2b2;
+    background: #b5b2b2;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    line-height: 50px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: -50px;
+}
+
+.process-number .pro-step::after {
+    content: "";
+    height: 5px;
+    width: 5px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    background: #b5b2b2;
+    margin-left: 3px;
+}
+
+/*Process icoin inside*/
+.process-number.iconic {
+    padding: 2.5rem 1rem;
+}
+
+.process-number.iconic > span {
+    height: 90px;
+    width: 90px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    line-height: 90px;
+    display: inline-block;
+    text-align: center;
+    font-size: 48px;
+    background: #00bcd4;
+    color: #b5b2b2;
+}
+
+.process-number.iconic:hover > span {
+    -webkit-box-shadow: 0 0 20px 45px #643094 inset;
+    box-shadow: 0 0 20px 45px #643094 inset;
+}
+
+/* Page Two Steps */
+
+.step-2 .process-wrapp {
+    overflow: hidden;
+    display: table;
+    table-layout:fixed;
+}
+
+.step-2  .process-wrapp li {
+    padding-top: 25px;
+}
+
+.step-2 .process-wrapp, .step-2 .process-wrapp li,
+.step-2 .process-wrapp li > .pro-step {
+    position: relative;
+    z-index: 1;
+}
+
+.step-2 .process-wrapp li {
+    text-align: center;
+    padding: 20px 45px 0 45px;
+    display: table-cell;
+}
+
+.step-2 .process-wrapp li:hover {
+    cursor: pointer;
+}
+
+.step-2 .process-wrapp li > .pro-step {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    border: 1px solid #e1e8ed;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666666;
+    text-align: center;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #fafafa;
+}
+
+.step-2 .process-wrapp li > .active-step {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    border: 1px solid #e1e8ed;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #5dacbd;
+}
+
+.step-2 .process-wrapp li::before, .step-2 .process-wrapp li::after {
+    content: "";
+    height: 1px;
+    top: 50px;
+    background: #e1e8ed;
+    position: absolute;
+    width: 40%;
+    z-index: -1;
+    margin: 0 -45px;
+}
+
+.step-2 .process-wrapp li:first-child::before,
+.step-2 .process-wrapp li:last-child::after {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.step-2 .process-wrapp li::before {
+    left: 0;
+}
+
+.step-2 .process-wrapp li::after {
+    right: 0;
+}
+
+/*process with box */
+.step-2 .process-number {
+    background: #b5b2b2;
+    padding: 0 1rem 2.5rem 1rem;
+    position: relative;
+    text-align: center;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.step-2 .process-number,
+.step-2 .process-number .pro-step {
+    -webkit-transition: all .5s linear;
+    -o-transition: all .5s linear;
+    transition: all .5s linear;
+}
+
+.step-2 .process-number .pro-step {
+    font-weight: bold;
+    font-size: 1.75rem;
+    font-family: 'Open Sans', sans-serif;
+    margin-right: 5px;
+    color: #b5b2b2;
+    background: #b5b2b2;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    line-height: 50px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: -50px;
+}
+
+.step-2 .process-number .pro-step::after {
+    content: "";
+    height: 5px;
+    width: 5px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    background: #b5b2b2;
+    margin-left: 3px;
+}
+
+/*Process icoin inside*/
+.step-2 .process-number.iconic {
+    padding: 2.5rem 1rem;
+}
+
+.step-2 .process-number.iconic > span {
+    height: 90px;
+    width: 90px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    line-height: 90px;
+    display: inline-block;
+    text-align: center;
+    font-size: 48px;
+    background: #00bcd4;
+    color: #b5b2b2;
+}
+
+.step-2 .process-number.iconic:hover > span {
+    -webkit-box-shadow: 0 0 20px 45px #643094 inset;
+    box-shadow: 0 0 20px 45px #643094 inset;
+}
+
+/* Page Three Steps */
+
+.step-3 .process-wrapp {
+    overflow: hidden;
+    display: table;
+    table-layout:fixed;
+}
+
+.step-3  .process-wrapp li {
+    padding-top: 25px;
+}
+
+.step-3 .process-wrapp, .step-2 .process-wrapp li,
+.step-3 .process-wrapp li > .pro-step {
+    position: relative;
+    z-index: 1;
+}
+
+.step-3 .process-wrapp li {
+    text-align: center;
+    padding: 20px 45px 0 45px;
+    display: table-cell;
+}
+
+.step-3 .process-wrapp li:hover {
+    cursor: pointer;
+}
+
+.step-3 .process-wrapp li > .pro-step {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    border: 1px solid #e1e8ed;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666666;
+    text-align: center;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #fafafa;
+}
+
+.step-3 .process-wrapp li > .active-step {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    border: 1px solid #e1e8ed;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #5dacbd;
+}
+
+.step-3 .process-wrapp li::before, .step-3 .process-wrapp li::after {
+    content: "";
+    height: 1px;
+    top: 50px;
+    background: #e1e8ed;
+    position: absolute;
+    width: 40%;
+    z-index: -1;
+    margin: 0 -45px;
+}
+
+.step-3 .process-wrapp li:first-child::before,
+.step-3 .process-wrapp li:last-child::after {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.step-3 .process-wrapp li::before {
+    left: 0;
+}
+
+.step-3 .process-wrapp li::after {
+    right: 0;
+}
+
+/*process with box */
+.step-3 .process-number {
+    background: #b5b2b2;
+    padding: 0 1rem 2.5rem 1rem;
+    position: relative;
+    text-align: center;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.step-3 .process-number,
+.step-3 .process-number .pro-step {
+    -webkit-transition: all .5s linear;
+    -o-transition: all .5s linear;
+    transition: all .5s linear;
+}
+
+.step-3 .process-number .pro-step {
+    font-weight: bold;
+    font-size: 1.75rem;
+    font-family: 'Open Sans', sans-serif;
+    margin-right: 5px;
+    color: #b5b2b2;
+    background: #b5b2b2;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    line-height: 50px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: -50px;
+}
+
+.step-3 .process-number .pro-step::after {
+    content: "";
+    height: 5px;
+    width: 5px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    background: #b5b2b2;
+    margin-left: 3px;
+}
+
+/*Process icoin inside*/
+.step-3 .process-number.iconic {
+    padding: 2.5rem 1rem;
+}
+
+.step-3 .process-number.iconic > span {
+    height: 90px;
+    width: 90px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    line-height: 90px;
+    display: inline-block;
+    text-align: center;
+    font-size: 48px;
+    background: #00bcd4;
+    color: #b5b2b2;
+}
+
+.step-3 .process-number.iconic:hover > span {
+    -webkit-box-shadow: 0 0 20px 45px #643094 inset;
+    box-shadow: 0 0 20px 45px #643094 inset;
+}
+
+@media screen and (max-width: 1600px) and (min-width: 1367px){
+    .right-content {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 1366px) and (min-width: 1281px){
+    .right-content {
+        width: 90%;
+    }
+}
+
+/*@media screen and (max-width: 992px) {*/
+/*    .process-wrapp {*/
+/*        text-align: center;*/
+/*    }*/
+/*    .process-wrapp li {*/
+/*        display: inline-block;*/
+/*        max-width: 300px;*/
+/*    }*/
+/*    .process-wrapp li:first-child::before,*/
+/*    .process-wrapp li:last-child::after {*/
+/*        opacity: 1;*/
+/*        visibility: visible;*/
+/*    }*/
+/*}*/
+
+@media (min-width:991px) and (max-width:1024px) {
+    .right-content {
+        width: 95%;
+    }
+    .ship-form-1 .process-wrapp li {
+        padding: 0 30px 0 30px;
+    }
+}
+
+@media (min-width:768px) and (max-width:991px) {
+    .right-content {
+        margin-top: 110px;
+        z-index: 11;
+    }
+    .logo_img{
+        text-align: center;
+    }
+    .sub_heading{
+        text-align: left;
+        font-size: 17px;
+    }
+    .icons{
+        text-align: center;
+    }
+    .img-area img {
+        height: 60vh !important;
+    }
+    .logo_img{
+        text-align: center;
+    }
+    .sub_heading{
+        font-size: 17px;
+    }
+    .right-content {
+        margin-top: 110px;
+        z-index: 11;
+    }
+    .logo_img img {
+        max-width: 80%;
+        height: auto;
+    }
+
+    .second-line {
+        margin-left: 60px;
+    }
+}
+
+@media screen and (max-width:767px){
+    body {
+        text-align: center!important;
+    }
+    .ship-form-1 .logo_img {
+        margin: auto;
+    }
+    .right-content {
+        width: 100%;
+    }
+    .ship-form-1 .process-wrapp li {
+        padding: 25px 30px 0 30px;
+    }
+    .ship-form-1 .process-wrapp li::before {
+        margin: 0 -30px;
+        width: 30%;
+    }
+    .sub_heading {
+        text-align: center;
+    }
+    .text-left {
+        text-align: center!important;
+    }
+    .ship-form-1 .alert-danger {
+        margin: auto;
+    }
+    .contact-form .form-control {
+        margin: auto;
+    }
+    .form-group {
+        margin-top: 20px;
+    }
+
+    .step-2 .process-wrapp li {
+        padding: 20px 32px 0 32px!important;
+    }
+    .step-2 .process-wrapp li::before {
+        margin: 0 -30px;
+        width: 30%;
+    }
+    .header .logo_img {
+        margin: auto;
+    }
+    .page-title {
+        text-align: center;
+    }
+    .page-title h2 {
+        font-size: 48px;
+    }
+    .ship-form-2 .table-details {
+        justify-content: center;
+    }
+    .ship-form-2 .box {
+        margin-right: 0;
+    }
+    .dropdown select {
+        width: 60%;
+    }
+
+    .step-3 .process-wrapp li {
+        padding: 20px 32px 0 32px!important;
+    }
+    .step-3 .process-wrapp li::before {
+        margin: 0 -30px;
+        width: 30%;
+    }
+    .first-line {
+        display: initial;
+    }
+    .t-message .first-line p {
+        margin: 30px 0;
+    }
+}
