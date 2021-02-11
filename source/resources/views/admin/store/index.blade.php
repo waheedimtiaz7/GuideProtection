@@ -63,7 +63,7 @@
                                     <td><a href="{{$store->url}}" target="_blank">{{ $store->url }}</a></td>
                                     <td>{{ $store->shopify_name }}</td>
                                     <td>{{ count($store->categories)?$store->categories[0]->title:"" }}</td>
-                                    <td>{{ !empty($store->rep)?$store->sales_rep->name:"" }}</td>
+                                    <td>{{ !empty($store->rep)?$store->rep->name:"" }}</td>
                                     <td>{{ date('m/d/Y',strtotime($store->created_at)) }}</td>
                                     <td><a href="{{ route('admin.store_pricing',['id'=>$store->id]) }}">View Pricing</a> |
                                         <a href="{{ route('admin.store_edit',['id'=>$store->id]) }}">Edit</a></td>

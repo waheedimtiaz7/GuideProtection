@@ -30,7 +30,8 @@ class ClaimController extends Controller
         ]);
     }
     public function getClaims(Request $request){
-        return DataTables::of(Claim::select('claims.*')->with(['shop','claimStatus','reorderStatus','representative']))
+        $claims=Claim::select('claims.*')->with(['shop','claimStatus','reorderStatus','representative']);
+        return DataTables::of($claims)
             ->editColumn('cart_ordernumber',function ($claim){
                 return '<a href="'. route('admin.claim_detail',[$claim->id]) .'">'. $claim->cart_ordernumber .'</a>';
             })->filter(function ($query) use ($request) {
@@ -215,8 +216,22 @@ class ClaimController extends Controller
                         'date_updated'=>date('Y-m-d H:i:s'),
                     ]);
                     $update->update(['hold_until_date'=>date('Y-m-d',strtotime($request['hold_until_date']))]);
-                }if(isset($request['escalate'])){
+                }
+                if(isset($request['escalate'])){
                     if($claim->escalate!=$request['escalate']){
+                        ClaimUpdate::create([
+                            'claim_id'=>$request['claim_id'],
+                            'updated_by'=>\Auth::user()->id,
+                            'column_name'=>'escalate',
+                            'original_value'=>$claim->escalate,
+                            'updated_value'=>$request['escalate'],
+                            'detail'=>'Claim is escalated by '.\Auth::user()->name,
+                            'date_updated'=>date('Y-m-d H:i:s'),
+                        ]);
+                        $update->update(['is_escalated'=>isset($request['escalate'])?$request['escalate']:0]);
+                    }
+                }else{
+                    if($claim->escalate==1){
                         ClaimUpdate::create([
                             'claim_id'=>$request['claim_id'],
                             'updated_by'=>\Auth::user()->id,

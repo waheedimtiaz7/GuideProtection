@@ -60,7 +60,6 @@
                             <tr>
                                 <th>First Name</th>
                                 <th>Last Name</th>
-                                <th>Username</th>
                                 <th>Email</th>
                                 <th>System Role</th>
                                 <th>Sales Rep</th>
@@ -73,10 +72,10 @@
                                     <tr>
                                         <td>{{ $user->firstname }}</td>
                                         <td>{{ $user->lastname }}</td>
-                                        <td>{{ $user->username }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->user_role==1?'Admin':'Staff' }}</td>
-                                        <td>@if($user->is_sale_rep==1)
+                                        <td>
+                                            @if($user->is_sale_rep==1)
                                                 <input type="checkbox" disabled="disabled" checked>
                                             @else
                                                 <input type="checkbox" disabled="disabled">
