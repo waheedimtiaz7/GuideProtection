@@ -47,18 +47,18 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="firstname">First Name</label>
-                                        <input type="text" class="form-control required" tabindex="1" id="firstname" name="firstname" placeholder="Enter First Name">
+                                        <input type="text" class="form-control required" autocomplete="false" tabindex="1" id="firstname" name="firstname" placeholder="Enter First Name">
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="email" class="form-control required" tabindex="3" id="email" name="email" placeholder="Enter Email">
+                                        <input type="email" autocomplete="false" class="form-control required" tabindex="3" id="email" name="email" placeholder="Enter Email">
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Password</label>
-                                        <input type="password" class="form-control required" tabindex="5" id="password" name="password" placeholder="Enter Password">
+                                        <input type="password" class="form-control required" autocomplete="false" tabindex="5" id="password" name="password" placeholder="Enter Password">
                                     </div>
                                     <div class="form-group">
-                                        <label for="user_role">ser Role</label>
+                                        <label for="user_role">User Role</label>
                                         <select class="form-control required" id="user_role" tabindex="7" name="user_role">
                                             <option value="1">Admin</option>
                                             <option value="2">Staff</option>
@@ -68,15 +68,15 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="lastname">Last Name</label>
-                                        <input type="text" class="form-control required" tabindex="2" id="lastname" name="lastname" placeholder="Enter Last Name">
+                                        <input type="text" class="form-control required" autocomplete="false" tabindex="2" id="lastname" name="lastname" placeholder="Enter Last Name">
                                     </div>
                                     <div class="form-group">
                                         <label for="username">Username</label>
-                                        <input type="text" class="form-control required" tabindex="4" id="username" name="username" placeholder="Username">
+                                        <input type="text" class="form-control required" autocomplete="false" tabindex="4" id="username" name="username" placeholder="Username">
                                     </div>
                                     <div class="form-group">
                                         <label for="confirm_password">Confirm Password</label>
-                                        <input type="password" class="form-control required" tabindex="6" id="confirm_password" placeholder="Password">
+                                        <input type="password" class="form-control required" autocomplete="false" tabindex="6" id="confirm_password" placeholder="Confirm Password">
                                     </div>
                                     <div class="form-group">
                                         <label for="is_sale_rep">Sales Rep</label>

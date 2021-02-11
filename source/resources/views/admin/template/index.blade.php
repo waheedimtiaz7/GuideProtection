@@ -52,28 +52,31 @@
                             </a>--}}
                         </div>
                     </div>
-        <div class="card-body">
-            <!--begin: Datatable-->
-            <table id="tasks" class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Subject</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($templates as $template)
-                    <tr>
-                        <td>{{ $template->title }}</td>
-                        <td>{{ $template->subject }}</td>
-                        <td>
-                            <a class="btn btn-info" href="#" onclick="getCategory('{{ $template->id }}')">Edit</a>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    <div class="card-body">
+                        <!--begin: Datatable-->
+                        <table id="tasks" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Subject</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($templates as $template)
+                                <tr>
+                                    <td>{{ $template->title }}</td>
+                                    <td>{{ $template->subject }}</td>
+                                    <td>
+                                        <a class="btn btn-info" href="#" onclick="getCategory('{{ $template->id }}')">Edit</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="modal fade" id="add_template">
@@ -116,7 +119,7 @@
                         </div>
                         <div class="form-group">
                             <label for="detail">Template</label>
-                            <textarea class="form-control" name="detail" id="detail"></textarea>
+                            <textarea class="form-control" name="detail" rows="6" id="detail"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -164,7 +167,7 @@
                         </div>
                         <div class="form-group">
                             <label for="edit_detail">Template</label>
-                            <textarea name="detail" id="edit_detail" class="form-control"></textarea>
+                            <textarea name="detail" id="edit_detail" rows="6" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -172,17 +175,14 @@
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
-                <!-- /.modal-content -->
             </div>
-            <!-- /.modal-dialog -->
         </div>
-        @endsection
+    </div>
+@endsection
         @section('script')
             <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
             <script>
-                let editor;
-                CKEDITOR.replace( 'detail' );
-                CKEDITOR.replace( 'edit_detail' );
+
                 function getCategory(id) {
                     $.ajax({
                         url:"{{ url('admin/template/edit/') }}"+"/"+id,
@@ -212,7 +212,7 @@
 
                                 })
                                 $("#edit_reorder_status").html(reorder_status)
-                                CKEDITOR.instances['edit_detail'].setData(data.category.detail);
+                                $("#edit_detail").text(data.category.detail);
                                 $("#template_id").val(data.category.id);
                                 $("#edit_template").modal("show");
                             }

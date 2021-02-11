@@ -107,7 +107,7 @@
                                     <div class="form-group row">
                                         <label for="sale_rep" class="col-sm-3 col-form-label">Sale Rep</label>
                                         <div class="col-sm-9">
-                                        <select class="form-control" name="sale_rep" id="sale_rep" tabindex="6">
+                                        <select class="form-control" name="sales_rep" id="sales_rep" tabindex="6">
                                             <option></option>
                                             @foreach($sale_reps as $sale_rep)
                                                 <option value="{{ $sale_rep->id }}">{{ $sale_rep->name }}</option>

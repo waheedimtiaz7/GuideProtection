@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PaypalController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -91,6 +92,9 @@ Route::group(['prefix'=>'admin'],function (){
         Route::post('reports/set_report_session_value',[ReportController::class,'set_report_session_value']);
         Route::post('reports/generate_report_csv',[ReportController::class,'generate_report_csv']);
         Route::get('reports/generate_report_csv',[ReportController::class,'generate_report_csv']);
+        Route::get('paywithpaypal', [PaypalController::class,'payWithPaypal'])->name('paywithpaypal');
+        Route::post('paypal', [PaypalController::class,'postPaymentWithpaypal'])->name('paypal');
+        Route::get('paypal', [PaypalController::class,'getPaymentStatus'])->name('status');
         Route::post("logout",function (Illuminate\Http\Request $request){
             Auth::logout();
             $request->session()->invalidate();

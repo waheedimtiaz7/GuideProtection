@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Claim;
 use App\Models\Order;
+use App\Models\Page;
 use App\Models\Shop;
 use App\Models\Status;
 use App\Models\Template;
@@ -14,6 +15,11 @@ class TemplateController extends Controller
 {
     public function index(){
         $templates=Template::all();
+        foreach ($templates as $template){
+            $detail=str_replace("&lt;&lt;","{{",$template->detail);
+            $detail=str_replace("&gt;&gt;","}}",$detail);
+            Template::whereId($template->id)->update(["detail"=>$detail]);
+        }
         $claim_statuses=Status::whereType('claim')->get();
         $reorder_statuses=Status::whereType('re-order')->get();
         return view('admin.template.index',['header'=>'Templates','templates'=>$templates,
@@ -120,7 +126,11 @@ class TemplateController extends Controller
             $shop=Shop::whereId($order->shop_id)->first();
             if(!empty($request['mail_template_id'])){
                 $template=Template::whereId($request['mail_template_id'])->first();
-                \Mail::send('emails.index',['user'=>$order,'store'=>$shop,'title'=>$template->title,'template'=>$template,'detail'=>$request['mail_detail']],function ($mail) use ($request,$order,$template){
+                $detail=str_replace("{{first name}}",$order->customer_firstname,$request['mail_detail']);
+                $detail=str_replace("{{store display name}}",$shop->display_name,$detail);
+                $detail=str_replace("{{order number}}",$order->cart_orderid,$detail);
+                $detail=str_replace("{{replacement tracking number}}",$claim->reorder_trackingnumber,$detail);
+                \Mail::send('emails.index',['user'=>$order,'store'=>$shop,'title'=>$template->title,'template'=>$template,'detail'=>$detail],function ($mail) use ($request,$order,$template){
                     $mail->to($request['to'], $order->customer_firstname)->subject($request['mail_subject']);
                 });
             }else{

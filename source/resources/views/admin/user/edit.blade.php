@@ -89,7 +89,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="confirm_password">Confirm Password</label>
-                                        <input type="password" class="form-control" tabindex="8" id="confirm_password" name="confirm_password" placeholder="confirmvpassword">
+                                        <input type="password" class="form-control" tabindex="8" id="confirm_password" name="confirm_password" placeholder="Confirm password">
                                     </div>
                                 </div>
                             </div>

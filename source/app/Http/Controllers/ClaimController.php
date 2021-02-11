@@ -37,7 +37,7 @@ class ClaimController extends Controller
                 if ($request->get('date_from')!='') {
                     $query->where('claims.created_at', '>=', date("Y-m-d",strtotime($request->get('date_from'))));
                 }if ($request->get('date_to')!='') {
-                    $query->where('claims.created_at', '<=', date("Y-m-d",strtotime($request->get('date_to'))));
+                    $query->where('claims.created_at', '<=', date("Y-m-d H:i:s",strtotime($request->get('date_to')." 23:59:59")));
                 }if ($request->get('reorder_status')!='') {
                     $query->where('reorder_status', $request->get('reorder_status'));
                 }if ($request->get('claim_status')!='') {
@@ -226,7 +226,7 @@ class ClaimController extends Controller
                             'detail'=>'Claim is escalated by '.\Auth::user()->name,
                             'date_updated'=>date('Y-m-d H:i:s'),
                         ]);
-                        $update->update(['escalate'=>isset($request['escalate'])?$request['escalate']:0]);
+                        $update->update(['is_escalated'=>isset($request['escalate'])?$request['escalate']:0]);
                     }
                 }
                 if($claim->notes!=$request['notes']){
@@ -299,11 +299,11 @@ class ClaimController extends Controller
     }
     public function getMailDetail($id){
         $template=Template::whereId($id)->first();
-        $template->detail=html_entity_decode($template->detail);
         return response()->json([
             'success'=>true,
             'message'=>'File stored successfully.',
-            'template'=>$template
+            'template'=>$template,
+            "detail"=>$template->detail
         ]);
     }
 

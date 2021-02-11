@@ -35,4 +35,7 @@ class Shop extends Model
     public function categories(){
         return $this->belongsToMany(Category::class);
     }
+    public function rep(){
+        return $this->belongsTo(User::class,'sales_rep');
+    }
 }

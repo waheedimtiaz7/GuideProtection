@@ -75,6 +75,7 @@ class CustomerController extends Controller
                 'shipping_country'=>$order->shipping_country,
                 'shipping_carrier_method'=>$order->shipping_carrier_method
             ]);
+            $total=0;
             foreach ($request['item'] as $k=>$item){
                 $order_detail=OrderDetail::whereId($request['item'][$k])->first();
                 ClaimOrderDetail::create([
@@ -84,9 +85,14 @@ class CustomerController extends Controller
                     "variantid"=>$order_detail->cart_variantid,
                     "product_id"=>$order_detail->cart_productid
                 ]);
+                $total=$total+($request['qty'][$k]*$order->final_unit_price);
             }
+            Claim::whereId($claim->id)->update(['claim_approve_amount'=>$total]);
             $template=Template::whereType($request['incident_type'])->first();
-            \Mail::send('emails.index',['user'=>$order,'store'=>$shop,'title'=>$template->title,'template'=>$template,'detail'=>$template->detail],function ($mail) use ($request,$order,$template){
+            $detail=str_replace("{{first name}}",$order->customer_firstname,$template->detail);
+            $detail=str_replace("{{store display name}}",$shop->display_name,$detail);
+            $detail=str_replace("{{order number}}",$order->cart_orderid,$detail);
+            \Mail::send('emails.index',['user'=>$order,'store'=>$shop,'title'=>$template->title,'template'=>$template,'detail'=>$detail],function ($mail) use ($request,$order,$template){
                 $mail->to($order->customer_email, $order->customer_firstname)->subject($template->subject);
             });
             DB::commit();

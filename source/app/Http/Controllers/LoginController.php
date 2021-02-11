@@ -13,7 +13,7 @@ class LoginController extends Controller
     //
     public function login(){
         if(Auth::check() && auth()->user()->user_role==User::USER_TYPE_ADMIN){
-            return redirect()->route('admin.users');
+            return redirect()->route('admin.claims');
         }else if(Auth::check() && auth()->user()->user_role==User::USER_TYPE_STAFF){
             return redirect()->route('admin.claims');
         }
@@ -29,8 +29,7 @@ class LoginController extends Controller
         }else{
             if(Auth::attempt(['email'=>$request['email'],'password'=>$request['password']])){
                 if(auth()->user()->user_role==User::USER_TYPE_ADMIN){
-
-                    return redirect()->route('admin.users');
+                    return redirect()->route('admin.claims');
                 }else if(auth()->user()->user_role==User::USER_TYPE_STAFF){
                     return redirect()->route('admin.claims');
                 }

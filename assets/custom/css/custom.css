@@ -12,3 +12,24 @@
 .error{
     color: #ff0505;
 }
+#pageloader
+{
+    background: rgba(64, 62, 62, 0.8);
+    display: none;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+}
+.display_block {
+    display: block !important;
+}
+
+#pageloader img
+{
+    left: 50%;
+    margin-left: -32px;
+    margin-top: -32px;
+    position: absolute;
+    top: 50%;
+}

@@ -1,5 +1,28 @@
 @extends('layouts.app')
 @section('content')
+<style>
+    #pageloader
+    {
+        background: rgba(64, 62, 62, 0.8);
+        display: none;
+        height: 100%;
+        position: fixed;
+        width: 100%;
+        z-index: 9999;
+    }
+    .display_block {
+        display: block !important;
+    }
+
+    #pageloader img
+    {
+        left: 50%;
+        margin-left: -32px;
+        margin-top: -32px;
+        position: absolute;
+        top: 50%;
+    }
+</style>
 <header class="header step-2">
     <div class="container">
         <div class="row">
@@ -31,6 +54,9 @@
         </div>
     </div>
 </header>
+<div id="pageloader">
+    <img src="{{ asset('assets/img/loading.gif') }}" alt="processing..." />
+</div>
 <!-- End Header -->
 <form id="claim_form">
     {{ csrf_field() }}
@@ -49,6 +75,7 @@
     <!-- Start Order Form -->
     <section class="ship-form-2">
         <div class="container">
+
             <div class="row py-5">
                 <div class="col-md-12">
                     <h3 class="mb-5 text-blue">{{ $store->shopify_name }}</h3>
@@ -121,7 +148,7 @@
                             <span class="mx-2">(if optional)</span>
                             <p>Note that items can only be re-shipped to the orignal addresses.</p>
                             <div class="alert-danger py-3 hidden"></div>
-                            <button type="submit" class="btn contact_btn btn-medium btn-blue btn-rounded my-4">Submit</button>
+                            <button type="submit" class="btn contact_btn btn-medium btn-blue btn-rounded my-4">Submit </button>
                         </div>
                     </div>
                 </div>
@@ -141,28 +168,30 @@
         });
         $("#claim_form").on('submit',function (e) {
             e.preventDefault();
+
             var fields = $("input[name='item[]']").serializeArray();
-            if (fields.length === 0)
-            {
+            if (fields.length === 0){
                 $(".alert-danger").removeClass("hidden");
-                $(".alert-danger").html("  Please select at-lest one item");
+                $(".alert-danger").html("  Please select at least one item and include a description.");
                 // cancel submit
                 return false;
             }else{
-                console.log(fields)
-            }
-            $.ajax({
-                url:"{{ url('submit-claim-form') }}",
-                data:$(this).serialize(),
-                type:"post",
-                success:function (data) {
-                    if(data.success){
-                        window.location.href="{{ url("success-page") }}"
-                    }else{
-                        alert("Order not found. If you think you'r receiving this by mistake, please contact your store's customer service.")
+                $("#pageloader").addClass('display_block');
+                $.ajax({
+                    url:"{{ url('submit-claim-form') }}",
+                    data:$(this).serialize(),
+                    type:"post",
+                    success:function (data) {
+                        $("#pageloader").removeClass('display_block');
+                        if(data.success){
+                            window.location.href="{{ url("success-page") }}"
+                        }else{
+                            alert("Order not found. If you think you'r receiving this by mistake, please contact your store's customer service.")
+                        }
                     }
-                }
-            })
+                })
+            }
+
         })
     </script>
 @endsection

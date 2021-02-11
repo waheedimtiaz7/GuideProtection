@@ -59,12 +59,12 @@
                             @foreach($stores as $store)
                                 <tr>
                                     <td><a onclick="open">{{ $store->display_name }}</a></td>
-                                    <td>{{ $store->setup_status }}</td>
-                                    <td>{{ $store->setup_status }}</td>
+                                    <td>{{ $store->setup_status==1?"Installed":"Not Installed" }}</td>
+                                    <td><a href="{{$store->url}}" target="_blank">{{ $store->url }}</a></td>
                                     <td>{{ $store->shopify_name }}</td>
-                                    <td></td>
-                                    <td>{{ $store->sales_rep }}</td>
-                                    <td>{{ !empty($store->change_at)?date('m/d/Y',strtotime($store->change_at)):"" }}</td>
+                                    <td>{{ count($store->categories)?$store->categories[0]->title:"" }}</td>
+                                    <td>{{ !empty($store->rep)?$store->sales_rep->name:"" }}</td>
+                                    <td>{{ date('m/d/Y',strtotime($store->created_at)) }}</td>
                                     <td><a href="{{ route('admin.store_pricing',['id'=>$store->id]) }}">View Pricing</a> |
                                         <a href="{{ route('admin.store_edit',['id'=>$store->id]) }}">Edit</a></td>
                                 </tr>

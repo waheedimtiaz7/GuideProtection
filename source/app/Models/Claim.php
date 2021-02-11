@@ -10,7 +10,8 @@ class Claim extends Model
     use HasFactory;
     protected $fillable=[
         'incident_type',
-        'incident_description',		
+        'claim_approve_amount',
+        'incident_description',
         'shop_id',
         'store_id',
         'store_ordernumber',

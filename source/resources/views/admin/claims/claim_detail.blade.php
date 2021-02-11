@@ -67,7 +67,7 @@
                                         </g>
                                     </svg>
                                     <!--end::Svg Icon-->
-                                </span>Previous Claims
+                                </span>Previous Claims ({{ count($previous_claims) }})
                             </a>
                             <!--end::Button-->
                         </div>
@@ -247,8 +247,8 @@
                                         <label><strong>Issue Detail:</strong> {{ $claim->incident_description }}</label>
                                     </div>
                                     <div class="col-lg-1 mb-lg-0 mb-6 text-right">
-                                        <label for="total">Total:</label>
-                                        <input type="text" class="form-control text-right" name="total" id="total" value="{{ $total }}"  />
+                                        <label for="total">Approved Claim Amount:</label>
+                                        <input type="text" class="form-control text-right" name="total" id="total" value="{{ $claim->final_unit_price }}"  />
                                     </div>
                                 </div>
                                 <div class="row ">
@@ -380,21 +380,15 @@
                                 <table class="table table-striped ">
                                     <thead class="thead-little-dark">
                                     <tr>
-                                        <th>Claim ID</th>
-                                        <th>Amount</th>
+                                        <th>Detail</th>
                                         <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($previous_claims as $previous_claim )
+                                        @foreach($history as $h )
                                             <tr>
-                                                <td>{{ $previous_claim->id }}</td>
-                                                <td></td>
-                                                <td>{{ date('m/d/Y',strtotime($previous_claim->created_at)) }}</td>
-                                                <td>{{ $previous_claim->incidentType->title }}</td>
-                                                <td><a href="{{ route('admin.claim_detail',[$previous_claim->id]) }}" target="_blank">View</a></td>
+                                                <td>{{ $h->detail }}</td>
+                                                <td>{{ date('m/d/Y',strtotime($h->created_at)) }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -564,7 +558,7 @@
                     if(data.success){
                         $("#mail_subject").val(data.template.subject);
                         $("#mail_template_id").val(data.template.id);
-                        $("#mail_detail").val(data.template.detail);
+                        $("#mail_detail").val(data.detail);
                     }
                 }
             })

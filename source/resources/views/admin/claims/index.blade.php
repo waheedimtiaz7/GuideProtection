@@ -78,16 +78,16 @@
                                     <select class="form-control datatable-input" data-col-index="6" id="claim_status" name="claim_status">
                                         <option value="">All</option>
                                         @foreach($claim_statuses as $claim_status)
-                                            <option value="{{ $claim_status->id }}">{{ $claim_status->title }}</option>
+                                            <option value="{{ $claim_status->value }}">{{ $claim_status->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-lg-4 mb-lg-0 mb-6">
-                                    <label for="reorder_status">Render Status:</label>
+                                    <label for="reorder_status">Re-order Status:</label>
                                     <select class="form-control datatable-input" data-col-index="7" id="reorder_status" name="reorder_status">
                                         <option value="">All</option>
                                         @foreach($reorder_statuses as $reorder_status)
-                                            <option value="{{ $reorder_status->id }}">{{ $reorder_status->title }}</option>
+                                            <option value="{{ $reorder_status->value }}">{{ $reorder_status->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -197,8 +197,6 @@
         var claims=$('#k_datatable').DataTable({
             responsive: true,
             // Pagination settings
-            dom: `<'row'<'col-sm-12'tr>>
-			<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
             lengthMenu: [10, 25, 50, 100],
             pageLength: 25,
             language: {

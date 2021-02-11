@@ -880,35 +880,14 @@
         <td class="highlight pdTp32" align="center"><h1><span>{{ $title }}</span></h1>
             <table border="0" align="center" cellpadding="0" cellspacing="0" class="profilePicture">
                 <tr>
-                    <td align="center" class="spacing_h" height="30" width="100%">
-                        First Name: <b>{{ $user->customer_firstname }}</b>
+                    <td align="center" class="spacing_h" height="30" width="100%">&nbsp;
+                        {{ html_entity_decode($detail) }}
                     </td>
                 </tr>
                 <tr>
-                    <td align="center" class="spacing_h" height="30" width="100%">
-                        Last Name: <b>{{ $user->customer_lastname }}</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" class="spacing_h" height="30" width="100%">
-                        Store Name: <b>{{ $store->store_name }}</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" class="spacing_h" height="30" width="100%">
-                        Store Url: <b>{{ $store->url }}</b>
-                    </td>
+
                 </tr>
             </table>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<table align="center" border="0" cellpadding="0" cellspacing="0" class="wrapper_table" style="width: 800px">
-    <tbody>
-    <tr>
-        <td align="center" class="spacing_h" height="30" width="100%">&nbsp;
-            {{ html_entity_decode($detail) }}
         </td>
     </tr>
     </tbody>
