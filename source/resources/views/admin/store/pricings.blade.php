@@ -62,8 +62,10 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Price</th>
+                                <th>Guide Price</th>
                                 <th>Start Total</th>
                                 <th>End Total</th>
+                                
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -72,9 +74,10 @@
                                 <tr>
                                     <td>{{ $price->title }}</td>
                                     <td>{{ $price->price }}</td>
+                                    <td>{{ $price->guide_price }}</td>
                                     <td>{{ $price->range_from }}</td>
                                     <td>{{ $price->range_to }}</td>
-                                    <td><a href="#" onclick="editPrice('{{ $price->title }}','{{ $price->id }}','{{ $price->price }}','{{ $price->range_from }}','{{ $price->range_to }}')">Edit</a>
+                                    <td><a href="#" onclick="editPrice('{{ $price->title }}','{{ $price->id }}','{{ $price->price }}','{{ $price->guide_price }}','{{ $price->range_from }}','{{ $price->range_to }}')">Edit</a>
                                         <a href="{{ route('admin.store_price_delete',['id'=>$price->id]) }}">Delete</a>
                                     </td>
                                 </tr>
@@ -114,6 +117,11 @@
                             <label for="price">Price</label>
                             <input type="number" step="any" class="form-control" id="price" name="price" placeholder="Enter price">
                             <input type="hidden" class="form-control" id="shop_id" name="shop_id" placeholder="Enter Type" value="{{ $shop_id }}">
+                        </div>
+                         <div class="form-group">
+                            <label for="price">Guide Price</label>
+                            <input type="number" step="any" class="form-control" id="guide_price" name="guide_price" placeholder="Enter guide price">
+                            
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -155,6 +163,12 @@
                             <input type="number" step="any" class="form-control" id="edit_price" name="price" placeholder="Enter price">
                             <input type="hidden" class="form-control" id="edit_shop_id" name="shop_id" placeholder="Enter Type" value="{{ $shop_id }}">
                             <input type="hidden" class="form-control" id="price_id" name="price_id">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_price">Guide Price</label>
+                            <input type="number" step="any" class="form-control" id="edit_guide_price" name="guide_price" placeholder="Enter guide price">
+                            
+                            
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -226,10 +240,11 @@
             range_to: {greaterThan: 'Must be greater than or equal to Start Total'},
         }
     })
-    function editPrice(title,id,price,range_from,range_to) {
+    function editPrice(title,id,price,guide_price,range_from,range_to) {
         $("#edit_title").val(title);
         $("#edit_range_from").val(range_from);
         $("#edit_price").val(price);
+        $("#edit_guide_price").val(guide_price);
         $("#edit_range_to").val(range_to);
         $("#price_id").val(id);
         $("#edit_pricing").modal("show")

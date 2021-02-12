@@ -91,6 +91,7 @@ class ProductController extends Controller
             'range_to'=>"required",
             'shop_id'=>"required",
             'price'=>"required"
+            
         ]);
         if($validator->fails()){
             \Session::flash('error',$validator->errors()->first());
@@ -103,7 +104,8 @@ class ProductController extends Controller
                     'range_from'=>$request['range_from'],
                     'range_to'=>$request['range_to'],
                     'shop_id'=>$request['shop_id'],
-                    'price'=>$request['price']
+                    'price'=>$request['price'],
+                    'guide_price'=>$request['guide_price']                        
                 ]);
                 \DB::commit();
                 \Session::flash('success','Shop price created successfully');
@@ -123,6 +125,7 @@ class ProductController extends Controller
             'edit_range_to'=>"required",
             'shop_id'=>"required",
             'price'=>"required"
+            
         ]);
         if($validator->fails()){
             \Session::flash('error',$validator->errors()->first());
@@ -136,6 +139,7 @@ class ProductController extends Controller
                     'range_to'=>$request['edit_range_to'],
                     'shop_id'=>$request['shop_id'],
                     'price'=>$request['price'],
+                    'guide_price'=>$request['guide_price'],
                 ]);
                 \DB::commit();
                 \Session::flash('success','Shop price updated successfully');

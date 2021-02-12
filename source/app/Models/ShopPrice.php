@@ -13,6 +13,7 @@ class ShopPrice extends Model
         'range_from',
         'range_to',
         'shop_id',
-        'price'
+        'price',
+        'guide_price'
     ];
 }
