@@ -64,6 +64,7 @@ class UserController extends Controller
             'firstname'=>"required",
             'lastname'=>"required",
             'user_role'=>"required",
+            'status'=>"",
             'is_sale_rep'=>"",
             'username'=>"required"
         ]);
@@ -78,6 +79,7 @@ class UserController extends Controller
                     'firstname'     =>  $request['firstname'],
                     'email'     =>  $request['email'],
                     'username'      =>  $request['username'],
+                    'status'      =>  $request['status'],
                     'lastname'      =>  $request['lastname'],
                     'is_sale_rep'   =>  isset($request['is_sale_rep'])?1:0,
                     'user_role'     =>  $request['user_role']

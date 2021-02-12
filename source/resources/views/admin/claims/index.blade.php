@@ -78,7 +78,7 @@
                                     <select class="form-control datatable-input" data-col-index="6" id="claim_status" name="claim_status">
                                         <option value="">All</option>
                                         @foreach($claim_statuses as $claim_status)
-                                            <option value="{{ $claim_status->value }}">{{ $claim_status->title }}</option>
+                                            <option {{ $claim_status->value==1?"selected":"" }} value="{{ $claim_status->value }}">{{ $claim_status->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -198,6 +198,7 @@
             responsive: true,
             // Pagination settings
             lengthMenu: [10, 25, 50, 100],
+            "order": [[ 3, "asc" ]],
             pageLength: 25,
             language: {
                 'lengthMenu': 'Display _MENU_',

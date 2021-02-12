@@ -31,25 +31,24 @@ class ClaimController extends Controller
     }
     public function getClaims(Request $request){
         $claims=Claim::select('claims.*')->with(['shop','claimStatus','reorderStatus','representative']);
+        if ($request->get('date_from')!='') {
+            $claims->where('claims.created_at', '>=', date("Y-m-d",strtotime($request->get('date_from'))));
+        }if ($request->get('date_to')!='') {
+            $claims->where('claims.created_at', '<=', date("Y-m-d H:i:s",strtotime($request->get('date_to')." 23:59:59")));
+        }if ($request->get('reorder_status')!='') {
+            $claims->where('reorder_status', $request->get('reorder_status'));
+        }if ($request->get('claim_status')!='') {
+            $claims->where('claim_status', $request->get('claim_status'));
+        }if ($request->get('rep')!='') {
+            $claims->where('claim_rep', $request->get('rep'));
+        }if ($request->get('shop_id')!='') {
+            $claims->where('shop_id', $request->get('shop_id'));
+        }if ($request->get('escalated')!='') {
+            $claims->where('is_escalated', $request->get('escalated'));
+        }
         return DataTables::of($claims)
             ->editColumn('cart_ordernumber',function ($claim){
                 return '<a href="'. route('admin.claim_detail',[$claim->id]) .'">'. $claim->cart_ordernumber .'</a>';
-            })->filter(function ($query) use ($request) {
-                if ($request->get('date_from')!='') {
-                    $query->where('claims.created_at', '>=', date("Y-m-d",strtotime($request->get('date_from'))));
-                }if ($request->get('date_to')!='') {
-                    $query->where('claims.created_at', '<=', date("Y-m-d H:i:s",strtotime($request->get('date_to')." 23:59:59")));
-                }if ($request->get('reorder_status')!='') {
-                    $query->where('reorder_status', $request->get('reorder_status'));
-                }if ($request->get('claim_status')!='') {
-                    $query->where('claim_status', $request->get('claim_status'));
-                }if ($request->get('rep')!='') {
-                    $query->where('claim_rep', $request->get('rep'));
-                }if ($request->get('shop_id')!='') {
-                    $query->where('shop_id', $request->get('shop_id'));
-                }if ($request->get('escalated')!='') {
-                    $query->where('is_escalated', $request->get('escalated'));
-                }
             })
             ->addColumn('representative_name',function ($claim){
                 if(!empty($claim->representative)){
@@ -89,8 +88,6 @@ class ClaimController extends Controller
                 }
             })
             ->editColumn('claim_status',function ($claim){
-                return isset($claim->claimStatus->value)?$claim->claimStatus->title:"";
-            })->editColumn('claim_status',function ($claim){
                 return isset($claim->claimStatus->value)?$claim->claimStatus->title:"";
             })->editColumn('reorder_status',function ($claim){
                 return isset($claim->reorderStatus->value)?$claim->reorderStatus->title:"";
@@ -307,10 +304,20 @@ class ClaimController extends Controller
             }
         }
     }
-    public function deleteClaimFile($id){
-        ClaimFile::whereId($id)->delete();
-        \Session::flash('error','File deleted successfully');
-        return redirect()->back();
+    public function claimDeleteFile($id){
+        try {
+            \DB::beginTransaction();
+            $file=ClaimFile::whereId($id)->first();
+            ClaimFile::whereId($id)->delete();
+            \File::delete(asset($file->path));
+            \DB::commit();
+            \Session::flash('success','File deleted successfully');
+            return redirect()->back();
+        }catch (\Exception $exception){
+            \Session::flash('error',$exception->getMessage().' '.$exception->getLine());
+            return redirect()->back();
+        }
+
     }
     public function getMailDetail($id){
         $template=Template::whereId($id)->first();

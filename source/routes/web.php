@@ -70,7 +70,6 @@ Route::group(['prefix'=>'admin'],function (){
             Route::post('static-page/update',[PageController::class,'update'])->name('admin.page_update');
             Route::get('static-page/delete/{id}',[PageController::class,'destroy'])->name('admin.page_delete');
         });
-
         //////////////////////////////////Claims////////////////////////////////
         Route::get("claims",[ClaimController::class,'index'])->name('admin.claims');
         Route::post("get-claims",[ClaimController::class,'getClaims'])->name('admin.get_claims');
@@ -92,8 +91,7 @@ Route::group(['prefix'=>'admin'],function (){
         Route::post('reports/set_report_session_value',[ReportController::class,'set_report_session_value']);
         Route::post('reports/generate_report_csv',[ReportController::class,'generate_report_csv']);
         Route::get('reports/generate_report_csv',[ReportController::class,'generate_report_csv']);
-        Route::get('paywithpaypal', [PaypalController::class,'payWithPaypal'])->name('paywithpaypal');
-        Route::post('paypal', [PaypalController::class,'postPaymentWithpaypal'])->name('paypal');
+        Route::post('paypal', [PaypalController::class,'postPaymentWithpaypal'])->name('paymentWithPaypal');
         Route::get('paypal', [PaypalController::class,'getPaymentStatus'])->name('status');
         Route::post("logout",function (Illuminate\Http\Request $request){
             Auth::logout();
