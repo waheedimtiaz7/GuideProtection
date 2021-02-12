@@ -212,7 +212,7 @@
                                                 <th>Qty</th>
                                                 <th>SKU</th>
                                                 <th>Description</th>
-                                                <th>Seelcted for Claim</th>
+                                                <th>Selected for Claim</th>
                                                 <th>Amount</th>
                                                 <th>Variant ID Link</th>
                                             </tr>

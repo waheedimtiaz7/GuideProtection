@@ -85,7 +85,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'claims@guideprotection.com'),
-        'name' => env('MAIL_FROM_NAME', 'Guide Protection'),
+        'name' => env('MAIL_FROM_NAME', 'Guide Shipping Protection'),
     ],
     /*
     |--------------------------------------------------------------------------

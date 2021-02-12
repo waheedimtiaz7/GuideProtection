@@ -3,7 +3,7 @@
 <!--begin::Head-->
 <head><base href="">
 	<meta charset="utf-8" />
-	<title>Guide Protection | Administrator</title>
+	<title>Guide Shipping Protection | Administrator</title>
 	<meta name="description" content="Login page example" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<link rel="canonical" href="" />

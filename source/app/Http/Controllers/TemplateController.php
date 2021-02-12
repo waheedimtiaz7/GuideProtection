@@ -134,7 +134,7 @@ class TemplateController extends Controller
                     $mail->to($request['to'], $order->customer_firstname)->subject($request['mail_subject']);
                 });
             }else{
-                \Mail::send('emails.index',['user'=>$order,'store'=>$shop,'title'=>"Guide Protection",'detail'=>$request['mail_detail']],function ($mail) use ($request,$order,$template){
+                \Mail::send('emails.index',['user'=>$order,'store'=>$shop,'title'=>"Guide Shipping Protection",'detail'=>$request['mail_detail']],function ($mail) use ($request,$order,$template){
                     $mail->to($request['to'], $order->customer_firstname)->subject($request['mail_subject']);
                 });
             }
