@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\CategoryShop;
 use App\Models\Shop;
 use App\Models\ShopPrice;
 use App\Models\Status;
@@ -156,7 +157,7 @@ class ProductController extends Controller
     public function storeEdit($id){
         $categories=Category::all();
         $sale_reps=User::whereStatus(1)->whereIsSaleRep(1)->get();
-        $store=Shop::whereId($id)->first();
+        $store=Shop::whereId($id)->with('categories')->first();
         $setup_statuses=Status::whereType('setup_status')->get();
         return view('admin.store.store_detail',['header'=>'Store Details',
             'store'=>$store,
@@ -220,6 +221,7 @@ class ProductController extends Controller
                 ]);
                 if(!empty($request['category_id'])){
                     $shop=Shop::find($request['id']);
+                    CategoryShop::whereShopId($shop['id'])->delete();
                     $shop->categories()->attach($request['category_id']);
                 }
                 \DB::commit();

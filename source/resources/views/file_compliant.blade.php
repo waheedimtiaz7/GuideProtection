@@ -143,8 +143,8 @@
                         <textarea class="form-control" placeholder="Message" id="incident_description" name="incident_description"></textarea>
                         <div class="tracking-num py-5">
                             <input type="hidden" name="order_id" id="order_id" value="{{ $order->id }}">
-                            <p class="sub_heading">Tracking Number</p>
-                            <input type="text" name="cart_trackingnumber" id="cart_trackingnumber">
+                            {{--<p class="sub_heading">Tracking Number</p>
+                            <input type="text" name="cart_trackingnumber" id="cart_trackingnumber">--}}
                             <span class="mx-2">(if optional)</span>
                             <p>Note that items can only be re-shipped to the orignal addresses.</p>
                             <div class="alert-danger py-3 hidden"></div>
@@ -165,6 +165,10 @@
             }else{
                 $("#qty_"+$(this).val()).attr('disabled','disabled')
             }
+            var fields = $("input[name='item[]']").serializeArray();
+            if (fields.length === 0){
+                $(".alert-danger").html("");
+            }
         });
         $("#claim_form").on('submit',function (e) {
             e.preventDefault();
@@ -176,6 +180,7 @@
                 // cancel submit
                 return false;
             }else{
+                $(".alert-danger").html("");
                 $("#pageloader").addClass('display_block');
                 $.ajax({
                     url:"{{ url('submit-claim-form') }}",

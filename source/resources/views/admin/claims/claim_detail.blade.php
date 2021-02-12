@@ -150,7 +150,7 @@
                                             <label><strong>Country:</strong> {{ $claim->shipping_country }}  </label>
                                         </div>
                                         <div class="col-lg-3 mb-lg-0 mb-6">
-                                            <label><strong>Shopify Tracking #:</strong> {{ $claim->cart_trackingnumber }} <a href="#."> View</a></label>
+                                            <label><strong>Shopify Tracking #:</strong> <a target="_blank" href="https://www.ups.com/WebTracking?loc=en_US&requester=ST&trackNums={{ $claim->customer_reported_trackno }}/trackdetails">{{ $claim->customer_reported_trackno }} </a></label>
                                             <div class="form-group row ">
                                                 <label class="col-lg-4 col-form-label " for="gp_reorder_trackno">GP Tracking #:</label>
                                                 <div class="col-lg-5">
@@ -249,7 +249,7 @@
                                         </div>
                                         <div class="col-lg-1 mb-lg-0 mb-6 text-right">
                                             <label for="total">Approved Claim Amount:</label>
-                                            <input type="text" class="form-control text-right" name="total" id="total" value="{{ $claim->final_unit_price }}"  />
+                                            <input type="text" class="form-control text-right" name="total" id="total" value="{{ $claim->claim_approve_amount }}"  />
                                         </div>
                                     </div>
                                     <div class="row ">
@@ -261,7 +261,7 @@
                                             <label>Files:</label>
                                             <!--begin: Datatable-->
                                             <div class="table-responsive">
-                                                <table class="table table-striped " >
+                                                <table class="table table-striped ">
                                                     <thead class="thead-light">
                                                     <tr>
                                                         <th>Name</th>
@@ -270,15 +270,15 @@
                                                         <th>Action</th>
                                                     </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody id="files_list">
                                                     @foreach($claim->files as $file )
                                                         <tr>
                                                             <td>{{ $file->filename }}</td>
                                                             <td>{{ $file->description }}</td>
                                                             <td>{{ date("m/d/Y",strtotime($file->created_at)) }}</td>
                                                             <td>
-                                                                <a href="{{ asset($file->path) }}" target="_blank">View</a></td>
-                                                            <a href="" target="_blank">Download</a>
+                                                                <a href="{{ asset($file->path) }}" target="_blank">View</a>
+                                                            <a href="{{ url('admin/delete-claim-file/'.$file->id) }}" target="_blank">delete</a></td>
                                                         </tr>
                                                     @endforeach
                                                     </tbody>
@@ -286,7 +286,7 @@
                                             </div>
                                             <div class="row mt-8">
                                                 <div class="col-lg-12 text-right">
-                                                    <button class="btn btn-primary btn-primary--icon"  data-toggle="modal" data-target="#add_files">
+                                                    <button class="btn btn-primary btn-primary--icon" type="button"  data-toggle="modal" data-target="#add_files">
                                                         <span>
                                                             <i class="la la-plus"></i>
                                                             <span>Add File</span>
@@ -363,7 +363,7 @@
                                 <button class="btn btn-primary w-250px" onclick="getMailDetail(10)">Everything's good?</button><br><br>
                                 <br>
                                 <p>Other Processes</p>
-                                <button class="btn btn-dark w-250px">Post refund to store</button><br><br>
+                                <button class="btn btn-dark w-250px" onclick="refundToStore()">Post refund to store</button><br><br>
                                 <button class="btn btn-dark w-250px">Refund and create DC</button>
                             </div>
 
@@ -433,9 +433,34 @@
     </div>
 @endsection
 @section('script')
+    @if(Session::has('error'))
+        <script>
+            swal.fire({
+                text: '{{ Session::get('error') }}',
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok, got it!",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+        </script>
+    @endif
+    @if(Session::has('success'))
+        <script>
+            swal.fire({
+                text: '{{ Session::get('success') }}',
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "Ok, got it!",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+        </script>
+    @endif
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-
         $("#btn_previous").click(function(){
             $(".previous_claims").toggle(500);
         });
@@ -444,6 +469,17 @@
     <!--end::Page Scripts-->
 
     <script>
+        function refundToStore() {
+            var data={"shop_id":{{ $claim->shop_id }},"_token":"{{ csrf_token() }}","amount":$("#total").val()};
+            $.ajax({
+                url:"{{ route('paymentWithPaypal') }}",
+                type: 'POST',
+                data: data,
+                success: function(data) {
+                    console.log(data)
+                }
+            });
+        }
         function resetForm(){
             document.getElementById("file_form").reset();
             $("#add_files").modal("hide");

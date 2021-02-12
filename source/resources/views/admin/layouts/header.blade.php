@@ -1,7 +1,7 @@
 <head>
     <base href="">
     <meta charset="utf-8" />
-    <title>{{ isset($header)?$header:"Guide Protection" }}</title>
+    <title>{{ isset($header)?$header:"Guide Shipping Protection" }}</title>
     <meta name="description" content="Datatable HTML table" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="canonical" href="" />

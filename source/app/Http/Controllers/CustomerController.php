@@ -23,7 +23,7 @@ class CustomerController extends Controller
         if($check_claim){
             return response()->json([
                 'error'=>true,
-                'message'=>'Already claim is created for this order'
+                'message'=>'This claim has already been submitted'
             ]);
         }
         $check=Order::whereCustomerEmail($request->get('email'))->where('cart_orderid',$request->get('order_number'))
@@ -36,7 +36,7 @@ class CustomerController extends Controller
         }else{
             return response()->json([
                 'error'=>true,
-                'message'=>'Order not found. If you think you\'r receiving this by mistake, please contact your store\'s customer service.'
+                'message'=>'Order not found. If you think you\'re receiving this by mistake, please contact your store\'s customer service .'
             ]);
         }
     }
@@ -85,7 +85,7 @@ class CustomerController extends Controller
                     "variantid"=>$order_detail->cart_variantid,
                     "product_id"=>$order_detail->cart_productid
                 ]);
-                $total=$total+($request['qty'][$k]*$order->final_unit_price);
+                $total=(float)$total+(float)($request['qty'][$k]*$order_detail->final_unit_price);
             }
             Claim::whereId($claim->id)->update(['claim_approve_amount'=>$total]);
             $template=Template::whereType($request['incident_type'])->first();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use Validator;
 use URL;
@@ -23,14 +24,12 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\Transaction;
 use PayPal\Api\Payout;
-
 class PaypalController extends Controller
 {
     private $_api_context;
 
     public function __construct()
     {
-
         $paypal_configuration = \Config::get('paypal');
         $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_configuration['client_id'], $paypal_configuration['secret']));
         $this->_api_context->setConfig($paypal_configuration['settings']);
@@ -43,61 +42,42 @@ class PaypalController extends Controller
 
     public function postPaymentWithpaypal(Request $request)
     {
-
+        $shop=Shop::whereId($request['shop_id'])->first();
         $payouts=new Payout();
         $senderBatchHeader = new PayoutSenderBatchHeader();
         $senderBatchHeader->setSenderBatchId(uniqid())
             ->setEmailSubject("You have a Payout!");
-
             $senderItem = new PayoutItem();
             $senderItem->setRecipientType('Email')
                 ->setNote('Thanks for your patronage!')
-                ->setReceiver('shirt-supplier-one@gmail.com')
+                ->setReceiver($shop->paypal_account)
                 ->setSenderItemId("2014031400023")
                 ->setAmount(new Currency('{
-                            "value":"1.0",
+                            "value":'. $request['amount'] .',
                             "currency":"USD"
                         }'));
-
             $payouts->setSenderBatchHeader($senderBatchHeader)
                 ->addItem($senderItem);
             $request = clone $payouts;
-
             try {
-                $output = $payouts->createSynchronous($this->_api_contex);
+                $output = $payouts->createSynchronous($this->_api_context);
             } catch (\Exception $ex) {
-
-
-                ResultPrinter::printError("Created Single Synchronous Payout", "Payout", null, $request, $ex);
+                print_r($ex->getMessage());
+               // ResultPrinter::printError("Created Single Synchronous Payout", "Payout", null, $request, $ex);
                 exit(1);
             }
 
-
-            ResultPrinter::printResult("Created Single Synchronous Payout", "Payout", $output->getBatchHeader()->getPayoutBatchId(), $request, $output);
 
         return $output;
     }
 
     public function getPaymentStatus(Request $request)
     {
-        $payment_id = Session::get('paypal_payment_id');
-
-        Session::forget('paypal_payment_id');
-        if (empty($request->input('PayerID')) || empty($request->input('token'))) {
-            \Session::put('error','Payment failed');
-            return Redirect::route('paywithpaypal');
-        }
-        $payment = Payment::get($payment_id, $this->_api_context);
-        $execution = new PaymentExecution();
-        $execution->setPayerId($request->input('PayerID'));
-        $result = $payment->execute($execution, $this->_api_context);
-
-        if ($result->getState() == 'approved') {
-            \Session::put('success','Payment success !!');
-            return Redirect::route('paywithpaypal');
-        }
-
+        $payouts=new Payout();
+        $status=$payouts->get("UB2SSMFXD8NYG", $this->_api_context );
+        echo '<pre>';
+        print_r($status);exit;
         \Session::put('error','Payment failed !!');
-        return Redirect::route('paywithpaypal');
+        //return Redirect::route('paywithpaypal');
     }
 }

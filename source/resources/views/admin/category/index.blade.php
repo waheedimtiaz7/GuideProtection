@@ -66,6 +66,7 @@
                                     <td>{{ $category->title }}</td>
                                     <td>
                                         <a class="btn btn-info" href="#" onclick="getCategory('{{ $category->id }}')">Edit</a>
+                                        <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this category?');" href="{{ route('admin.category_delete',['id'=>$category->id]) }}">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -133,6 +134,32 @@
     </div>
 @endsection
 @section('script')
+    @if(Session::has('error'))
+        <script>
+            swal.fire({
+                text: '{{ Session::get('error') }}',
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok, got it!",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+        </script>
+    @endif
+    @if(Session::has('success'))
+        <script>
+            swal.fire({
+                text: '{{ Session::get('success') }}',
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "Ok, got it!",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+        </script>
+    @endif
     <script>
         function getCategory(id) {
             $.ajax({

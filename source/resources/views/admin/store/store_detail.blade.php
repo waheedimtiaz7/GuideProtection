@@ -99,7 +99,7 @@
                                             <select class="form-control" name="category_id" id="category_id" tabindex="4">
                                                 <option></option>
                                                 @foreach($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                                    <option {{ $category->id==$store->categories[0]->id?"selected":"" }} value="{{ $category->id }}">{{ $category->title }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -110,7 +110,7 @@
                                         <select class="form-control" name="sales_rep" id="sales_rep" tabindex="6">
                                             <option></option>
                                             @foreach($sale_reps as $sale_rep)
-                                                <option value="{{ $sale_rep->id }}">{{ $sale_rep->name }}</option>
+                                                <option {{ $sale_rep->id==$store->sales_rep?"selected":"" }} value="{{ $sale_rep->id }}">{{ $sale_rep->name }}</option>
                                             @endforeach
                                             </select>
                                         </div>
