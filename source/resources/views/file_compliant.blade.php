@@ -1,28 +1,8 @@
 @extends('layouts.app')
 @section('content')
-<style>
-    #pageloader
-    {
-        background: rgba(64, 62, 62, 0.8);
-        display: none;
-        height: 100%;
-        position: fixed;
-        width: 100%;
-        z-index: 9999;
-    }
-    .display_block {
-        display: block !important;
-    }
-
-    #pageloader img
-    {
-        left: 50%;
-        margin-left: -32px;
-        margin-top: -32px;
-        position: absolute;
-        top: 50%;
-    }
-</style>
+<div id="pageloader">
+    <div class="loader"></div>
+</div>
 <header class="header step-2">
     <div class="container">
         <div class="row">
@@ -54,9 +34,6 @@
         </div>
     </div>
 </header>
-<div id="pageloader">
-    <img src="{{ asset('assets/img/loading.gif') }}" alt="processing..." />
-</div>
 <!-- End Header -->
 <form id="claim_form">
     {{ csrf_field() }}
@@ -78,13 +55,14 @@
 
             <div class="row py-5">
                 <div class="col-md-12">
-                    <h3 class="mb-5 text-blue">{{ $store->shopify_name }}</h3>
+                    <h3 class="mb-3 text-blue">{{ $store->shopify_name }}</h3>
                     <div class="card rounded border-0">
                         <div class="card-body rounded">
-                            <div class="table-details">
+                            <div class="table-details mb-">
                                 <span>Order Date: {{ date('m/d/y',strtotime($order->orderdate)) }}</span>
                             </div>
                             <div class="table-responsive">
+                                <label>Select claimed items from order:</label>
                                 <table style="width:100%" class="table table-striped table-bordered">
                                     <thead class="table-head">
                                     <tr>
@@ -95,16 +73,16 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($order->order_detail as $k=>$detail)
-                                        @if($detail->title!='Guide Shipping Protection' && $detail->title!='Guide protection')
-                                            <tr>
-                                                <td><input name="item[]" type="checkbox" class="box item" value="{{ $detail->id }}"></td>
-                                                <td><input name="qty[]" id="qty_{{ $detail->id }}" disabled="disabled"  value="{{ $detail->qty }}"></td>
-                                                <td>{{ $detail->title }}</td>
-                                                <td>{{ $detail->sku }}</td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
+                                        @foreach($order->order_detail as $k=>$detail)
+                                            @if($detail->title!='Guide Shipping Protection' && $detail->title!='Guide protection')
+                                                <tr>
+                                                    <td><input name="item[]" type="checkbox" class="box item" value="{{ $detail->id }}"></td>
+                                                    <td><input name="qty[]" id="qty_{{ $detail->id }}" disabled="disabled"  value="{{ $detail->qty }}"></td>
+                                                    <td>{{ $detail->title }}</td>
+                                                    <td>{{ $detail->sku }}</td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

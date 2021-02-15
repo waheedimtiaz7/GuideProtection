@@ -23,7 +23,6 @@ class UserController extends Controller
             'lastname'=>"required",
             'email'=>"required|unique:users,email",
             'user_role'=>"required",
-            'username'=>"required",
             'is_sale_rep'=>"",
             'password'=>"required",
         ]);
@@ -35,7 +34,6 @@ class UserController extends Controller
             try {
                 User::create([
                     'name'=>$request['firstname'].' '.$request['lastname'],
-                    'username'=>$request['username'],
                     'firstname'=>$request['firstname'],
                     'lastname'=>$request['lastname'],
                     'is_sale_rep'=>isset($request['is_sale_rep'])?1:0,
@@ -65,8 +63,7 @@ class UserController extends Controller
             'lastname'=>"required",
             'user_role'=>"required",
             'status'=>"",
-            'is_sale_rep'=>"",
-            'username'=>"required"
+            'is_sale_rep'=>""
         ]);
         if($validator->fails()){
             \Session::flash('error',$validator->errors()->first());
@@ -78,7 +75,6 @@ class UserController extends Controller
                     'name'          =>  $request['firstname'] . ' ' . $request['lastname'],
                     'firstname'     =>  $request['firstname'],
                     'email'     =>  $request['email'],
-                    'username'      =>  $request['username'],
                     'status'      =>  $request['status'],
                     'lastname'      =>  $request['lastname'],
                     'is_sale_rep'   =>  isset($request['is_sale_rep'])?1:0,

@@ -1,4 +1,7 @@
 @extends("admin.layouts.app")
+@section('style')
+    <link href="{{ asset("/") }}/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+@endsection
 @section('content')
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
@@ -42,10 +45,11 @@
                     </div>
                     <div class="card-body">
                         <!--begin: Datatable-->
-                        <table class="table table-striped" id="kt_datatable">
+                        <table class="table table-striped" id="stores">
                             <thead>
                             <tr>
                                 <th>Display Name</th>
+                                <th>Store Status</th>
                                 <th>Setup Status</th>
                                 <th>URL</th>
                                 <th>Shopify Name</th>
@@ -57,8 +61,9 @@
                             </thead>
                             <tbody>
                             @foreach($stores as $store)
-                                <tr>
+                                <tr class="{{ $store->support_issue==1?"bg-danger-o-35":"" }} ">
                                     <td><a onclick="open">{{ $store->display_name }}</a></td>
+                                    <td>{{ $store->store_status==1?"Active":"In-Active" }}</td>
                                     <td>{{ $store->setup_status==1?"Installed":"Not Installed" }}</td>
                                     <td><a href="{{$store->url}}" target="_blank">{{ $store->url }}</a></td>
                                     <td>{{ $store->shopify_name }}</td>
@@ -79,5 +84,24 @@
 
 @endsection
 @section('script')
-
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset("/") }}assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script>
+    <!--end::Global Theme Bundle-->
+    <!--begin::Page Vendors(used by this page)-->
+    <script src="{{ asset("/") }}/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+    <!--end::Page Vendors-->
+    <!--begin::Page Scripts(used by this page)-->
+    <script src="{{ asset("/") }}/assets/js/pages/crud/datatables/search-options/advanced-search.js"></script>
+    <script>
+        $('#stores').DataTable({
+            responsive: true,
+            // Pagination settings
+            lengthMenu: [10, 25, 50, 100],
+            "order": [[ 2, "asc" ]],
+            pageLength: 25,
+            language: {
+                'lengthMenu': 'Display _MENU_',
+            },
+            searchDelay: 500});
+    </script>
 @endsection

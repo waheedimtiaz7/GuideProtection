@@ -154,7 +154,7 @@
                                             <div class="form-group row ">
                                                 <label class="col-lg-4 col-form-label " for="gp_reorder_trackno">GP Tracking #:</label>
                                                 <div class="col-lg-5">
-                                                    <input type="text" class="form-control" placeholder=""  name="gp_reorder_trackno" id="gp_reorder_trackno" value="{{ $claim->reorder_trackingnumber }}"/>
+                                                    <input type="text" class="form-control" placeholder=""  name="gp_reorder_trackno" id="gp_reorder_trackno" value="{{ $claim->gp_reorder_trackno }}"/>
                                                 </div>
                                                 <div class="col-lg-3 ">
                                                     <a href="#." class="align-middle" >View</a>
@@ -172,7 +172,7 @@
                                             <div class="form-group row ">
                                                 <label class="col-lg-4 col-form-label " for="reorder_cartnumber">Reorder #:</label>
                                                 <div class="col-lg-5">
-                                                    <input type="text" class="form-control" placeholder="" name="reorder_cartnumber" id="reorder_cartnumber" value="{{ $claim->reorder_trackingnumber }}"/>
+                                                    <input type="text" class="form-control" placeholder="" name="reorder_cartnumber" id="reorder_cartnumber" value="{{ $claim->reorder_cartnumber }}"/>
                                                 </div>
                                                 <div class="col-lg-3 ">
 
@@ -500,7 +500,11 @@
                             var date=new Date(value.created_at)
                             html+='<tr>';
                             html+='<td>'+value.filename+'</td>';
-                            html+='<td>'+value.description+'</td>';
+                            if(value.description!=null && value.description!==''){
+                                html+='<td>'+value.description+'</td>';
+                            }else{
+                                html+='<td></td>';
+                            }
                             html+='<td>'+date.getMonth()+1+'/'+date.getDate()+'/'+date.getFullYear()+'</td>';
                             html+='<td><a href="'+base+'/'+ value.path +'" target="_blank">View</a>  ' +
                                 '<a href="{{ url('admin/delete-claim-file/') }}/'+ value.id +'" target="_blank">delete</a></td>';

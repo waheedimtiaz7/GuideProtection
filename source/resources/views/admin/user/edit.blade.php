@@ -54,18 +54,17 @@
                                         <input type="email" class="form-control required" tabindex="3" id="email" name="email" placeholder="Enter Email" value="{{ $user->email }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="username">Username</label>
-                                        <input type="text" class="form-control required" tabindex="5" id="username" name="username" value="{{ $user->username }}">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" tabindex="5" id="password" name="password" placeholder="Enter Password">
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" class="form-control" tabindex="7" id="password" name="password" placeholder="Enter Password">
+                                        <label for="status">Status</label>
+                                        <select class="form-control" id="status" tabindex="7" name="status">
+                                            <option {{ $user->status==1?"selected":"" }} value="1">Active</option>
+                                            <option {{ $user->status==0?"selected":"" }} value="2">Disabled</option>
+                                        </select>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="is_sale_rep">Sales Rep</label>
-                                        <input type="checkbox" {{ $user->is_sale_rep==1?"checked":"" }} tabindex="9" class="checkbox checkbox-outline checkbox-success" id="is_sale_rep" name="is_sale_rep">
-                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
@@ -81,15 +80,12 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select class="form-control" id="status" tabindex="6" name="status">
-                                            <option {{ $user->status==1?"selected":"" }} value="1">Active</option>
-                                            <option {{ $user->status==0?"selected":"" }} value="2">Disabled</option>
-                                        </select>
+                                        <label for="confirm_password">Confirm Password</label>
+                                        <input type="password" class="form-control" tabindex="6" id="confirm_password" name="confirm_password" placeholder="Confirm password">
                                     </div>
                                     <div class="form-group">
-                                        <label for="confirm_password">Confirm Password</label>
-                                        <input type="password" class="form-control" tabindex="8" id="confirm_password" name="confirm_password" placeholder="Confirm password">
+                                        <label for="is_sale_rep">Sales Rep</label>
+                                        <input type="checkbox" {{ $user->is_sale_rep==1?"checked":"" }} tabindex="8" class="checkbox checkbox-outline checkbox-success" id="is_sale_rep" name="is_sale_rep">
                                     </div>
                                 </div>
                             </div>

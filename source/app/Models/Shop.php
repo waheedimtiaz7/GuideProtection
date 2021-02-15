@@ -30,7 +30,11 @@ class Shop extends Model
         'primary_poc_phone',
         'primary_poc_email',
         'primary_poc_title',
-        'setup_status'
+        'support_issue',
+        'notes',
+        'setup_status',
+        'date_installed',
+        'date_uninstalled',
     ];
     public function categories(){
         return $this->belongsToMany(Category::class);

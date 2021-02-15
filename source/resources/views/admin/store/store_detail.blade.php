@@ -1,4 +1,5 @@
 @extends("admin.layouts.app")
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 @section('content')
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <div class="subheader py-2 py-lg-6 subheader-solid" id="kt_subheader">
@@ -33,15 +34,20 @@
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
             <div class="container">
-                <div class="card card-custom">
-                    <div class="card-header flex-wrap border-0 pt-6 pb-0">
-                        <div class="card-title">
-                            <h3 class="card-label">Store
-                                <span class="d-block text-muted pt-2 font-size-sm">Store detail</span></h3>
+                <form style="width: 100%" id="user" method="post" action="{{ route('admin.update_store',['id'=>$store->id]) }}">
+                    <div class="card card-custom">
+                        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                            <div class="card-title">
+                                <h3 class="card-label">Store
+                                    <span class="d-block text-muted pt-2 font-size-sm">Store detail</span>
+                                </h3>
+                            </div>
+                            <div class="card-toolbar">
+                                <label for="support_issue">
+                                <input type="checkbox" class="checkbox-success" name="support_issue" id="support_issue">&nbsp;&nbsp;Support Issue</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <form style="width: 100%" id="user" method="post" action="{{ route('admin.update_store',['id'=>$store->id]) }}">
+                        <div class="card-body">
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-6">
@@ -83,6 +89,12 @@
                                                     <option {{ $store->setup_status==$setup_status->value?"selected":"" }} value="{{ $setup_status->value }}">{{ $setup_status->title }}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="date_installed" class="col-sm-3 col-form-label">Date Installed</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="date_uninstalled" readonly="readonly" id="date_installed" class="form-control" value="{{ !empty($store->date_installed)&& $store->date_installed!=null?date('m/d/Y',strtotime($store->date_installed)):"" }}"/>
                                         </div>
                                     </div>
                                 </div>
@@ -134,6 +146,12 @@
                                                 <option {{ "Transaction"==$store->store_processing?"selected":"" }} value="Transaction">Transaction</option>
                                                 <option {{ "Bulk"==$store->store_processing?"selected":"" }} value="Bulk">Bulk</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="date_uninstalled" class="col-sm-3 col-form-label">Date Uninstalled</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="date_uninstalled" readonly="readonly" id="date_uninstalled" class="form-control" value="{{ !empty($store->date_uninstalled)&& $store->date_uninstalled!=null?date('m/d/Y',strtotime($store->date_uninstalled)):"" }}"/>
                                         </div>
                                     </div>
                                 </div>
@@ -207,19 +225,29 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label for="notes" class="col-sm-3 col-form-label">Notes (don't delete history)</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" style="min-height: 500px" id="notes" name="notes">{{ $store->notes }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary float-right">Submit</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 @endsection
 
 @section('script')
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset("/") }}assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js"></script>
     @if(Session::has('error'))
         <script>
             swal.fire({

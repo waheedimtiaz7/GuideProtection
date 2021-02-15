@@ -192,6 +192,8 @@ class ProductController extends Controller
             'primary_poc_email'=>"",
             'setup_status'=>"",
             'store_processing'=>"",
+            'notes'=>"",
+            'support_issue'=>"",
             'primary_poc_title'=>""
         ]);
         if($validator->fails()){
@@ -222,6 +224,8 @@ class ProductController extends Controller
                     'primary_poc_title'=>$request['primary_poc_title'],
                     'setup_status'=>$request['setup_status'],
                     'store_processing'=>$request['store_processing'],
+                    'support_issue'=>isset($request['support_issue'])?1:0,
+                    'notes'=>$request['notes'],
                 ]);
                 if(!empty($request['category_id'])){
                     $shop=Shop::find($request['id']);

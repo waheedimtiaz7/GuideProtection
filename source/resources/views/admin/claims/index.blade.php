@@ -257,9 +257,6 @@
             }else{
                 claims.draw();
             }
-
-
-
         })
     </script>
 @endsection
