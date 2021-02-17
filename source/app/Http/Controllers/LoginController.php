@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -28,6 +29,15 @@ class LoginController extends Controller
             return redirect()->back()->withErrors($validate->errors());
         }else{
             if(Auth::attempt(['email'=>$request['email'],'password'=>$request['password']])){
+                Session::put('claim_filters',json_encode([
+                    'date_from'=>'',
+                    'date_to'=>'',
+                    'reorder_status'=>'',
+                    'claim_status'=>1,
+                    'rep'=>'',
+                    'shop_id'=>'',
+                    'escalated'=>0,
+                ]));
                 if(auth()->user()->user_role==User::USER_TYPE_ADMIN){
                     return redirect()->route('admin.claims');
                 }else if(auth()->user()->user_role==User::USER_TYPE_STAFF){

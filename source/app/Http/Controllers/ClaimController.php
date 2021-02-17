@@ -12,6 +12,7 @@ use App\Models\Template;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Session;
 
 class ClaimController extends Controller
 {
@@ -21,16 +22,28 @@ class ClaimController extends Controller
         $reorder_statuses=Status::whereType('re-order')->get();
         $stores=Shop::where('store_type','!=',-1)->select('shops.*')->get();
         $reps=User::whereStatus(1)->get();
+        $filters=Session::has('claim_filters')?json_decode(Session::get('claim_filters')):array();
         return view('admin.claims.index',[
             'header'=>'Claims',
             'reps'=>$reps,
             'stores'=>$stores,
+            'filter'=>$filters,
             'claim_statuses'=>$claim_statuses,
             'reorder_statuses'=>$reorder_statuses
         ]);
     }
     public function getClaims(Request $request){
         $claims=Claim::select('claims.*')->with(['shop','claimStatus','reorderStatus','representative']);
+        Session::forget('claim_filters');
+        Session::put('claim_filters',json_encode([
+            'date_from'=>$request->get('date_from')!=''?date("Y-m-d",strtotime($request->get('date_from'))):"",
+            'date_to'=>$request->get('date_to')!=''?date("Y-m-d",strtotime($request->get('date_to'))):"",
+            'reorder_status'=>$request->get('reorder_status'),
+            'claim_status'=>$request->get('claim_status'),
+            'rep'=>$request->get('rep'),
+            'shop_id'=>$request->get('shop_id'),
+            'escalated'=>$request->get('escalated'),
+        ]));
         if ($request->get('date_from')!='') {
             $claims->where('claims.created_at', '>=', date("Y-m-d",strtotime($request->get('date_from'))));
         }if ($request->get('date_to')!='') {

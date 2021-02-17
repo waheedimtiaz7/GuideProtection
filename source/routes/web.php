@@ -94,6 +94,7 @@ Route::group(['prefix'=>'admin'],function (){
         Route::post('paypal', [PaypalController::class,'postPaymentWithpaypal'])->name('paymentWithPaypal');
         Route::get('paypal', [PaypalController::class,'getPaymentStatus'])->name('status');
         Route::post("logout",function (Illuminate\Http\Request $request){
+            Session::flush();
             Auth::logout();
             $request->session()->invalidate();
             return redirect('admin');

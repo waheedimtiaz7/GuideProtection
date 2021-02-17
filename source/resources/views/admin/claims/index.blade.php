@@ -64,13 +64,13 @@
                                 <div class="col-lg-4 mb-lg-0 mb-6">
                                     <label>Claim Date:</label>
                                     <div class="input-daterange input-group" id="kt_datepicker">
-                                        <input type="text" class="form-control datatable-input" name="date_from" id="date_from" placeholder="From" data-col-index="5" />
+                                        <input type="text" class="form-control datatable-input" value="{{  $filter->date_from!=""?date("m/d/Y",strtotime($filter->date_from)):"" }}" name="date_from" id="date_from" placeholder="From" data-col-index="5" />
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="la la-ellipsis-h"></i>
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control datatable-input" name="date_to" id="date_to" placeholder="To" data-col-index="5" />
+                                        <input type="text" class="form-control datatable-input" value="{{  $filter->date_to!=""?date("m/d/Y",strtotime($filter->date_to)):"" }}" name="date_to" id="date_to" placeholder="To" data-col-index="5" />
                                     </div>
                                 </div>
                                 <div class="col-lg-4 mb-lg-0 mb-6">
@@ -78,7 +78,7 @@
                                     <select class="form-control datatable-input" data-col-index="6" id="claim_status" name="claim_status">
                                         <option value="">All</option>
                                         @foreach($claim_statuses as $claim_status)
-                                            <option {{ $claim_status->value==1?"selected":"" }} value="{{ $claim_status->value }}">{{ $claim_status->title }}</option>
+                                            <option {{ $filter->claim_status==$claim_status->value?"selected":"" }} value="{{ $claim_status->value }}">{{ $claim_status->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -87,7 +87,7 @@
                                     <select class="form-control datatable-input" data-col-index="7" id="reorder_status" name="reorder_status">
                                         <option value="">All</option>
                                         @foreach($reorder_statuses as $reorder_status)
-                                            <option value="{{ $reorder_status->value }}">{{ $reorder_status->title }}</option>
+                                            <option {{ $filter->reorder_status==$reorder_status->value?"selected":"" }} value="{{ $reorder_status->value }}">{{ $reorder_status->title }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -98,7 +98,7 @@
                                     <select class="form-control datatable-input" data-col-index="0" id="rep" name="rep">
                                         <option value="">All</option>
                                         @foreach($reps as $rep)
-                                            <option value="{{ $rep->id }}">{{ $rep->firstname.' '.$rep->lastname }}</option>
+                                            <option {{ $filter->rep==$rep->id?"selected":"" }} value="{{ $rep->id }}">{{ $rep->firstname.' '.$rep->lastname }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -107,7 +107,7 @@
                                     <select class="form-control datatable-input" data-col-index="2" name="shop_id" id="shop_id">
                                         <option value="">All</option>
                                         @foreach($stores as $store)
-                                            <option value="{{ $store->id }}">{{ $store->shopify_name }}</option>
+                                            <option {{ $filter->shop_id==$store->id?"selected":"" }} value="{{ $store->id }}">{{ $store->shopify_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -115,8 +115,8 @@
                                     <label for="escalated">Escalated:</label>
                                     <select class="form-control datatable-input" name="escalated" id="escalated" data-col-index="">
                                         <option value="">All</option>
-                                        <option value="1">Yes</option>
-                                        <option value="0">No</option>
+                                        <option {{ $filter->escalated==1?"selected":"" }} value="1">Yes</option>
+                                        <option {{ $filter->escalated==0?"selected":"" }} value="0">No</option>
                                     </select>
                                 </div>
                             </div>

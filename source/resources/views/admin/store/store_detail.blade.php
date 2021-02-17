@@ -44,7 +44,7 @@
                             </div>
                             <div class="card-toolbar">
                                 <label for="support_issue">
-                                <input type="checkbox" class="checkbox-success" name="support_issue" id="support_issue">&nbsp;&nbsp;Support Issue</label>
+                                <input type="checkbox" class="checkbox-success" {{ $store->support_issue==1?"checked":"" }} name="support_issue" id="support_issue">&nbsp;&nbsp;Support Issue</label>
                             </div>
                         </div>
                         <div class="card-body">
@@ -84,7 +84,7 @@
                                     <div class="form-group row">
                                         <label for="setup_status" class="col-sm-3 col-form-label">Setup Status</label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" name="setup_status" id="setup_status">
+                                            <select class="form-control" name="setup_status" id="setup_status" tabindex="11">
                                                 @foreach($setup_statuses as $setup_status)
                                                     <option {{ $store->setup_status==$setup_status->value?"selected":"" }} value="{{ $setup_status->value }}">{{ $setup_status->title }}</option>
                                                 @endforeach
@@ -94,7 +94,7 @@
                                     <div class="form-group row">
                                         <label for="date_installed" class="col-sm-3 col-form-label">Date Installed</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="date_uninstalled" readonly="readonly" id="date_installed" class="form-control" value="{{ !empty($store->date_installed)&& $store->date_installed!=null?date('m/d/Y',strtotime($store->date_installed)):"" }}"/>
+                                            <input type="text" name="date_uninstalled" tabindex="13" readonly="readonly" id="date_installed" class="form-control" value="{{ !empty($store->date_installed)&& $store->date_installed!=null?date('m/d/Y',strtotime($store->date_installed)):"" }}"/>
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +142,7 @@
                                     <div class="form-group row">
                                         <label for="store_processing" class="col-sm-3 col-form-label">Store Processing</label>
                                         <div class="col-sm-9">
-                                            <select class="form-control" name="store_processing" id="store_processing">
+                                            <select class="form-control" name="store_processing" id="store_processing" tabindex="12">
                                                 <option {{ "Transaction"==$store->store_processing?"selected":"" }} value="Transaction">Transaction</option>
                                                 <option {{ "Bulk"==$store->store_processing?"selected":"" }} value="Bulk">Bulk</option>
                                             </select>
@@ -151,7 +151,7 @@
                                     <div class="form-group row">
                                         <label for="date_uninstalled" class="col-sm-3 col-form-label">Date Uninstalled</label>
                                         <div class="col-sm-9">
-                                            <input type="text" name="date_uninstalled" readonly="readonly" id="date_uninstalled" class="form-control" value="{{ !empty($store->date_uninstalled)&& $store->date_uninstalled!=null?date('m/d/Y',strtotime($store->date_uninstalled)):"" }}"/>
+                                            <input type="text" name="date_uninstalled" readonly="readonly" tabindex="14" id="date_uninstalled" class="form-control" value="{{ !empty($store->date_uninstalled)&& $store->date_uninstalled!=null?date('m/d/Y',strtotime($store->date_uninstalled)):"" }}"/>
                                         </div>
                                     </div>
                                 </div>
@@ -162,31 +162,31 @@
                                     <div class="form-group row">
                                         <label for="ups_acc_no" class="col-sm-3 col-form-label">UPS</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" tabindex="11" id="ups_acc_no" name="ups_acc_no" value="{{ $store->ups_acc_no }}">
+                                            <input type="text" class="form-control" tabindex="15" id="ups_acc_no" name="ups_acc_no" value="{{ $store->ups_acc_no }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="fedex_acc_no" class="col-sm-3 col-form-label">FedEx</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" tabindex="12" id="fedex_acc_no" name="fedex_acc_no" value="{{ $store->fedex_acc_no }}">
+                                            <input type="text" class="form-control" tabindex="16" id="fedex_acc_no" name="fedex_acc_no" value="{{ $store->fedex_acc_no }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="usps_acc_no" class="col-sm-3 col-form-label">USPS</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" tabindex="13" id="usps_acc_no" name="usps_acc_no" value="{{ $store->usps_acc_no }}">
+                                            <input type="text" class="form-control" tabindex="17" id="usps_acc_no" name="usps_acc_no" value="{{ $store->usps_acc_no }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="dhl_acc_no" class="col-sm-3 col-form-label">DHL</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" tabindex="14" id="dhl_acc_no" name="dhl_acc_no" value="{{ $store->dhl_acc_no }}">
+                                            <input type="text" class="form-control" tabindex="18" id="dhl_acc_no" name="dhl_acc_no" value="{{ $store->dhl_acc_no }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="other_acc_no" class="col-sm-3 col-form-label">Other</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" tabindex="15" id="other_acc_no" name="other_acc_no" value="{{ $store->other_acc_no }}">
+                                            <input type="text" class="form-control" tabindex="19" id="other_acc_no" name="other_acc_no" value="{{ $store->other_acc_no }}">
                                         </div>
                                     </div>
                                 </div>
@@ -197,31 +197,31 @@
                                     <div class="form-group row">
                                         <label for="primary_poc_firstname" class="col-sm-3 col-form-label">Firstname</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" tabindex="16" id="primary_poc_firstname" name="primary_poc_firstname" value="{{ $store->primary_poc_firstname }}">
+                                            <input type="text" class="form-control" tabindex="20" id="primary_poc_firstname" name="primary_poc_firstname" value="{{ $store->primary_poc_firstname }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="primary_poc_lastname" class="col-sm-3 col-form-label">Lastname</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" tabindex="17" id="primary_poc_lastname" name="primary_poc_lastname" value="{{ $store->primary_poc_lastname }}">
+                                            <input type="text" class="form-control" tabindex="21" id="primary_poc_lastname" name="primary_poc_lastname" value="{{ $store->primary_poc_lastname }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="primary_poc_phone" class="col-sm-3 col-form-label">Phone</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" tabindex="18" id="primary_poc_phone" name="primary_poc_phone" value="{{ $store->primary_poc_phone }}">
+                                            <input type="text" class="form-control" tabindex="22" id="primary_poc_phone" name="primary_poc_phone" value="{{ $store->primary_poc_phone }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="primary_poc_email" class="col-sm-3 col-form-label">Email</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" tabindex="19" id="primary_poc_email" name="primary_poc_email" value="{{ $store->primary_poc_email }}">
+                                            <input type="text" class="form-control" tabindex="23" id="primary_poc_email" name="primary_poc_email" value="{{ $store->primary_poc_email }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="primary_poc_title" class="col-sm-3 col-form-label">Title</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" tabindex="20" id="primary_poc_title" name="primary_poc_title" value="{{ $store->primary_poc_title }}">
+                                            <input type="text" class="form-control" tabindex="24" id="primary_poc_title" name="primary_poc_title" value="{{ $store->primary_poc_title }}">
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +229,7 @@
                                     <div class="form-group row">
                                         <label for="notes" class="col-sm-3 col-form-label">Notes (don't delete history)</label>
                                         <div class="col-sm-9">
-                                            <textarea class="form-control" style="min-height: 500px" id="notes" name="notes">{{ $store->notes }}</textarea>
+                                            <textarea class="form-control" tabindex="25" style="min-height: 500px" id="notes" name="notes">{{ $store->notes }}</textarea>
                                         </div>
                                     </div>
                                 </div>
