@@ -41,7 +41,7 @@
                         </div>
                         <div class="card-toolbar">
                             <!--begin::Button-->
-                            <a href="#" class="btn btn-secondary font-weight-bolder mr-2">
+                            <a href="javascript:;" class="btn btn-secondary font-weight-bolder mr-2" onclick="submitPrices()">
                                 <span class="svg-icon svg-icon-md">
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -199,6 +199,7 @@
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
+
         $(window).keydown(function(event){
             if(event.keyCode == 13) {
                 event.preventDefault();
@@ -251,6 +252,43 @@
             range_to: {greaterThan: 'Must be greater than or equal to Start Total'},
         }
     })
+    function submitPrices() {
+        Swal.fire({
+            text: "Please make sure price price rules are correct before posting to shopify.",
+            icon: "success",
+            buttonsStyling: false,
+            confirmButtonText: "Confirm!",
+            customClass: {
+                confirmButton: "btn font-weight-bold btn-light-primary"
+            }
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                    url:"https://guideprotection.com/protectit/core/ajax_update_shop_price_rules",
+                    type:"post",
+                    data:{shop_id:"{{ $shop_id }}"},
+                    success:function (data) {
+                        if(data.Flag===1){
+                            Swal.fire({
+                                text:data.Message,
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok!",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                            }).then((result) => {
+                                window.location.href="{{ route('admin.stores') }}"
+                            })
+                        }
+                    }
+                })
+            } else if (result.isDenied) {
+            }
+        });
+
+    }
     function editPrice(title,id,price,guide_price,range_from,range_to) {
         $("#edit_title").val(title);
         $("#edit_range_from").val(range_from);
@@ -260,5 +298,6 @@
         $("#price_id").val(id);
         $("#edit_pricing").modal("show")
     }
+
 </script>
 @endsection

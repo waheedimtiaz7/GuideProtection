@@ -24,6 +24,7 @@ use App\Http\Controllers\PaypalController;
 Route::get('/', [CustomerController::class,'index']);
 Route::post('/check_order', [CustomerController::class,'checkOrder'])->name('check_order');
 Route::get('/file-claim/{id}', [CustomerController::class,'fileClaim']);
+Route::post('/get-claim-details', [CustomerController::class,'getClaimDetails']);
 Route::post('/submit-claim-form', [CustomerController::class,'submitClaimForm']);
 Route::get('/success-page', [CustomerController::class,'successPage']);
 

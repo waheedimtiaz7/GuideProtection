@@ -23,8 +23,11 @@
                                     <li class="whitecolor wow fadeIn" data-wow-delay="400ms">
                                         <span class="active-step">02</span>
                                     </li>
+                                    <li class="whitecolor wow fadeIn" data-wow-delay="400ms">
+                                        <span class="pro-step">03</span>
+                                    </li>
                                     <li class="whitecolor wow fadeIn">
-                                        <span class="active-step">03</span>
+                                        <span class="active-step">04</span>
                                     </li>
                                 </ul>
                             </div>

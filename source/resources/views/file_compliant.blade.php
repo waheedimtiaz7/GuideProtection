@@ -26,6 +26,9 @@
                                 <li class="whitecolor wow fadeIn" data-wow-delay="500ms">
                                     <span class="pro-step">03</span>
                                 </li>
+                                <li class="whitecolor wow fadeIn" data-wow-delay="600ms">
+                                    <span class="pro-step">04</span>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -35,7 +38,7 @@
     </div>
 </header>
 <!-- End Header -->
-<form id="claim_form">
+<form id="claim_form" action="{{ url('get-claim-details') }}" method="post">
     {{ csrf_field() }}
 <!-- Start Banner -->
     <section class="page-title">
@@ -52,10 +55,9 @@
     <!-- Start Order Form -->
     <section class="ship-form-2">
         <div class="container">
-
-            <div class="row py-5">
+            <div class="row pt-5">
                 <div class="col-md-12">
-                    <h3 class="mb-3 text-blue">{{ $store->shopify_name }}</h3>
+                    <h3 class="mb-3 text-blue" style="font-size: 35px">{{ $store->shopify_name }}</h3>
                     <div class="card rounded border-0">
                         <div class="card-body rounded">
                             <div class="table-details mb-">
@@ -65,12 +67,12 @@
                                 <label>Select claimed items from order:</label>
                                 <table style="width:100%" class="table table-striped table-bordered">
                                     <thead class="table-head">
-                                    <tr>
-                                        <th>Claimed Items</th>
-                                        <th>Qty</th>
-                                        <th>Description</th>
-                                        <th>SKU</th>
-                                    </tr>
+                                        <tr>
+                                            <th>Claimed Items</th>
+                                            <th>Qty</th>
+                                            <th>Description</th>
+                                            <th>SKU</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($order->order_detail as $k=>$detail)
@@ -92,41 +94,19 @@
             </div>
         </div>
     </section>
-    <!-- End Order Form -->
-
-    <!-- Start Drop Down -->
-    <section class="dropdown py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="sub_heading">What Happened? (Please note that we do not cover manufacturing defects)</p>
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="incident_type" id="incident_type">
-                        @foreach($incident_types as $incident_type)
-                            <option value="{{ $incident_type->value }}">{{ $incident_type->title }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Drop Down -->
 
     <!-- Start Description -->
     <section class="description">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <p class="sub_heading">Description of incident</p>
                     <div class="form-group">
-                        <textarea class="form-control" placeholder="Message" id="incident_description" name="incident_description"></textarea>
-                        <div class="tracking-num py-5">
+                        <div class="tracking-num">
                             <input type="hidden" name="order_id" id="order_id" value="{{ $order->id }}">
                             {{--<p class="sub_heading">Tracking Number</p>
                             <input type="text" name="cart_trackingnumber" id="cart_trackingnumber">--}}
-                            <span class="mx-2">(if optional)</span>
-                            <p>Note that items can only be re-shipped to the orignal addresses.</p>
                             <div class="alert-danger py-3 hidden"></div>
-                            <button type="submit" class="btn contact_btn btn-medium btn-blue btn-rounded my-4">Submit </button>
+                            <button type="button" class="btn contact_btn btn-medium btn-blue btn-rounded my-4" id="claim_form_button">Continue </button>
                         </div>
                     </div>
                 </div>
@@ -148,7 +128,7 @@
                 $(".alert-danger").html("");
             }
         });
-        $("#claim_form").on('submit',function (e) {
+        $("#claim_form_button").on('click',function (e) {
             e.preventDefault();
 
             var fields = $("input[name='item[]']").serializeArray();
@@ -159,20 +139,8 @@
                 return false;
             }else{
                 $(".alert-danger").html("");
-                $("#pageloader").addClass('display_block');
-                $.ajax({
-                    url:"{{ url('submit-claim-form') }}",
-                    data:$(this).serialize(),
-                    type:"post",
-                    success:function (data) {
-                        $("#pageloader").removeClass('display_block');
-                        if(data.success){
-                            window.location.href="{{ url("success-page") }}"
-                        }else{
-                            alert("Order not found. If you think you'r receiving this by mistake, please contact your store's customer service.")
-                        }
-                    }
-                })
+               $("#claim_form").submit();
+                return true;
             }
 
         })

@@ -46,6 +46,18 @@ class CustomerController extends Controller
         $incident_types=Status::whereType('incident-type')->get();
         return view('file_compliant',["order"=>$order,'incident_types'=>$incident_types,"store"=>$store]);
     }
+    public function getClaimDetails(Request $request){
+        $order=Order::where('id',$request['order_id'])->with('order_detail')->first();
+        $data=array(
+            'order_id'=>$request['order_id'],
+            'items'=>$request['item'],
+            'quantity'=>$request['qty'],
+            'order'=>$order,
+            'store'=>Shop::whereId($order->shop_id)->first(),
+            'incident_types'=>Status::whereType('incident-type')->get()
+        );
+        return view("claim_stage_three",$data);
+    }
     public function submitClaimForm(Request $request){
         try {
             DB::beginTransaction();
@@ -58,7 +70,7 @@ class CustomerController extends Controller
                 'shop_id'=>$order->shop_id,
                 'store_ordernumber'=>$order->store_ordernumber,
                 'cart_ordernumber'=>$order->cart_orderid,
-                'cart_trackingnumber'=>$request['cart_trackingnumber'],
+                'cart_trackingnumber'=>"",
                 'order_id'=>$order->id,
                 'claim_status'=>1,
                 'orderdate'=>date('Y-m-d',strtotime($order->orderdate)),
