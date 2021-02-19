@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Claim;
+use App\Models\PaypalPayment;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Validator;
@@ -43,6 +45,10 @@ class PaypalController extends Controller
     public function postPaymentWithpaypal(Request $request)
     {
         $shop=Shop::whereId($request['shop_id'])->first();
+        $check=Claim::whereId($request['claim_id'])->first();
+        if(!empty($check->payout_batch_id)){
+            return response()->json(['error'=>true,'message'=>'This claim has already been submitted for payout.']);
+        }
         $payouts=new Payout();
         $senderBatchHeader = new PayoutSenderBatchHeader();
         $senderBatchHeader->setSenderBatchId(uniqid())
@@ -50,8 +56,8 @@ class PaypalController extends Controller
             $senderItem = new PayoutItem();
             $senderItem->setRecipientType('Email')
                 ->setNote('Thanks for your patronage!')
-                ->setReceiver($shop->paypal_account)
-                ->setSenderItemId("2014031400023")
+                ->setReceiver("spencerbknight@gmail.com")
+                ->setSenderItemId($check->id)
                 ->setAmount(new Currency('{
                             "value":'. $request['amount'] .',
                             "currency":"USD"
@@ -61,20 +67,32 @@ class PaypalController extends Controller
             $request = clone $payouts;
             try {
                 $output = $payouts->createSynchronous($this->_api_context);
+                if(isset($output->batch_header) && !isset($output->batch_header->errors)){
+                    $id=PaypalPayment::create([
+                        'payout_batch_id'=>$output->batch_header->payout_batch_id,
+                        'batch_status'=>$output->batch_header->batch_status,
+                        'sender_batch_header'=>$output->batch_header->sender_batch_header->sender_batch_id,
+                        'link'=>$output->links[0]->href,
+                        'claim_id'=>$request['claim_id'],
+                        'shop_id'=>$request['shop_id']
+                    ]);
+                    Claim::whereId($request['claim_id'])->update([
+                        'payout_batch_id'=>$output->batch_header->payout_batch_id,'paypal_payment_id'=>$id->id
+                    ]);
+                    return response()->json(['success'=>true,'message'=>'Payout created successfully']);
+                }else{
+                    return response()->json(['error'=>true,'message'=>$output]);
+                }
+
             } catch (\Exception $ex) {
-                print_r($ex->getMessage());
-               // ResultPrinter::printError("Created Single Synchronous Payout", "Payout", null, $request, $ex);
-                exit(1);
+                return response()->json(['error'=>true,'message'=>$ex->getMessage()]);
             }
-
-
-        return $output;
     }
 
     public function getPaymentStatus(Request $request)
     {
         $payouts=new Payout();
-        $status=$payouts->get("UB2SSMFXD8NYG", $this->_api_context );
+        $status=$payouts->get("MJBQ95HF75KNY", $this->_api_context );
         echo '<pre>';
         print_r($status);exit;
         \Session::put('error','Payment failed !!');

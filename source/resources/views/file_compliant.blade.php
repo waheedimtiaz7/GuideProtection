@@ -76,7 +76,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach($order->order_detail as $k=>$detail)
-                                            @if($detail->title!='Guide Shipping Protection' && $detail->title!='Guide protection')
+                                            @if(strtolower($detail->title)!='guide shipping protection' && strtolower($detail->title)!='guide protection')
                                                 <tr>
                                                     <td><input name="item[]" type="checkbox" class="box item" value="{{ $detail->id }}"></td>
                                                     <td><input name="qty[]" id="qty_{{ $detail->id }}" disabled="disabled"  value="{{ $detail->qty }}"></td>

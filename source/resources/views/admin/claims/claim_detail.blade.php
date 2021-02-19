@@ -363,8 +363,8 @@
                                 <button class="btn btn-primary w-250px" onclick="getMailDetail(10)">Everything's good?</button><br><br>
                                 <br>
                                 <p>Other Processes</p>
-                                <button class="btn btn-dark w-250px" onclick="refundToStore()">Post refund to store</button><br><br>
-                                <button class="btn btn-dark w-250px">Refund and create DC</button>
+                                <div><button class="btn btn-dark w-250px" onclick="refundToStore()">Post refund to store</button><span class="refundText">{{ !empty($claim->payout_batch_id)?"Claim has been refunded to store":"" }}</span></div><br><br>
+                                <button class="btn btn-dark w-250px" onclick="getDiscountCode()">Refund and create DC</button>
                             </div>
 
                         </div>
@@ -470,13 +470,34 @@
 
     <script>
         function refundToStore() {
-            var data={"shop_id":{{ $claim->shop_id }},"_token":"{{ csrf_token() }}","amount":$("#total").val()};
+            var data={"shop_id":{{ $claim->shop_id }},"claim_id":{{ $claim->id }},"_token":"{{ csrf_token() }}","amount":$("#total").val()};
             $.ajax({
                 url:"{{ route('paymentWithPaypal') }}",
                 type: 'POST',
                 data: data,
                 success: function(data) {
-                    console.log(data)
+                    if(data.success){
+                        $(".refundText").text("Claim has been refunded to store");
+                        Swal.fire({
+                            text:data.message ,
+                            icon: "success",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn font-weight-bold btn-light-primary"
+                            }
+                        });
+                    }else{
+                        Swal.fire({
+                            text:data.message ,
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn font-weight-bold btn-light-primary"
+                            }
+                        });
+                    }
                 }
             });
         }
@@ -638,6 +659,55 @@
                 }
             })
        }
+        function getDiscountCode() {
+            Swal.fire({
+                text: "Please make sure price price rules are correct before posting to shopify.",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "Confirm!",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url:"https://guideprotection.com/protectit/core/ajax_discount_rules",
+                        type:"post",
+                        data:{shop_id:"{{ $shop_id }}"},
+                        success:function (data) {
+                            if(data.Flag===1){
+                                Swal.fire({
+                                    text:data.Message,
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok!",
+                                    customClass: {
+                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                                    }
+                                }).then((result) => {
+
+                                })
+                            }else{
+                                Swal.fire({
+                                    text:data.Message,
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok!",
+                                    customClass: {
+                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                                    }
+                                }).then((result) => {
+
+                                })
+                            }
+                        }
+                    })
+                } else if (result.isDenied) {
+                }
+            });
+
+        }
     </script>
 
 @endsection

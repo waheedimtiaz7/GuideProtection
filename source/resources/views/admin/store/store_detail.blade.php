@@ -111,7 +111,7 @@
                                             <select class="form-control" name="category_id" id="category_id" tabindex="4">
                                                 <option></option>
                                                 @foreach($categories as $category)
-                                                    <option {{ $category->id==$store->categories[0]->id?"selected":"" }} value="{{ $category->id }}">{{ $category->title }}</option>
+                                                    <option {{ count($store->categories)?$category->id==$store->categories[0]->id?"selected":"":"" }} value="{{ $category->id }}">{{ $category->title }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

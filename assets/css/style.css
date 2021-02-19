@@ -821,19 +821,6 @@ h3 {font-size: 35px;}
     position: absolute;
     top: 50%;
 }
-.loader {
-    border: 1px solid #e1e8ed;
-    border-top: 16px solid #5dacbd; /* Blue */
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    margin: auto;
-    animation: spin 2s linear infinite;
-}
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
 @media screen and (max-width: 1600px) and (min-width: 1367px){
     .right-content {
         width: 90%;
