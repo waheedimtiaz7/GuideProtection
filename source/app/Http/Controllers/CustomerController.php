@@ -85,7 +85,9 @@ class CustomerController extends Controller
                 'shipping_state'=>$order->shipping_state,
                 'shipping_zip'=>$order->shipping_zip,
                 'shipping_country'=>$order->shipping_country,
-                'shipping_carrier_method'=>$order->shipping_carrier_method
+                'shipping_carrier_method'=>$order->shipping_carrier_method,
+                'cart_trackingnumber'=>$order->cart_ship_trackno,
+                'cart_tracking_url'=>$order->cart_tracking_url    
             ]);
             $total=0;
             foreach ($request['item'] as $k=>$item){

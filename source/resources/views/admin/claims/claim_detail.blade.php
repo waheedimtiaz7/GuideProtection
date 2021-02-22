@@ -150,7 +150,7 @@
                                             <label><strong>Country:</strong> {{ $claim->shipping_country }}  </label>
                                         </div>
                                         <div class="col-lg-3 mb-lg-0 mb-6">
-                                            <label><strong>Shopify Tracking #:</strong> <a target="_blank" href="https://www.ups.com/WebTracking?loc=en_US&requester=ST&trackNums={{ $claim->customer_reported_trackno }}/trackdetails">{{ $claim->customer_reported_trackno }} </a></label>
+                                            <label><strong>Shopify Tracking #:</strong> <a target="_blank" href="{{ $claim->cart_tracking_url }}">{{ $claim->cart_trackingnumber }} </a></label>
                                             <div class="form-group row ">
                                                 <label class="col-lg-4 col-form-label " for="gp_reorder_trackno">GP Tracking #:</label>
                                                 <div class="col-lg-5">
