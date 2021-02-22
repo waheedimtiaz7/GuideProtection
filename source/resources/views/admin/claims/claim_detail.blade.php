@@ -235,7 +235,7 @@
                                                         <td>{{ $product->cart_name }}</td>
                                                         <td><input type="checkbox" checked="checked" ></td>
                                                         <td>{{ $product->final_unit_price }}</td>
-                                                        <td><a href="">open</a></td>
+                                                        <td><a target="_new" href="http://{{ $claim->store_id }}/cart/{{$claim_detail->variantid}}:{{$claim_detail->quantity}}">open</a></td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -674,7 +674,7 @@
                     $.ajax({
                         url:"https://guideprotection.com/protectit/core/ajax_discount_rules",
                         type:"post",
-                        data:{shop_id:"{{ $shop_id }}"},
+                        data:{shop_id:"{{ $claim->shop_id }}"},
                         success:function (data) {
                             if(data.Flag===1){
                                 Swal.fire({
