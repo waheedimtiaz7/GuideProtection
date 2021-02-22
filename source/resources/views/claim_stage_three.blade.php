@@ -55,11 +55,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <p class="sub_heading">What Happened? (Please note that we do not cover manufacturing defects)</p>
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="incident_type" id="incident_type">
                             @foreach($incident_types as $incident_type)
-                                <option value="{{ $incident_type->value }}">{{ $incident_type->title }}</option>
+                            <label><input class="radio-dark" type="radio" name="incident_type" value="{{ $incident_type->value }}">&nbsp; {{ $incident_type->title }} </label>
                             @endforeach
-                        </select>
+
                     </div>
                 </div>
             </div>
