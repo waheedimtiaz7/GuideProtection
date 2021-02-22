@@ -70,7 +70,6 @@ class CustomerController extends Controller
                 'shop_id'=>$order->shop_id,
                 'store_ordernumber'=>$order->store_ordernumber,
                 'cart_ordernumber'=>$order->cart_orderid,
-                'cart_trackingnumber'=>"",
                 'order_id'=>$order->id,
                 'claim_status'=>1,
                 'orderdate'=>date('Y-m-d',strtotime($order->orderdate)),
