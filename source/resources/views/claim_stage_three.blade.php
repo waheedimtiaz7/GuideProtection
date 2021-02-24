@@ -55,6 +55,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <p class="sub_heading">What Happened? (Please note that we do not cover manufacturing defects)</p>
+
                             @foreach($incident_types as $incident_type)
                             <label><input class="radio-dark" type="radio" name="incident_type" value="{{ $incident_type->value }}">&nbsp; {{ $incident_type->title }} </label>
                             @endforeach

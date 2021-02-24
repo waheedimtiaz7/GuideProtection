@@ -220,8 +220,9 @@
                                             <tbody>
                                             <?php
                                             $total=0;
+                                            $all_links='';
                                             ?>
-                                                @foreach($claim->claim_detail as $claim_detail )
+                                                @foreach($claim->claim_detail as $k=>$claim_detail )
                                                     <tr>
                                                         <td>{{ $claim_detail->quantity }}</td>
                                                         <td><?php
@@ -231,7 +232,12 @@
                                                         </td>
                                                         <?php
                                                         $total=$total+($product->final_unit_price*$claim_detail->quantity);
+                                                        $all_links.=$claim_detail->variantid.":".$claim_detail->quantity;
+                                                        if($k+1!=count($claim->claim_detail)){
+                                                            $all_links.=',';
+                                                        }
                                                         ?>
+
                                                         <td>{{ $product->cart_name }}</td>
                                                         <td><input type="checkbox" checked="checked" ></td>
                                                         <td>{{ $product->final_unit_price }}</td>
@@ -246,6 +252,8 @@
                                             <label><strong>Issue:</strong> {{ $claim->incidentType->title }} </label>
                                             <br/>
                                             <label><strong>Issue Detail:</strong> {{ $claim->incident_description }}</label>
+                                            <br/>
+                                            <a href="http://{{ $claim->store_id }}/cart/{{$all_links}}" target="_blank" class="btn btn-light-info">Reorder</a>
                                         </div>
                                         <div class="col-lg-1 mb-lg-0 mb-6 text-right">
                                             <label for="total">Approved Claim Amount:</label>
