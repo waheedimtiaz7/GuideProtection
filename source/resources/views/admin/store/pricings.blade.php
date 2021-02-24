@@ -258,8 +258,11 @@
             icon: "success",
             buttonsStyling: false,
             confirmButtonText: "Confirm!",
+            cancelButtonText: 'Cancel',
+            showCancelButton: true,
             customClass: {
-                confirmButton: "btn font-weight-bold btn-light-primary"
+                confirmButton: "btn font-weight-bold btn-light-primary",
+                cancelButton:"btn font-weight-bold btn-light-danger"
             }
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
@@ -285,6 +288,7 @@
                     }
                 })
             } else if (result.isDenied) {
+
             }
         });
 
