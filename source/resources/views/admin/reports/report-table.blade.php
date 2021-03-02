@@ -37,8 +37,8 @@
 
                                 <span class="pull-left">*First 250 records displayed.  Export to Excel for complete list</span>
                                 <button type="button" class="btn btn-primary" href="" onclick="javascript:history.back()">Modify Criteria</button>
-                                <a href="<?php echo url('/admin/reports/');?>" type="button"  class="btn btn-primary mb-20">Start Over</a>
-                                <button type="button" id="export_excel" class="btn btn-primary mb-20">Export to Excel</button>
+                                <a href="<?php echo url('/admin/reports/');?>" type="button"  class="btn btn-primary">Start Over</a>
+                                <button type="button" id="export_excel" class="btn btn-primary">Export to Excel</button>
                             </div>
                         </div>
                         <div class="col-md-12">

@@ -157,7 +157,7 @@
                                                     <input type="text" class="form-control" placeholder=""  name="gp_reorder_trackno" id="gp_reorder_trackno" value="{{ $claim->gp_reorder_trackno }}"/>
                                                 </div>
                                                 <div class="col-lg-3 ">
-                                                    <a href="#." class="align-middle" >View</a>
+
                                                 </div>
                                             </div>
                                             <div class="form-group row ">
@@ -166,7 +166,7 @@
                                                     <input type="text" class="form-control" placeholder="" name="reorder_trackingnumber" id="reorder_trackingnumber" value="{{ $claim->reorder_trackingnumber }}"/>
                                                 </div>
                                                 <div class="col-lg-3 ">
-                                                    <a href="#." class="align-middle" >View</a>
+
                                                 </div>
                                             </div>
                                             <div class="form-group row ">

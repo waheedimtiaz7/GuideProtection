@@ -43,8 +43,16 @@
                                 </h3>
                             </div>
                             <div class="card-toolbar">
-                                <label for="support_issue">
-                                <input type="checkbox" class="checkbox-success" {{ $store->support_issue==1?"checked":"" }} name="support_issue" id="support_issue">&nbsp;&nbsp;Support Issue</label>
+                                <span>
+                                    <label for="support_issue">
+                                    <input type="checkbox" class="checkbox-success" {{ $store->support_issue==1?"checked":"" }} name="support_issue" id="support_issue">&nbsp;&nbsp;Support Issue</label>
+                                </span>
+                                &nbsp;
+                                &nbsp;
+                                <span>
+                                    <label for="shop_default_script">
+                                    <input type="checkbox" class="checkbox-primary" {{ $store->shop_default_script==1?"checked":"" }} name="shop_default_script" id="shop_default_script">&nbsp;Shop Default Script</label>
+                                </span>
                             </div>
                         </div>
                         <div class="card-body">
@@ -276,7 +284,50 @@
     @endif
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
     <script>
-        $("#user").validate({
-        })
+        $('#shop_default_script').change(function() {
+            if(this.checked) {
+                $.ajax({
+                    url:"https://guideprotection.com/protectit/core/ajax_set_defaut_js_script",
+                    type:"post",
+                    data:{shop_id:"{{ $store->id }}",shop_default_script:1},
+                    success:function (data) {
+                        if(data.Flag===1){
+                            Swal.fire({
+                                text:data.Message,
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok!",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                            }).then((result) => {
+                                window.location.href="{{ route('admin.stores') }}"
+                            })
+                        }
+                    }
+                })
+            }else{
+                $.ajax({
+                    url:"https://guideprotection.com/protectit/core/ajax_set_defaut_js_script",
+                    type:"post",
+                    data:{shop_id:"{{ $store->id }}",shop_default_script:0},
+                    success:function (data) {
+                        if(data.Flag===1){
+                            Swal.fire({
+                                text:data.Message,
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok!",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                            }).then((result) => {
+                                window.location.href="{{ route('admin.stores') }}"
+                            })
+                        }
+                    }
+                })
+            }
+        });
     </script>
 @endsection
