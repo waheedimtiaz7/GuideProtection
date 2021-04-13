@@ -21,12 +21,22 @@ class ClaimController extends Controller
         $claim_statuses=Status::whereType('claim')->get();
         $reorder_statuses=Status::whereType('re-order')->get();
         $stores=Shop::where('store_type','!=',-1)->select('shops.*')->get();
+        $pro_stores=[];
+        $all_stores=[];
+        foreach ($stores as $store){
+            if($store->shopify_plan_name=='professional'){
+                $pro_stores[]=$store;
+            }else{
+                $all_stores[]=$store;
+            }
+        }
+        $all_stores=array_merge($pro_stores,$all_stores);
         $reps=User::whereStatus(1)->get();
         $filters=Session::has('claim_filters')?json_decode(Session::get('claim_filters')):array();
         return view('admin.claims.index',[
             'header'=>'Claims',
             'reps'=>$reps,
-            'stores'=>$stores,
+            'stores'=>$all_stores,
             'filter'=>$filters,
             'claim_statuses'=>$claim_statuses,
             'reorder_statuses'=>$reorder_statuses
@@ -266,6 +276,102 @@ class ClaimController extends Controller
                     ]);
                     $update->update(['notes'=>$request['notes']]);
                 }
+                \DB::commit();
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'Claim info updated successfully'
+                ]);
+            } catch (\Exception $exception) {
+                return response()->json([
+                    'error'=>true,
+                    'message'=>$exception->getMessage().' '.$exception->getLine()
+                ]);
+            }
+        }
+    }
+    public function saveDiscountCode(Request $request){
+        $validator=\Validator::make($request->all(),[
+            'order_id'=>"required",
+            'DiscountCode'=>"required",
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'error'=>true,
+                'message'=>$validator->errors()->first()
+            ]);
+        }else {
+            try {
+                \DB::beginTransaction();
+                $update=Claim::whereOrderId($request['order_id']);
+                $claim=$update->with(['claimStatus','reorderStatus','representative'])->first();
+                $order=Claim::where('cart_orderid',$request['order_id'])->first();
+                    $rep=User::whereId($request['claim_rep'])->first();
+                ClaimUpdate::create([
+                    'claim_id'=>$claim->id,
+                    'updated_by'=>\Auth::user()->id,
+                    'column_name'=>'discount_code',
+                    'original_value'=>$claim->discount_code,
+                    'updated_value'=>$request['DiscountCode'],
+                    'detail'=>'Discount code added added',
+                    'date_updated'=>date('Y-m-d H:i:s'),
+                ]);
+                    $update->update(['discount_code'=>$request['DiscountCode'],'discount_or_gift_status'=>1,'discount_created_date'=>date('Y-m-d')]);
+                        /*$template=Template::whereTitle('Claim Processing: Email Discount Code')->first();
+                        $detail=str_replace("{{first name}}",$order->customer_firstname,$template->detail);
+                        $detail=str_replace("{{order number}}",$order->cart_orderid,$detail);
+                        $detail=str_replace("{{discount code number}}",$request['DiscountCode'],$detail);
+                        \Mail::send('emails.index',['user'=>$order,'title'=>$template->title,'template'=>$template,'detail'=>$detail],function ($mail) use ($request,$order,$template){
+                            $mail->to($order->customer_email, $order->customer_firstname)->subject($template->subject);
+                        });*/
+
+                    \DB::commit();
+                return response()->json([
+                    'success'=>true,
+                    'message'=>'Claim info updated successfully'
+                ]);
+            } catch (\Exception $exception) {
+                return response()->json([
+                    'error'=>true,
+                    'message'=>$exception->getMessage().' '.$exception->getLine()
+                ]);
+            }
+        }
+    }
+    public function saveGiftCard(Request $request){
+        $validator=\Validator::make($request->all(),[
+            'order_id'=>"required",
+            'GiftCardNo'=>"required",
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'error'=>true,
+                'message'=>$validator->errors()->first()
+            ]);
+        }else {
+            try {
+                \DB::beginTransaction();
+                $update=Claim::whereOrderId($request['order_id']);
+                $order=Claim::where('cart_orderid',$request['order_id'])->first();
+                $claim=$update->with(['claimStatus','reorderStatus','representative'])->first();
+                $rep=User::whereId($request['claim_rep'])->first();
+                ClaimUpdate::create([
+                    'claim_id'=>$claim->id,
+                    'updated_by'=>\Auth::user()->id,
+                    'column_name'=>'gif_card_no',
+                    'original_value'=>$claim->gif_card_no,
+                    'updated_value'=>$request['GiftCardNo'],
+                    'detail'=>'Gift card no added',
+                    'date_updated'=>date('Y-m-d H:i:s'),
+                ]);
+                $update->update(['gift_card_no'=>$request['GiftCardNo'],'discount_or_gift_status'=>1,'gif_card_created_date'=>date('Y-m-d')]);
+               /* $template=Template::whereTitle('Claim Processing: Email Gift Card')->first();
+                $detail=str_replace("{{first name}}",$order->customer_firstname,$template->detail);
+                $detail=str_replace("{{order number}}",$order->cart_orderid,$detail);
+                $detail=str_replace("{{gift card number}}",$request['GiftCardNo'],$detail);
+                \Mail::send('emails.index',['user'=>$order,'title'=>$template->title,'template'=>$template,'detail'=>$detail],function ($mail) use ($request,$order,$template){
+                    $mail->to($order->customer_email, $order->customer_firstname)->subject($template->subject);
+                });*/
+
                 \DB::commit();
                 return response()->json([
                     'success'=>true,

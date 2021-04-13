@@ -197,6 +197,32 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    @if(session()->has('success'))
+        <script>
+            Swal.fire({
+                text:"{{ session()->get('success') }}",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "Ok!",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+        </script>
+    @endif
+    @if(session()->has('error'))
+        <script>
+            Swal.fire({
+                text:"{{ session()->get('error') }}",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok!",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+        </script>
+    @endif
 <script>
     $(document).ready(function() {
 

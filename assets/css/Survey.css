@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+	outline: none;
+	font-family: 'Poppins', sans-serif;
+}
+* {
+	margin: 0;
+	box-sizing: border-box;
+}
+:root {
+ --dark-color:#212121;
+ --light-color:#fefefe;
+ --green-color:#26CD8A;
+}
+body {
+	font-family: 'Poppins', sans-serif;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	overflow: hidden;
+	background-color: #F9F9F9;
+}
+.wrapper {
+	width: 846px;
+	margin: 0 auto;
+	padding: 0px;
+}
+.header-container {
+	width: auto;
+	height: auto;
+	background-color: #fff;
+	margin-bottom: 50px;
+}
+.nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 84px;
+	background-color: #fff;
+	gap: 50px;
+	margin: 0 auto;
+	padding: 0px;
+}
+.logo img {
+	width: 47px;
+	height: 55px;
+}
+.step p {
+	font-size: 0px !important
+}
+.styled-table {
+	border-collapse: collapse;
+	margin: 25px 0;
+	font-size: 0.9em;
+	font-family: sans-serif;
+	min-width: 100%;
+}
+styled-table thead tr {
+	color: #ffffff;
+	text-align: left;
+}
+.styled-table th {
+	background-color: #333;
+	color: #fff;
+}
+.styled-table th, .styled-table td {
+	padding: 12px 15px;
+}
+.styled-table tbody tr {
+	border-bottom: 1px solid #dddddd;
+}
+.styled-table tbody tr:nth-of-type(even) {
+	background-color: #f3f3f3;
+}
+.styled-table tbody tr:last-of-type {
+	border-bottom: 2px solid #009879;
+}
+.styled-table tbody tr.active-row {
+	font-weight: bold;
+	color: #009879;
+}
+::selection {
+	color: #fff;
+	background: #d43f8d;
+}
+.container {
+	width: 540px;
+	background: #fff;
+	text-align: center;
+	border-radius: 80px;
+	padding: 50px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+}
+.container header {
+	font-size: 35px;
+	font-weight: 600;
+	margin: 0 0 30px 0;
+}
+.container .form-outer {
+	width: 100%;
+	overflow: hidden;
+}
+.container .form-outer form {
+	display: flex;
+	width: 400%;
+}
+.form-outer form .page {
+	width: 25%;
+	transition: margin-left 0.3s ease-in-out;
+}
+.form-outer form .page .title {
+	text-align: left;
+	font-size: 25px;
+	font-weight: 500;
+}
+.form-outer form .page .field {
+	height: 45px;
+	margin: 20px 0;/*display: flex;*/
+ 
+}
+form .page .field .label {
+	position: absolute;
+	top: -30px;
+	font-weight: 500;
+	display: none;
+}
+form .page .field input {
+	height: 100%;
+	width: 100%;
+	border-top: none;
+	border-right: none;
+	border-bottom: 1px solid lightgrey;
+	border-left: none;
+	/*border-radius: 5px;*/
+	padding-left: 5px;
+	font-size: 18px;
+}
+form .page .field select {
+	width: 100%;
+	padding-left: 10px;
+	font-size: 17px;
+	font-weight: 500;
+}
+form .page .field button {
+	width: 130px;
+	height: calc(100% + 5px);
+	border: none;
+	background: var(--green-color);
+	/*margin-top: -20px;*/
+	border-radius: 50px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 18px;
+	font-weight: 500;
+	letter-spacing: 1px;
+	/*text-transform: uppercase;*/
+	transition: 0.5s ease;
+}
+form .page .field button:hover {
+	background: #000;
+}
+form .page .btns button {
+/*margin-top: -20px!important;*/
+}
+form .page .btns button.prev {
+	margin-right: 3px;
+	font-size: 17px;
+}
+form .page .btns button.next {
+	margin-left: 3px;
+}
+.container .progress-bar {
+	display: flex;
+	margin: 40px 0;
+	user-select: none;
+}
+.container .progress-bar .step {
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+.container .progress-bar .step p {
+	font-size: 18px;
+	font-weight: 500;
+	color: #000;
+	margin-bottom: 8px;
+	transition: 0.2s;
+}
+.progress-bar .step p.active {
+	color: blue;
+}
+.progress-bar .step .bullet {
+	height: 25px;
+	width: 25px;
+	border: 2px solid #ccc;
+	display: inline-block;
+	border-radius: 50%;
+	position: relative;
+	transition: 0.2s;
+	font-weight: 500;
+	font-size: 17px;
+	line-height: 25px;
+}
+.progress-bar .step .bullet.active {
+	border-color: var(--dark-color);
+	background: var(--dark-color);
+}
+.progress-bar .step .bullet span {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	color: #ccc;
+}
+.progress-bar .step .bullet.active span {
+	display: none;
+}
+.progress-bar .step .bullet:before, .progress-bar .step .bullet:after {
+	position: absolute;
+	content: '';
+	bottom: 11px;
+	right: -53px;
+	height: 2px;
+	width: 53px;
+	background: #ccc;
+}
+.progress-bar .step .bullet.active:after {
+	background: var(--dark-color);
+	transform: scaleX(0);
+	transform-origin: left;
+	animation: animate 0.3s linear forwards;
+}
+ @keyframes animate {
+ 100% {
+ transform: scaleX(1);
+}
+}
+.progress-bar .step:last-child .bullet:before, .progress-bar .step:last-child .bullet:after {
+	display: none;
+}
+.progress-bar .step p.active {
+	color: #d43f8d;
+	transition: 0.2s linear;
+}
+.progress-bar .step .check {
+	position: absolute;
+	left: 50%;
+	top: 63%;
+	font-size: 15px;
+	transform: translate(-50%, -50%);
+	display: none;
+}
+.progress-bar .step .check.active {
+	display: block;
+	color: #fff;
+}

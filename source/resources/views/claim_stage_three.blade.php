@@ -9,7 +9,7 @@
                 <div class="col-md-4">
                     <!-- Logo -->
                     <div class="logo_img">
-                        <img src="{{ asset('assets') }}/img/logo.png" alt="logo image">
+                        <img src="{{ asset('assets/img/second_logo.png') }}" alt="logo image">
                     </div>
                 </div>
                 <div class="col-md-8 d-flex justify-content-center justify-content-md-end">
@@ -27,7 +27,7 @@
                                         <span class="active-step">03</span>
                                     </li>
                                     <li class="whitecolor wow fadeIn" data-wow-delay="600ms">
-                                        <span class="active-step">04</span>
+                                        <span class="pro-step">04</span>
                                     </li>
                                 </ul>
                             </div>
@@ -44,22 +44,33 @@
         <section class="page-title">
             <div class="container">
                 <h2>Claim Form</h2>
-                <ul class="page-breadcrumb">
-                    <li><a href="{{ url("/") }}"><span class="icon fas fa-home"></span>Home</a></li>
-                    <li>Claim Form</li>
-                </ul>
             </div>
         </section>
         <section class="dropdown pt-5">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="sub_heading">What Happened? (Please note that we do not cover manufacturing defects)</p>
-
-                            @foreach($incident_types as $incident_type)
-                            <label><input class="radio-dark" type="radio" name="incident_type" value="{{ $incident_type->value }}">&nbsp; {{ $incident_type->title }} </label>
+                        <p class="sub_heading">What Happened?</p>
+                        <div class="row">
+                            <div class="col-6">
+                            @foreach($incident_types as $k=>$incident_type)
+                                @if($k<=2)
+                                    <div>
+                                        <label><input class="radio-dark" type="radio" name="incident_type" value="{{ $incident_type->value }}">&nbsp; {{ $incident_type->title }} </label>
+                                    </div>
+                                @endif
                             @endforeach
-
+                            </div>
+                            <div class="col-6">
+                            @foreach($incident_types as $k=>$incident_type)
+                                @if($k>2)
+                                    <div>
+                                        <label><input class="radio-dark" type="radio" name="incident_type" value="{{ $incident_type->value }}">&nbsp; {{ $incident_type->title }} </label>
+                                    </div>
+                                @endif
+                            @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -80,7 +91,7 @@
                                 {{--<p class="sub_heading">Tracking Number</p>
                                 <input type="text" name="cart_trackingnumber" id="cart_trackingnumber">--}}
                                 <div class="alert-danger py-3 hidden"></div>
-                                <button type="submit" class="btn contact_btn btn-medium btn-blue btn-rounded my-4">Submit </button>
+                                <center><button type="submit" class="btn contact_btn btn-medium btn-green btn-rounded my-4">Submit </button></center>
                             </div>
                         </div>
                     </div>

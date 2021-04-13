@@ -1,6 +1,7 @@
 @extends("admin.layouts.app")
 @section('content')
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
         <div class="subheader py-2 py-lg-6 subheader-solid" id="kt_subheader">
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <!--begin::Info-->
@@ -16,11 +17,10 @@
                                 <a href="{{ route("admin.users") }}" class="text-muted">Home</a>
                             </li>
                             <li class="breadcrumb-item text-muted">
-                                <a href="{{ route("admin.users") }}" class="text-muted">Users</a>
+                                <a href="{{ route("admin.stores") }}" class="text-muted">Users</a>
                             </li>
-
                             <li class="breadcrumb-item text-muted">
-                                <a href="#" class="text-muted">Update</a>
+                                <a href="#" class="text-muted">Edit</a>
                             </li>
                         </ul>
                         <!--end::Breadcrumb-->
@@ -37,11 +37,14 @@
                     <div class="card-header flex-wrap border-0 pt-6 pb-0">
                         <div class="card-title">
                             <h3 class="card-label">Update User
-                                <span class="d-block text-muted pt-2 font-size-sm">Update user info</span></h3>
+                                <span class="d-block text-muted pt-2 font-size-sm">Fill user info</span></h3>
+                        </div>
+                        <div class="card-toolbar">
+
                         </div>
                     </div>
                     <div class="card-body">
-                        <form style="width: 100%" id="user" method="post" action="{{ route('admin.user_update') }}">
+                        <form id="user" method="post" action="{{ route('admin.user_update') }}">
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-6">
@@ -50,21 +53,13 @@
                                         <input type="text" class="form-control required" tabindex="1" id="firstname" name="firstname" value="{{ $user->firstname }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" class="form-control required" tabindex="3" id="email" name="email" placeholder="Enter Email" value="{{ $user->email }}">
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control required" tabindex="3" id="username" name="username" value="{{ $user->username }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" class="form-control" tabindex="5" id="password" name="password" placeholder="Enter Password">
+                                        <label for="is_sale_rep">Sales Rep</label>
+                                        <input type="checkbox" {{ $user->is_sale_rep==1?"checked":"" }} tabindex="5" class="checkbox checkbox-outline checkbox-success" id="is_sale_rep" name="is_sale_rep">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select class="form-control" id="status" tabindex="7" name="status">
-                                            <option {{ $user->status==1?"selected":"" }} value="1">Active</option>
-                                            <option {{ $user->status==0?"selected":"" }} value="2">Disabled</option>
-                                        </select>
-                                    </div>
-
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
@@ -80,20 +75,20 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="confirm_password">Confirm Password</label>
-                                        <input type="password" class="form-control" tabindex="6" id="confirm_password" name="confirm_password" placeholder="Confirm password">
+                                        <label for="user_reports">Reports</label>
+                                        <select class="form-control"  tabindex="5" name="user_reports[]" multiple>
+                                            @if(!$reports->isEmpty())
+                                                @foreach ($reports as $report)
+                                                    <option @if(in_array($report->id, $user->reports->pluck('id')->toArray())) selected @endif  value="{{$report->id}}">{{ $report->ReportName }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="is_sale_rep">Sales Rep</label>
-                                        <input type="checkbox" {{ $user->is_sale_rep==1?"checked":"" }} tabindex="8" class="checkbox checkbox-outline checkbox-success" id="is_sale_rep" name="is_sale_rep">
-                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="float-right">
-                                    <a href="{{ route('admin.users') }}" class="btn btn-danger">Cancel</a>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
+                                <button type="submit" class="btn btn-primary float-right">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -132,13 +127,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
 
     <script>
-        $("#user").validate({
-            rules: {
-                confirm_password: {
-                    equalTo: "#password"
-                }
-            }
-        })
+        $("#user").validate()
     </script>
 @endsection
 

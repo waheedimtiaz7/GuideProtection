@@ -16,7 +16,7 @@ class CustomerController extends Controller
 {
     //
     public function index(){
-        return view('index',['header'=>'Customer Claim']);
+        return view('claim_form',['header'=>'Customer Claim']);
     }
     public function checkOrder(Request $request){
         $check_claim=Claim::whereCustomerEmail($request->get('email'))->where('cart_ordernumber',$request->get('order_number'))->first();
@@ -29,10 +29,18 @@ class CustomerController extends Controller
         $check=Order::whereCustomerEmail($request->get('email'))->where('cart_orderid',$request->get('order_number'))
             ->whereHas('shop')->first();
         if($check){
-            return response()->json([
-                'success'=>true,
-                'order'=>$check
-            ]);
+            if($check->order_process_type==1){
+                return response()->json([
+                    'success'=>true,
+                    'order'=>$check
+                ]);
+            }else{
+                return response()->json([
+                    'error'=>true,
+                    'message'=>'You had not buy our services.'
+                ]);
+            }
+
         }else{
             return response()->json([
                 'error'=>true,
@@ -121,6 +129,7 @@ class CustomerController extends Controller
         }
     }
     public function successPage(){
-        return view('claim_success');
+
+        return view('claim_success',['header'=>'Thank You']);
     }
 }

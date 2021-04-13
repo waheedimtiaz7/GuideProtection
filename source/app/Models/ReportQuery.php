@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ReportQuery extends Model
 {
@@ -37,4 +38,8 @@ class ReportQuery extends Model
         'param4default',
         'param5default',
     ];
+
+    public function users(){
+        return $this->belongsToMany(User::class, 'user_reports', 'report_id', 'user_id');
+    }
 }

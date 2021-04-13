@@ -78,9 +78,14 @@ h3 {font-size: 35px;}
 /* Yellow button */
 .btn.btn-blue {background: #61AEBE; border-color: #61AEBE; color: #ffffff;}
 .btn.btn-blue:hover {background: #01467D !important; border-color: #01467D; color: #ffffff !important}
-
+.btn.btn-green {background: #26CD8A; border-color: #26CD8A; color: #ffffff;}
+.btn.btn-green:hover {background: #212121 !important; border-color: #212121; color: #ffffff !important}
 /* button size */
-.btn.btn-medium {font-size:16px; padding: 10px 42px; line-height: 2em}
+.btn.btn-medium {
+    font-size: 16px;
+    padding: 2px 43px;
+    line-height: 2em;
+}
 .btn.btn-large {font-size:16px;  padding: 14px 60px; line-height: 2em;}
 .btn.btn-rounded {border-radius: 50px;}
 
@@ -208,7 +213,7 @@ h3 {font-size: 35px;}
     position:relative;
     text-align: left;
     padding: 70px 0;
-    background:url("../img/banner.jpg");
+    background-color: #d6d6d6;;
     background-size: cover;
 }
 
@@ -220,7 +225,7 @@ h3 {font-size: 35px;}
 
 .page-title h2{
     color:#202020;
-    font-size: 60px;
+    font-size: 40px;
     text-transform:capitalize;
 }
 
@@ -282,12 +287,12 @@ h3 {font-size: 35px;}
     font-weight: 700;
     font-size: 18px;
     color: #ffffff;
-    background: #5dacbd;
+    background: #484848;
 }
 
 .ship-form-2 .table-details {
     display: flex;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     margin-bottom: 90px;
     justify-content: space-between;
@@ -532,9 +537,9 @@ h3 {font-size: 35px;}
 
 .step-2 .process-wrapp li > .pro-step {
     display: inline-block;
-    height: 50px;
-    width: 50px;
-    line-height: 50px;
+    height: 42px;
+    width: 42px;
+    line-height: 42px;
     border: 1px solid #e1e8ed;
     font-size: 16px;
     font-weight: 600;
@@ -547,9 +552,9 @@ h3 {font-size: 35px;}
 
 .step-2 .process-wrapp li > .active-step {
     display: inline-block;
-    height: 50px;
-    width: 50px;
-    line-height: 50px;
+    height: 42px;
+    width: 42px;
+    line-height: 42px;
     border: 1px solid #e1e8ed;
     font-size: 16px;
     font-weight: 600;
@@ -557,13 +562,13 @@ h3 {font-size: 35px;}
     text-align: center;
     -webkit-border-radius: 50%;
     border-radius: 50%;
-    background: #5dacbd;
+    background: #000000;
 }
 
 .step-2 .process-wrapp li::before, .step-2 .process-wrapp li::after {
     content: "";
     height: 1px;
-    top: 50px;
+    top: 42px;
     background: #e1e8ed;
     position: absolute;
     width: 40%;

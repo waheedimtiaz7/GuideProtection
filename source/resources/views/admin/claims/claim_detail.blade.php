@@ -371,8 +371,9 @@
                                 <button class="btn btn-primary w-250px" onclick="getMailDetail(10)">Everything's good?</button><br><br>
                                 <br>
                                 <p>Other Processes</p>
-                                <div><button class="btn btn-dark w-250px" onclick="refundToStore()">Post refund to store</button><span class="refundText">{{ !empty($claim->payout_batch_id)?"Claim has been refunded to store":"" }}</span></div><br><br>
-                                <button class="btn btn-dark w-250px" onclick="getDiscountCode()">Refund and create DC</button>
+                                <div><button {{ Auth::user()->user_role==1?"":"disabled='disabled'" }} class="btn btn-dark w-250px" onclick="refundToStore()">Post refund to store</button><span class="refundText">{{ !empty($claim->payout_batch_id)?"Claim has been refunded to store":"" }}</span></div><br>
+                                <div><button {{ Auth::user()->user_role!=1||$claim->discount_or_gift_status==1?"disabled='disabled'":"" }} class="btn btn-dark w-250px" onclick="getDiscountCode()">Refund and create DC</button></div><br>
+                                <button {{ Auth::user()->user_role!=1||$claim->discount_or_gift_status==1?"disabled='disabled'":"" }} {{ $claim->discount_or_gift_status==1?"disabled='disabled'":"" }} class="btn btn-dark w-250px" onclick="getGiftCard()">Refund and create GC</button>
                             </div>
 
                         </div>
@@ -440,7 +441,7 @@
         </div>
     </div>
 @endsection
-@section('script')
+
     @if(Session::has('error'))
         <script>
             swal.fire({
@@ -669,12 +670,15 @@
        }
         function getDiscountCode() {
             Swal.fire({
-                text: "Please make sure price price rules are correct before posting to shopify.",
+                text: "Message should read: Are you sure?",
                 icon: "success",
                 buttonsStyling: false,
                 confirmButtonText: "Confirm!",
+                cancelButtonText: 'Cancel',
+                showCancelButton: true,
                 customClass: {
-                    confirmButton: "btn font-weight-bold btn-light-primary"
+                    confirmButton: "btn font-weight-bold btn-light-primary",
+                    cancelButton:"btn font-weight-bold btn-light-danger"
                 }
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
@@ -685,9 +689,23 @@
                         data:{shop_id:"{{ $claim->shop_id }}"},
                         success:function (data) {
                             if(data.Flag===1){
+                                $.ajax({
+                                    url:"{{ route('admin.save_discount_code') }}",
+                                    type:"post",
+                                    data:{shop_id:"{{ $claim->shop_id }}",order_id:"{{ $claim->order_id }}",DiscountCode:data.DiscountCode,_token:"{{ csrf_token() }}"},
+                                    success:function (data) {
+                                        if(data.success){
+                                            location.reload();
+                                        }else{
+
+                                        }
+
+                                    }
+                                })
+                            }else{
                                 Swal.fire({
                                     text:data.Message,
-                                    icon: "success",
+                                    icon: "error",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok!",
                                     customClass: {
@@ -696,6 +714,43 @@
                                 }).then((result) => {
 
                                 })
+                            }
+                        }
+                    })
+                } else if (result.isDenied) {
+                }
+            });
+
+        }
+        function getGiftCard() {
+            Swal.fire({
+                text: "Please make sure price price rules are correct before posting to shopify.",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "Confirm!",
+                cancelButtonText: 'Cancel',
+                showCancelButton: true,
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary",
+                    cancelButton:"btn font-weight-bold btn-light-danger"
+                }
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url:"https://guideprotection.com/protectit/core/ajax_gift_cards",
+                        type:"post",
+                        data:{shop_id:"{{ $claim->shop_id }}"},
+                        success:function (data) {
+                            if(data.Flag===1){
+                                    $.ajax({
+                                        url:"{{ route('admin.save_gift_card') }}",
+                                        type:"post",
+                                        data:{shop_id:"{{ $claim->shop_id }}",order_id:"{{ $claim->order_id }}",GiftCardNo:data.GiftCardNo,_token:"{{ csrf_token() }}"},
+                                        success:function (data) {
+                                            location.reload();
+                                        }
+                                    })
                             }else{
                                 Swal.fire({
                                     text:data.Message,

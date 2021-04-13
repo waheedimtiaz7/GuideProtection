@@ -53,7 +53,7 @@
                                 <th>Setup Status</th>
                                 <th>URL</th>
                                 <th>Shopify Name</th>
-                                <th>Merchandise Type</th>
+                                <th>Shopify Plan Name</th>
                                 <th>Sales Rep</th>
                                 <th>Date Installed</th>
                                 <th>Action</th>
@@ -67,7 +67,7 @@
                                     <td>{{ $store->setup_status==1?"Installed":"Not Installed" }}</td>
                                     <td><a href="{{$store->url}}" target="_blank">{{ $store->url }}</a></td>
                                     <td>{{ $store->shopify_name }}</td>
-                                    <td>{{ count($store->categories)?$store->categories[0]->title:"" }}</td>
+                                    <td>{{ $store->shopify_plan_name }}</td>
                                     <td>{{ !empty($store->rep)?$store->rep->name:"" }}</td>
                                     <td>{{ date('m/d/Y',strtotime($store->created_at)) }}</td>
                                     <td><a href="{{ route('admin.store_pricing',['id'=>$store->id]) }}">View Pricing</a> |

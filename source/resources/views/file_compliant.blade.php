@@ -9,7 +9,7 @@
             <div class="col-md-4">
                 <!-- Logo -->
                 <div class="logo_img">
-                    <img src="{{ asset('assets') }}/img/logo.png" alt="logo image">
+                    <img src="{{ asset('assets/img/second_logo.png') }}" alt="logo image">
                 </div>
             </div>
             <div class="col-md-8 d-flex justify-content-center justify-content-md-end">
@@ -44,10 +44,6 @@
     <section class="page-title">
         <div class="container">
             <h2>Claim Form</h2>
-            <ul class="page-breadcrumb">
-                <li><a href="{{ url("/") }}"><span class="icon fas fa-home"></span>Home</a></li>
-                <li>Claim Form</li>
-            </ul>
         </div>
     </section>
     <!-- End Banner -->
@@ -57,7 +53,7 @@
         <div class="container">
             <div class="row pt-5">
                 <div class="col-md-12">
-                    <h3 class="mb-3 text-blue" style="font-size: 35px">{{ $store->shopify_name }}</h3>
+                    <h3 class="mb-3 text-blue" style="font-size: 30px">{{ $store->shopify_name }}</h3>
                     <div class="card rounded border-0">
                         <div class="card-body rounded">
                             <div class="table-details mb-">
@@ -106,7 +102,7 @@
                             {{--<p class="sub_heading">Tracking Number</p>
                             <input type="text" name="cart_trackingnumber" id="cart_trackingnumber">--}}
                             <div class="alert-danger py-3 hidden"></div>
-                            <button type="button" class="btn contact_btn btn-medium btn-blue btn-rounded my-4" id="claim_form_button">Continue </button>
+                            <center><button type="button" class="btn contact_btn btn-medium btn-green btn-rounded my-4" id="claim_form_button">Next </button></center>
                         </div>
                     </div>
                 </div>
@@ -134,7 +130,7 @@
             var fields = $("input[name='item[]']").serializeArray();
             if (fields.length === 0){
                 $(".alert-danger").removeClass("hidden");
-                $(".alert-danger").html("  Please select at least one item and include a description.");
+                $(".alert-danger").html("  Please select at least one item.");
                 // cancel submit
                 return false;
             }else{

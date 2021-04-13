@@ -7,6 +7,5 @@
 <script src="{{ asset("/") }}assets/js/scripts.bundle.js"></script>
 <script src="{{ asset("/") }}assets/js/bundle.min.js"></script>
 <!-- Custom Js -->
-<script src="{{ asset("/") }}assets/js/script.js"></script>
 <!--end::Global Theme Bundle-->
 <!--begin::Page Scripts(used by this page)-->

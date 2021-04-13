@@ -1,6 +1,7 @@
 @extends("admin.layouts.app")
 @section('content')
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Subheader-->
         <div class="subheader py-2 py-lg-6 subheader-solid" id="kt_subheader">
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <!--begin::Info-->
@@ -16,9 +17,8 @@
                                 <a href="{{ route("admin.users") }}" class="text-muted">Home</a>
                             </li>
                             <li class="breadcrumb-item text-muted">
-                                <a href="{{ route("admin.users") }}" class="text-muted">Users</a>
+                                <a href="{{ route("admin.stores") }}" class="text-muted">Users</a>
                             </li>
-
                             <li class="breadcrumb-item text-muted">
                                 <a href="#" class="text-muted">Create</a>
                             </li>
@@ -39,6 +39,9 @@
                             <h3 class="card-label">Create User
                                 <span class="d-block text-muted pt-2 font-size-sm">Fill user info</span></h3>
                         </div>
+                        <div class="card-toolbar">
+
+                        </div>
                     </div>
                     <div class="card-body">
                         <form style="width: 100%" id="user" method="post" action="{{ route('admin.user_store') }}">
@@ -47,39 +50,51 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="firstname">First Name</label>
-                                        <input type="text" class="form-control required" autocomplete="false" tabindex="1" id="firstname" name="firstname" placeholder="Enter First Name">
+                                        <input type="text" class="form-control required" tabindex="1" id="firstname" name="firstname" placeholder="Enter First Name" value="{{ old('firstname') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="email" autocomplete="false" class="form-control required" tabindex="3" id="email" name="email" placeholder="Enter Email">
+                                        <input type="email" class="form-control required" tabindex="3" id="email" name="email" placeholder="Enter Email" value="{{ old('email') }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Password</label>
-                                        <input type="password" class="form-control required" autocomplete="false" tabindex="5" id="password" name="password" placeholder="Enter Password">
+                                        <input type="password" class="form-control required" tabindex="5" id="password" name="password" placeholder="Enter Password">
                                     </div>
                                     <div class="form-group">
                                         <label for="is_sale_rep">Sales Rep</label>
-                                        <input type="checkbox" class="checkbox checkbox-outline checkbox-success" tabindex="7" id="is_sale_rep" name="is_sale_rep">
+                                        <input type="checkbox" class="checkbox checkbox-outline checkbox-success" tabindex="8" id="is_sale_rep" name="is_sale_rep">
                                     </div>
                                 </div>
+
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="lastname">Last Name</label>
-                                        <input type="text" class="form-control required" autocomplete="false" tabindex="2" id="lastname" name="lastname" placeholder="Enter Last Name">
+                                        <input type="text" class="form-control required" tabindex="2" id="lastname" name="lastname" placeholder="Enter Last Name" value="{{ old('lastname') }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm_password">Confirm Password</label>
+                                        <input type="password" class="form-control required" tabindex="6" id="confirm_password" placeholder="Password">
                                     </div>
                                     <div class="form-group">
                                         <label for="user_role">User Role</label>
-                                        <select class="form-control required" id="user_role" tabindex="4" name="user_role">
+                                        <select class="form-control required" id="user_role" tabindex="7" name="user_role">
                                             <option value="1">Admin</option>
                                             <option value="2">Staff</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="confirm_password">Confirm Password</label>
-                                        <input type="password" class="form-control required" autocomplete="false" tabindex="6" id="confirm_password" placeholder="Confirm Password">
+                                        <label for="user_reports">Reports</label>
+                                        <select class="form-control"  tabindex="5" name="user_reports[]" multiple>
+                                            @if(!$reports->isEmpty())
+                                                @foreach ($reports as $report)
+                                                    <option value="{{$report->id}}">{{ $report->ReportName }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                     </div>
 
                                 </div>
+
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary float-right">Submit</button>
@@ -91,6 +106,7 @@
         </div>
     </div>
 @endsection
+
 @section('script')
     @if(Session::has('error'))
         <script>
@@ -119,13 +135,8 @@
         </script>
     @endif
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+
     <script>
-        $("#user").validate({
-            rules: {
-                confirm_password: {
-                    equalTo: "#password"
-                }
-            }
-        })
+        $("#user").validate()
     </script>
 @endsection

@@ -18,14 +18,12 @@ var KTApp = function() {
             </div>'
         });
     }
-
     var initTooltips = function() {
         // init bootstrap tooltips
         $('[data-toggle="tooltip"]').each(function() {
             initTooltip($(this));
         });
     }
-
     var initPopover = function(el) {
         var skin = el.data('skin') ? 'popover-' + el.data('skin') : '';
         var triggerValue = el.data('trigger') ? el.data('trigger') : 'hover';
@@ -47,7 +45,6 @@ var KTApp = function() {
             initPopover($(this));
         });
     }
-
     var initFileInput = function() {
         // init bootstrap popover
         $('.custom-file-input').on('change', function() {
@@ -55,11 +52,9 @@ var KTApp = function() {
             $(this).next('.custom-file-label').addClass("selected").html(fileName);
         });
     }
-
     var initScroll = function() {
         $('[data-scroll="true"]').each(function() {
             var el = $(this);
-
             KTUtil.scrollInit(this, {
                 mobileNativeScroll: true,
                 handleWindowResize: true,
@@ -67,14 +62,12 @@ var KTApp = function() {
             });
         });
     }
-
     var initAlerts = function() {
         // init bootstrap popover
         $('body').on('click', '[data-close=alert]', function() {
             $(this).closest('.alert').hide();
         });
     }
-
     var initCard = function(el, options) {
         // init card tools
         var el = $(el);

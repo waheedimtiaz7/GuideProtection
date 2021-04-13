@@ -77,6 +77,8 @@ Route::group(['prefix'=>'admin'],function (){
         Route::get("claim-detail/{order_id}",[ClaimController::class,'claimDetail'])->name('admin.claim_detail');
         Route::post("claim-store-file",[ClaimController::class,'claimStoreFile'])->name('admin.claim_store_file');
         Route::post("update-claim",[ClaimController::class,'updateClaim'])->name('admin.update_claim');
+        Route::post("save-discount-code",[ClaimController::class,'saveDiscountCode'])->name('admin.save_discount_code');
+        Route::post("save-gift-card",[ClaimController::class,'saveGiftCard'])->name('admin.save_gift_card');
         Route::get("delete-claim-file/{id}",[ClaimController::class,'claimDeleteFile'])->name('admin.claim_delete_file');
         Route::get("get-mail-detail/{id}",[ClaimController::class,'getMailDetail'])->name('get_mail_detail');
         //////////////////////////////////Reports////////////////////////////////

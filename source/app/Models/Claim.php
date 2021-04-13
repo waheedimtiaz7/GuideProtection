@@ -42,7 +42,6 @@ class Claim extends Model
         'gp_reorder_trackno',
         'hold_until_date',
         'escalate',
-        'paypal_payment_id',
         'notes'
     ];
     public function order(){
