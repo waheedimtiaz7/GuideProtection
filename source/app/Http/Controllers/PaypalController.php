@@ -92,7 +92,7 @@ class PaypalController extends Controller
     public function getPaymentStatus(Request $request)
     {
         $payouts=new Payout();
-        $status=$payouts->get("MJBQ95HF75KNY", $this->_api_context );
+        $status=$payouts->get("{api}", $this->_api_context );
         echo '<pre>';
         print_r($status);exit;
         \Session::put('error','Payment failed !!');
